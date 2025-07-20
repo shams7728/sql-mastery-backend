@@ -1,0 +1,112 @@
+{
+    "id": "insert",
+    "title": "INSERT INTO Statement",
+    "category": "Data Modification",
+    "difficulty": "Beginner",
+    "estimatedTime": "15 min",
+    "starterQuery": "/* Let's add a new employee to our table! */\n\nINSERT INTO new_hires (id, name, role)\nVALUES (1, 'Alice', 'Software Engineer');",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is INSERT INTO?\nThe `INSERT INTO` statement is a Data Manipulation Language (DML) command used to add new rows of data into a table."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What is the basic syntax?\nThere are two main ways to write it. If you are adding values for all columns in the table, you can use `INSERT INTO table_name VALUES (value1, value2, ...);`. It's safer, however, to specify the column names: `INSERT INTO table_name (column1, column2) VALUES (value1, value2);`."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. Why specify column names?\nSpecifying the column names is a best practice because it makes your query more readable and less prone to errors if the table structure changes in the future. It also allows you to insert data into only specific columns, letting others default to NULL or their predefined default value."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. How do you insert multiple rows?\nYou can insert multiple rows in a single statement by adding multiple tuples of values, separated by commas, after the `VALUES` keyword. This is much more efficient than running separate `INSERT` statements for each row."
+        },
+        {
+            "type": "code",
+            "text": "-- Inserting multiple rows at once:\nINSERT INTO new_hires (id, name, role)\nVALUES\n    (2, 'Bob', 'Project Manager'),\n    (3, 'Charlie', 'Data Analyst');"
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "new_hires",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    },
+                    {
+                        "name": "role",
+                        "type": "TEXT"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {},
+    "practice": [
+        {
+            "id": "insert_practice1",
+            "challenge": "Insert a single new hire into the `new_hires` table. The `id` is 4, the `name` is 'Diana', and the `role` is 'UX Designer'.",
+            "solution": "INSERT INTO new_hires (id, name, role) VALUES (4, 'Diana', 'UX Designer');",
+            "hint": "Use the `INSERT INTO ... VALUES ...` syntax, making sure to specify the column names and the corresponding values."
+        },
+        {
+            "id": "insert_practice2",
+            "challenge": "Insert two new hires in a single statement: Eve (id 5, role 'Marketing') and Frank (id 6, role 'HR Specialist').",
+            "solution": "INSERT INTO new_hires (id, name, role) VALUES (5, 'Eve', 'Marketing'), (6, 'Frank', 'HR Specialist');",
+            "hint": "After the `VALUES` keyword, you can list multiple sets of values in parentheses, separated by a comma."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "insert_q1",
+            "type": "mcq",
+            "question": "`INSERT INTO` is part of which subset of SQL commands?",
+            "options": [
+                "DML",
+                "DQL",
+                "DDL",
+                "DCL"
+            ],
+            "answer": "DML"
+        },
+        {
+            "id": "insert_q2",
+            "type": "truefalse",
+            "question": "When using `INSERT INTO`, you must always provide a value for every column in the table.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "insert_ch1",
+            "title": "Add a Product to Inventory",
+            "steps": [
+                {
+                    "stepId": "insert_ch1_step1",
+                    "description": "Imagine a `products` table with columns `product_id`, `product_name`, and `price`. Write the command to insert a new product with an ID of 101, a name of 'Super Widget', and a price of 19.99.",
+                    "solution": "INSERT INTO products (product_id, product_name, price) VALUES (101, 'Super Widget', 19.99);"
+                }
+            ]
+        },
+        {
+            "id": "insert_ch2",
+            "title": "Log a System Event",
+            "steps": [
+                {
+                    "stepId": "insert_ch2_step1",
+                    "description": "You have a `logs` table with `log_id`, `event_time`, and `message` columns. Add a new log entry with an ID of 500 and a message of 'System reboot initiated'. The `event_time` can be left empty (NULL).",
+                    "solution": "INSERT INTO logs (log_id, message) VALUES (500, 'System reboot initiated');"
+                }
+            ]
+        }
+    ]
+}

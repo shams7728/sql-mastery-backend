@@ -1,0 +1,129 @@
+{
+    "id": "alter-table",
+    "title": "ALTER TABLE",
+    "category": "Data Definition",
+    "difficulty": "Beginner",
+    "estimatedTime": "20 min",
+    "starterQuery": "/* Let's add a new column to our customers table! */\n\nALTER TABLE customers\nADD COLUMN email TEXT;",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is ALTER TABLE?\nThe `ALTER TABLE` statement is used to add, delete, or modify columns in an existing table. You can also use it to add and drop various constraints on an existing table."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. How do you add a column?\nTo add a new column, you use the `ADD COLUMN` clause. The syntax is `ALTER TABLE table_name ADD COLUMN column_name datatype;`."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How do you delete a column?\nTo delete a column, you use the `DROP COLUMN` clause. The syntax is `ALTER TABLE table_name DROP COLUMN column_name;`. Be careful, as this permanently deletes the column and all its data."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. How do you rename a column?\nTo rename a column, you use the `RENAME COLUMN` clause. The syntax is `ALTER TABLE table_name RENAME COLUMN old_name TO new_name;`."
+        },
+        {
+            "type": "note",
+            "text": "Support for `ALTER TABLE` commands, especially modifying a column's data type, can vary significantly between different SQL database systems."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "customers",
+                "columns": [
+                    {
+                        "name": "customer_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "join_date",
+                        "type": "DATE"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "customers": [
+            {
+                "customer_id": 1,
+                "name": "Alice Johnson",
+                "join_date": "2024-01-10"
+            },
+            {
+                "customer_id": 2,
+                "name": "Bob Williams",
+                "join_date": "2024-02-15"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "altertable_practice1",
+            "challenge": "Add a new column named `phone_number` with a data type of `TEXT` to the `customers` table.",
+            "solution": "ALTER TABLE customers ADD COLUMN phone_number TEXT;",
+            "hint": "Use the `ALTER TABLE` command with the `ADD COLUMN` clause."
+        },
+        {
+            "id": "altertable_practice2",
+            "challenge": "Rename the `name` column in the `customers` table to `full_name`.",
+            "solution": "ALTER TABLE customers RENAME COLUMN name TO full_name;",
+            "hint": "Use the `RENAME COLUMN ... TO ...` syntax."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "altertable_q1",
+            "type": "mcq",
+            "question": "Which `ALTER TABLE` clause is used to delete a column?",
+            "options": [
+                "DELETE COLUMN",
+                "REMOVE COLUMN",
+                "DROP COLUMN",
+                "ERASE COLUMN"
+            ],
+            "answer": "DROP COLUMN"
+        },
+        {
+            "id": "altertable_q2",
+            "type": "truefalse",
+            "question": "The `ALTER TABLE` command is used to change the data inside the rows of a table.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "altertable_ch1",
+            "title": "Update Customer Information",
+            "steps": [
+                {
+                    "stepId": "altertable_ch1_step1",
+                    "description": "Add a column named `city` with a data type of `TEXT` to the `customers` table.",
+                    "solution": "ALTER TABLE customers ADD COLUMN city TEXT;"
+                }
+            ]
+        },
+        {
+            "id": "altertable_ch2",
+            "title": "Restructure the Table",
+            "steps": [
+                {
+                    "stepId": "altertable_ch2_step1",
+                    "description": "First, add a column named `status` with a `TEXT` data type.",
+                    "solution": "ALTER TABLE customers ADD COLUMN status TEXT;"
+                },
+                {
+                    "stepId": "altertable_ch2_step2",
+                    "description": "Now, remove the `join_date` column from the table.",
+                    "solution": "ALTER TABLE customers DROP COLUMN join_date;"
+                }
+            ]
+        }
+    ]
+}

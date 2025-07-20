@@ -1,0 +1,135 @@
+{
+    "id": "query-execution-plans",
+    "title": "Query Execution Plans",
+    "category": "Database Design & Perf",
+    "difficulty": "Advanced",
+    "estimatedTime": "30 min",
+    "starterQuery": "/* This is a conceptual lesson on reading execution plans.\n   The EXPLAIN command shows how the database will execute a query. */\n\n-- In SQLite, you can use:\nEXPLAIN QUERY PLAN\nSELECT * FROM users WHERE last_name = 'Smith';",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is an Execution Plan?\nAn execution plan (or query plan) is the step-by-step roadmap that the database's query optimizer decides to follow to retrieve the data for your query. It's like the database showing you its 'work' and revealing its strategy."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why is it the key to performance tuning?\nBy analyzing the execution plan using a command like `EXPLAIN` or `EXPLAIN QUERY PLAN`, you can identify performance bottlenecks. If you see a 'Full Table Scan' on a large table, you immediately know that the query is inefficient and likely needs a better index."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What are common operations in a plan?\nDifferent databases show different operations, but some common ones include `TABLE SCAN`, `INDEX SCAN`, and `INDEX SEEK`. Understanding the difference is crucial for optimization."
+        },
+        {
+            "type": "table",
+            "columns": [
+                "Operation",
+                "What it means",
+                "Performance"
+            ],
+            "rows": [
+                [
+                    "Full Table Scan",
+                    "Reads every single row in the table to find matches.",
+                    "Very slow on large tables."
+                ],
+                [
+                    "Index Scan",
+                    "Scans all or a large part of an index.",
+                    "Faster than a table scan, but not ideal."
+                ],
+                [
+                    "Index Seek",
+                    "Uses the index to go directly to the required rows.",
+                    "Very fast; this is usually what you want to see."
+                ]
+            ]
+        },
+        {
+            "type": "paragraph",
+            "text": "4. How do JOINs appear in a plan?\nJoins also have different strategies. A `NESTED LOOP` join is efficient for small tables. A `HASH JOIN` is good for large, unsorted datasets. A `MERGE JOIN` is effective when both datasets are already sorted on the join key. The optimizer chooses the best one based on table sizes and available indexes."
+        },
+        {
+            "type": "note",
+            "text": "The goal of analyzing an execution plan is to confirm that the database is using the indexes you expect it to use. If it's not, your query might not be 'SARGable', or the index might not be selective enough."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "plan_q1",
+            "type": "mcq",
+            "question": "Which operation in an execution plan is generally the most inefficient on a large table?",
+            "options": [
+                "Index Seek",
+                "Index Scan",
+                "Full Table Scan",
+                "Hash Join"
+            ],
+            "answer": "Full Table Scan"
+        },
+        {
+            "id": "plan_q2",
+            "type": "mcq",
+            "question": "The command used to view the execution plan is typically...",
+            "options": [
+                "SHOW",
+                "DESCRIBE",
+                "PLAN",
+                "EXPLAIN"
+            ],
+            "answer": "EXPLAIN"
+        },
+        {
+            "id": "plan_q3",
+            "type": "mcq",
+            "question": "An 'Index Seek' operation indicates that the database is...",
+            "options": [
+                "Ignoring the index",
+                "Reading the entire index",
+                "Using the index efficiently to find specific rows",
+                "Scanning the entire table"
+            ],
+            "answer": "Using the index efficiently to find specific rows"
+        },
+        {
+            "id": "plan_q4",
+            "type": "truefalse",
+            "question": "The query optimizer will always choose the exact same execution plan for a query, regardless of the data size or statistics.",
+            "answer": false
+        },
+        {
+            "id": "plan_q5",
+            "type": "mcq",
+            "question": "If your `WHERE` clause uses a function on an indexed column, what is the likely result in the execution plan?",
+            "options": [
+                "A faster Index Seek",
+                "The database may be unable to use the index, resulting in a Table Scan",
+                "The query will fail",
+                "The index will be automatically updated"
+            ],
+            "answer": "The database may be unable to use the index, resulting in a Table Scan"
+        },
+        {
+            "id": "plan_q6",
+            "type": "truefalse",
+            "question": "Analyzing an execution plan is the most reliable way to understand how a database is actually running your query.",
+            "answer": true
+        },
+        {
+            "id": "plan_q7",
+            "type": "mcq",
+            "question": "Which of these JOIN strategies is often best for joining two very large, unsorted datasets?",
+            "options": [
+                "Nested Loop Join",
+                "Merge Join",
+                "Cross Join",
+                "Hash Join"
+            ],
+            "answer": "Hash Join"
+        }
+    ]
+}

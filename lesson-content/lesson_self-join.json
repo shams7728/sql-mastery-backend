@@ -1,0 +1,170 @@
+{
+    "id": "self-join",
+    "title": "SELF JOIN",
+    "category": "Joins",
+    "difficulty": "Intermediate",
+    "estimatedTime": "20 min",
+    "starterQuery": "SELECT\n    e.name AS employee_name,\n    m.name AS manager_name\nFROM\n    employees e\nINNER JOIN\n    employees m ON e.manager_id = m.id;",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a SELF JOIN?\nA SELF JOIN is a regular join, but the table is joined with itself. It's not a specific type of join, but rather a way of using standard joins (like INNER JOIN or LEFT JOIN) to relate rows within the same table."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why use a SELF JOIN?\nIt is essential for querying hierarchical data or comparing rows within the same table. The most common use case is for tables that have a parent-child relationship, such as an 'employees' table where one column stores the ID of the employee's manager (who is also an employee in the same table)."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How does it work?\nTo perform a self-join, you must use table aliases to give the table two different temporary names. This allows you to treat the single table as two separate tables in your query, one for the 'employee' role and one for the 'manager' role, for example."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is the syntax?\nYou list the same table twice in the `FROM` and `JOIN` clauses and assign each instance a unique alias (e.g., `e` for employees and `m` for managers). The `ON` condition then links the primary key of one alias to the foreign key (e.g., `manager_id`) of the other."
+        },
+        {
+            "type": "image",
+            "src": "/assests/self-join.png",
+            "alt": "SELF JOIN Illustration"
+        },
+        {
+            "type": "code",
+            "text": "SELECT e.name, m.name AS manager\nFROM employees e\nJOIN employees m ON e.manager_id = m.id;"
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "employees",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    },
+                    {
+                        "name": "role",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "manager_id",
+                        "type": "INTEGER"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "employees": [
+            {
+                "id": 1,
+                "name": "Alice",
+                "role": "CEO",
+                "manager_id": null
+            },
+            {
+                "id": 2,
+                "name": "Bob",
+                "role": "Manager",
+                "manager_id": 1
+            },
+            {
+                "id": 3,
+                "name": "Charlie",
+                "role": "Manager",
+                "manager_id": 1
+            },
+            {
+                "id": 4,
+                "name": "Diana",
+                "role": "Engineer",
+                "manager_id": 2
+            },
+            {
+                "id": 5,
+                "name": "Eve",
+                "role": "Engineer",
+                "manager_id": 2
+            },
+            {
+                "id": 6,
+                "name": "Frank",
+                "role": "Sales",
+                "manager_id": 3
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "selfjoin_practice1",
+            "challenge": "List all employees who are managers. A manager is anyone who is listed in the `manager_id` column.",
+            "solution": "SELECT DISTINCT m.name FROM employees e JOIN employees m ON e.manager_id = m.id;",
+            "hint": "Join the table to itself. Select the distinct names from the 'manager' alias of the table."
+        },
+        {
+            "id": "selfjoin_practice2",
+            "challenge": "Find all employees who report to Bob (id=2). Show only the names of the employees.",
+            "solution": "SELECT e.name FROM employees e WHERE e.manager_id = 2;",
+            "hint": "This is a trick question! You don't always need a self-join. A simple WHERE clause is more efficient for this specific task."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "selfjoin_q1",
+            "type": "mcq",
+            "question": "What is the most critical element required for a SELF JOIN to work?",
+            "options": [
+                "Using a LEFT JOIN",
+                "Using table aliases",
+                "Having more than one table",
+                "Using the WHERE clause"
+            ],
+            "answer": "Using table aliases"
+        },
+        {
+            "id": "selfjoin_q2",
+            "type": "truefalse",
+            "question": "A SELF JOIN is a special, built-in keyword in SQL like `INNER JOIN`.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "selfjoin_ch1",
+            "title": "Show Employee-Manager Pairs",
+            "steps": [
+                {
+                    "stepId": "selfjoin_ch1_step1",
+                    "description": "Join the `employees` table to itself using aliases `e` (for employee) and `m` (for manager).",
+                    "solution": "SELECT e.name, m.name FROM employees e JOIN employees m ON e.manager_id = m.id;"
+                },
+                {
+                    "stepId": "selfjoin_ch1_step2",
+                    "description": "Alias the output columns to be more descriptive, like `employee_name` and `manager_name`.",
+                    "solution": "SELECT e.name AS employee_name, m.name AS manager_name FROM employees e JOIN employees m ON e.manager_id = m.id;"
+                }
+            ]
+        },
+        {
+            "id": "selfjoin_ch2",
+            "title": "Find Employees with the Same Manager",
+            "steps": [
+                {
+                    "stepId": "selfjoin_ch2_step1",
+                    "description": "Perform a self-join on the `employees` table where two different employees share the same `manager_id`. Use aliases `a` and `b`.",
+                    "solution": "SELECT a.name, b.name, a.manager_id FROM employees a JOIN employees b ON a.manager_id = b.manager_id AND a.id <> b.id;"
+                },
+                {
+                    "stepId": "selfjoin_ch2_step2",
+                    "description": "To avoid duplicate pairs (like Alice, Bob and Bob, Alice), add a condition so that you only see pairs where the first employee's ID is less than the second's.",
+                    "solution": "SELECT a.name, b.name, a.manager_id FROM employees a JOIN employees b ON a.manager_id = b.manager_id AND a.id < b.id;"
+                }
+            ]
+        }
+    ]
+}

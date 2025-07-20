@@ -1,0 +1,145 @@
+{
+    "id": "triggers",
+    "title": "Triggers",
+    "category": "Advanced Querying",
+    "difficulty": "Advanced",
+    "estimatedTime": "25 min",
+    "starterQuery": "/* This lesson is conceptual as Triggers have complex syntax that varies by database. */\n-- The examples below use PostgreSQL syntax.",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a Trigger?\nA trigger is a special type of stored procedure that automatically executes in response to a specific event on a table. These events are typically `INSERT`, `UPDATE`, or `DELETE` operations."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why use a Trigger?\nTriggers are used to maintain data integrity and enforce complex business rules that cannot be handled by simple constraints. A common use case is creating an audit trail: whenever a row is updated in a critical table, a trigger can automatically insert a copy of the old data into a separate log table."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How do they work?\nYou define a trigger on a specific table and specify the event (e.g., `BEFORE UPDATE`, `AFTER INSERT`) that will 'fire' it. When that event occurs, the code inside the trigger's function runs automatically as part of the same transaction."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is the syntax? (PostgreSQL Example)\nCreating a trigger is usually a two-step process. First, you create a special function that contains the logic. Second, you create the trigger itself and bind it to a table and event, telling it to execute that function."
+        },
+        {
+            "type": "code",
+            "text": "-- Step 1: Create a function that will be executed by the trigger.\nCREATE OR REPLACE FUNCTION log_salary_changes()\nRETURNS TRIGGER AS $$\nBEGIN\n    -- 'OLD' refers to the row before the update\n    -- 'NEW' refers to the row after the update\n    IF NEW.salary <> OLD.salary THEN\n        INSERT INTO salary_audit(employee_id, old_salary, new_salary, change_date)\n        VALUES(OLD.id, OLD.salary, NEW.salary, now());\n    END IF;\n    RETURN NEW;\nEND;\n$$ LANGUAGE plpgsql;\n\n-- Step 2: Create the trigger and attach it to the employees table.\nCREATE TRIGGER salary_change_trigger\nBEFORE UPDATE ON employees\nFOR EACH ROW\nEXECUTE FUNCTION log_salary_changes();"
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "employees",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "salary",
+                        "type": "INTEGER"
+                    }
+                ]
+            },
+            {
+                "name": "salary_audit",
+                "columns": [
+                    {
+                        "name": "audit_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "employee_id",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "name": "old_salary",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "name": "new_salary",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "name": "change_date",
+                        "type": "TIMESTAMP"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "employees": [
+            {
+                "id": 1,
+                "name": "Alice",
+                "salary": 80000
+            },
+            {
+                "id": 2,
+                "name": "Bob",
+                "salary": 95000
+            }
+        ],
+        "salary_audit": []
+    },
+    "practice": [
+        {
+            "id": "triggers_practice1",
+            "challenge": "Conceptually, if you wanted to prevent anyone from deleting a record from the `employees` table, what kind of trigger would you create?",
+            "solution": "You would create a `BEFORE DELETE` trigger. Inside the trigger's function, you would raise an exception or return NULL to cancel the delete operation.",
+            "hint": "Think about whether you want to act before or after the event happens."
+        },
+        {
+            "id": "triggers_practice2",
+            "challenge": "You have an `orders` table and a `product_inventory` table. What kind of trigger could you use to automatically decrease the product's stock count whenever a new order is placed?",
+            "solution": "You would create an `AFTER INSERT` trigger on the `orders` table. When a new order is inserted, the trigger would execute an `UPDATE` statement on the `product_inventory` table to subtract the ordered quantity from the stock count.",
+            "hint": "The event happens on the `orders` table, and the action affects the `product_inventory` table."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "triggers_q1",
+            "type": "mcq",
+            "question": "A trigger is automatically executed in response to a...",
+            "options": [
+                "SELECT statement",
+                "DML event (INSERT, UPDATE, DELETE)",
+                "User login",
+                "Database backup"
+            ],
+            "answer": "DML event (INSERT, UPDATE, DELETE)"
+        },
+        {
+            "id": "triggers_q2",
+            "type": "truefalse",
+            "question": "Triggers are a standard feature in SQLite and are easy to use.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "triggers_ch1",
+            "title": "Design an Audit Trigger",
+            "steps": [
+                {
+                    "stepId": "triggers_ch1_step1",
+                    "description": "You want to log every new user added to a `users` table. What event and timing would your trigger use? (e.g., `BEFORE INSERT`, `AFTER DELETE`, etc.)",
+                    "solution": "AFTER INSERT"
+                },
+                {
+                    "stepId": "triggers_ch1_step2",
+                    "description": "Inside the trigger function, what action would you perform to log the new user's information into a `user_audit_log` table?",
+                    "solution": "You would write an `INSERT` statement that takes the new user's details (from the `NEW` special variable) and inserts them into the `user_audit_log` table."
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,174 @@
+{
+    "id": "full-join",
+    "title": "FULL OUTER JOIN",
+    "category": "Joins",
+    "difficulty": "Intermediate",
+    "estimatedTime": "18 min",
+    "starterQuery": "/* Note: SQLite does not natively support FULL OUTER JOIN.\n   This can be simulated by combining a LEFT JOIN and a RIGHT JOIN with UNION. */\nSELECT * FROM employees e LEFT JOIN departments d ON e.department_id = d.id\nUNION\nSELECT * FROM employees e RIGHT JOIN departments d ON e.department_id = d.id;",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a FULL OUTER JOIN?\nA FULL OUTER JOIN combines the results of both a LEFT JOIN and a RIGHT JOIN. The result set will contain all rows from both tables. For rows where a match is found, the data from both tables is present. Where no match is found in either table, the missing side will have NULL values."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why use a FULL OUTER JOIN?\nIt is essential when you need to see all the data from two tables, regardless of whether there is a match. This is very useful for data reconciliation tasks, such as finding all employees who have no department and all departments that have no employees in a single query."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How does it work?\nConceptually, it takes every row from the left table and every row from the right table and joins them based on the ON condition. If a row from one table doesn't find a match in the other, it's still included in the result, with NULLs in the columns of the table where it lacked a match."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is the syntax?\nThe standard syntax is `SELECT ... FROM table1 FULL OUTER JOIN table2 ON table1.column = table2.column;`. However, since SQLite (the database used in this app) doesn't support this directly, it must be simulated."
+        },
+        {
+            "type": "image",
+            "src": "/assests/img_full_outer_join.png",
+            "alt": "FULL OUTER JOIN Illustration"
+        },
+        {
+            "type": "note",
+            "text": "To simulate a FULL OUTER JOIN in SQLite, you perform a LEFT JOIN and a RIGHT JOIN and combine their results using the UNION operator. This effectively merges all rows from both tables."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "employees",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    },
+                    {
+                        "name": "department_id",
+                        "type": "INTEGER"
+                    }
+                ]
+            },
+            {
+                "name": "departments",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "employees": [
+            {
+                "id": 1,
+                "name": "Alice",
+                "department_id": 1
+            },
+            {
+                "id": 2,
+                "name": "Bob",
+                "department_id": 2
+            },
+            {
+                "id": 3,
+                "name": "Charlie",
+                "department_id": null
+            }
+        ],
+        "departments": [
+            {
+                "id": 1,
+                "name": "Engineering"
+            },
+            {
+                "id": 2,
+                "name": "Marketing"
+            },
+            {
+                "id": 4,
+                "name": "Sales"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "fulljoin_practice1",
+            "challenge": "Write a query to show the original price and a discounted price for all products. The discount is 15%. Name the new column `discounted_price`.",
+            "solution": "SELECT name, price, price * 0.85 AS discounted_price FROM products;",
+            "hint": "You can perform mathematical operations directly in your SELECT statement. To calculate a 15% discount, you can multiply the price by 0.85."
+        },
+        {
+            "id": "fulljoin_practice2",
+            "challenge": "Write a query that returns the full name of all employees from the `employees` table. The name should be in the format 'FirstName LastName' and the column should be named `full_name`.",
+            "solution": "SELECT first_name || ' ' || last_name AS full_name FROM employees;",
+            "hint": "Use the concatenation operator `||` to join the `first_name`, a space, and the `last_name`."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "fulljoin_q1",
+            "type": "mcq",
+            "question": "A FULL OUTER JOIN is functionally equivalent to the results of which two operations combined with UNION?",
+            "options": [
+                "INNER JOIN and LEFT JOIN",
+                "LEFT JOIN and RIGHT JOIN",
+                "CROSS JOIN and INNER JOIN",
+                "Two INNER JOINs"
+            ],
+            "answer": "LEFT JOIN and RIGHT JOIN"
+        },
+        {
+            "id": "fulljoin_q2",
+            "type": "truefalse",
+            "question": "If a row in the left table has no match in the right table, a FULL OUTER JOIN will exclude it from the result.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "fulljoin_ch1",
+            "title": "Identify Unmatched Records",
+            "steps": [
+                {
+                    "stepId": "fulljoin_ch1_step1",
+                    "description": "First, write a query to find all employees who do not have a department.",
+                    "solution": "SELECT e.name FROM employees e LEFT JOIN departments d ON e.department_id = d.id WHERE d.id IS NULL;"
+                },
+                {
+                    "stepId": "fulljoin_ch1_step2",
+                    "description": "Next, write a query to find all departments that have no employees.",
+                    "solution": "SELECT d.name FROM departments d LEFT JOIN employees e ON e.department_id = d.id WHERE e.id IS NULL;"
+                }
+            ]
+        },
+        {
+            "id": "fulljoin_ch2",
+            "title": "Create the Master Roster",
+            "steps": [
+                {
+                    "stepId": "fulljoin_ch2_step1",
+                    "description": "Write the first part of the simulated FULL JOIN: a LEFT JOIN from employees to departments.",
+                    "solution": "SELECT e.name, d.name FROM employees e LEFT JOIN departments d ON e.department_id = d.id;"
+                },
+                {
+                    "stepId": "fulljoin_ch2_step2",
+                    "description": "Combine the first query with a second query using UNION to include departments that have no employees.",
+                    "solution": "SELECT e.name, d.name FROM employees e LEFT JOIN departments d ON e.department_id = d.id UNION SELECT e.name, d.name FROM departments d LEFT JOIN employees e ON d.id = e.department_id;"
+                }
+            ]
+        }
+    ]
+}

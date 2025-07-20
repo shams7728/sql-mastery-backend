@@ -1,0 +1,129 @@
+{
+    "id": "truncate-table",
+    "title": "TRUNCATE TABLE",
+    "category": "Data Definition",
+    "difficulty": "Intermediate",
+    "estimatedTime": "15 min",
+    "starterQuery": "/* Let's clear out all records from the event_logs table. */\n\n-- In standard SQL, you might use: TRUNCATE TABLE event_logs;\n-- In SQLite, the equivalent is:\nDELETE FROM event_logs;",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is TRUNCATE TABLE?\n`TRUNCATE TABLE` is a Data Definition Language (DDL) command that quickly removes all rows from a table, freeing the space used by that table."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. How is it different from DELETE?\n`TRUNCATE` is generally much faster than `DELETE FROM table_name;` as it deallocates the data pages directly and doesn't log each row deletion. `DELETE` removes rows one by one. However, `TRUNCATE` cannot be used with a `WHERE` clause."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How is it different from DROP?\n`TRUNCATE` only removes the data inside the table, leaving the empty table structure intact. `DROP TABLE` completely removes the entire table structure and all its data, and it cannot be recovered."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is the syntax?\nThe standard syntax is simply `TRUNCATE TABLE table_name;`. There are no conditions or clauses."
+        },
+        {
+            "type": "note",
+            "text": "Important: SQLite does not have a `TRUNCATE TABLE` command. To achieve the same result of deleting all rows, you must use `DELETE FROM table_name;`."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "event_logs",
+                "columns": [
+                    {
+                        "name": "log_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "event_type",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "description",
+                        "type": "TEXT"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "event_logs": [
+            {
+                "log_id": 1,
+                "event_type": "LOGIN",
+                "description": "User alice logged in."
+            },
+            {
+                "log_id": 2,
+                "event_type": "CLICK",
+                "description": "User alice clicked button 'X'."
+            },
+            {
+                "log_id": 3,
+                "event_type": "LOGOUT",
+                "description": "User alice logged out."
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "truncate_practice1",
+            "challenge": "Remove all records from the `event_logs` table using the SQLite-compatible command.",
+            "solution": "DELETE FROM event_logs;",
+            "hint": "Since `TRUNCATE` isn't available, use the `DELETE` command without a `WHERE` clause."
+        },
+        {
+            "id": "truncate_practice2",
+            "challenge": "Conceptually, what is the standard SQL command to empty a table named `temp_uploads`?",
+            "solution": "TRUNCATE TABLE temp_uploads;",
+            "hint": "Use the standard `TRUNCATE TABLE` syntax followed by the table name."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "truncate_q1",
+            "type": "mcq",
+            "question": "Which command removes a table's structure in addition to its data?",
+            "options": [
+                "DELETE",
+                "TRUNCATE TABLE",
+                "DROP TABLE",
+                "ALTER TABLE"
+            ],
+            "answer": "DROP TABLE"
+        },
+        {
+            "id": "truncate_q2",
+            "type": "truefalse",
+            "question": "You can use a `WHERE` clause with `TRUNCATE TABLE` to delete specific rows.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "truncate_ch1",
+            "title": "Clear Staging Data",
+            "steps": [
+                {
+                    "stepId": "truncate_ch1_step1",
+                    "description": "Imagine a table named `staging_area` is full of temporary data. Write the standard SQL command to clear it completely.",
+                    "solution": "TRUNCATE TABLE staging_area;"
+                }
+            ]
+        },
+        {
+            "id": "truncate_ch2",
+            "title": "Reset Application Logs",
+            "steps": [
+                {
+                    "stepId": "truncate_ch2_step1",
+                    "description": "You need to clear all the logs from the `event_logs` table in our current lesson. Write the command that will work in our SQLite editor.",
+                    "solution": "DELETE FROM event_logs;"
+                }
+            ]
+        }
+    ]
+}

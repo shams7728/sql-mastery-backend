@@ -1,0 +1,156 @@
+{
+    "id": "right-join",
+    "title": "RIGHT JOIN",
+    "category": "Joins",
+    "difficulty": "Intermediate",
+    "estimatedTime": "15 min",
+    "starterQuery": "SELECT e.name, d.name FROM employees e RIGHT JOIN departments d ON e.department_id = d.id;",
+    "theory": [
+        {
+            "type": "qa_list",
+            "items": [
+                {
+                    "question": "What is a RIGHT JOIN?",
+                    "answer": "A RIGHT JOIN (or RIGHT OUTER JOIN) returns all records from the right table (departments) and the matched records from the left table (employees). If there is no match, the result is NULL for columns from the left table."
+                },
+                {
+                    "question": "Why use RIGHT JOIN?",
+                    "answer": "Use it when your main focus is on the right table. For example, to get a complete list of all departments and see which employees are in them, ensuring even empty departments appear in your results."
+                },
+                {
+                    "question": "Where is RIGHT JOIN used?",
+                    "answer": "It's common for finding all items in a 'lookup' table and seeing what, if anything, from a primary table corresponds to them, such as finding all departments that have no employees."
+                },
+                {
+                    "question": "How is RIGHT JOIN written?",
+                    "answer": "Use the `RIGHT JOIN` keyword to connect two tables, followed by an `ON` clause to specify the linking columns. Using table aliases (like `e` for employees) makes the query more readable."
+                }
+            ]
+        },
+        {
+            "type": "image",
+            "src": "/assests/right-join.jpeg",
+            "alt": "RIGHT JOIN Illustration showing all of the right circle and the intersection"
+        },
+        {
+            "type": "code",
+            "text": "/* Using aliases for clarity */\nSELECT e.name, d.name\nFROM employees e\nRIGHT JOIN departments d ON e.department_id = d.id;"
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "employees",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    },
+                    {
+                        "name": "department_id",
+                        "type": "INTEGER"
+                    }
+                ]
+            },
+            {
+                "name": "departments",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "employees": [
+            {
+                "id": 1,
+                "name": "Alice",
+                "department_id": 1
+            },
+            {
+                "id": 2,
+                "name": "Bob",
+                "department_id": 2
+            },
+            {
+                "id": 3,
+                "name": "Charlie",
+                "department_id": 3
+            },
+            {
+                "id": 4,
+                "name": "Diana",
+                "department_id": null
+            }
+        ],
+        "departments": [
+            {
+                "id": 1,
+                "name": "Engineering"
+            },
+            {
+                "id": 2,
+                "name": "Marketing"
+            },
+            {
+                "id": 4,
+                "name": "Sales"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "right-join_practice1",
+            "challenge": "Generate a complete roster showing every department and the name of any employee within it. Order the results by department name.",
+            "solution": "SELECT d.name, e.name FROM employees e RIGHT JOIN departments d ON e.department_id = d.id ORDER BY d.name;",
+            "hint": "Since you need to list ALL departments, make `departments` the right table in a RIGHT JOIN. Then, select the names and add an ORDER BY clause."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "right-join_q1",
+            "type": "mcq",
+            "question": "If you RIGHT JOIN `employees` to `departments`, which table will have all its rows included in the result, regardless of matches?",
+            "options": [
+                "employees",
+                "departments",
+                "Both",
+                "Neither"
+            ],
+            "answer": "departments"
+        }
+    ],
+    "challenges": [
+        {
+            "id": "right-join_ch2",
+            "title": "Find Unstaffed Departments",
+            "steps": [
+                {
+                    "stepId": "right-join_ch2_step1",
+                    "description": "Step 1: Join employees and departments, ensuring all departments are listed.",
+                    "solution": "SELECT e.name, d.name FROM employees e RIGHT JOIN departments d ON e.department_id = d.id;"
+                },
+                {
+                    "stepId": "right-join_ch2_step2",
+                    "description": "Step 2: From that result, filter to find only the departments where the employee name is NULL.",
+                    "solution": "SELECT d.name FROM employees e RIGHT JOIN departments d ON e.department_id = d.id WHERE e.name IS NULL;"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,165 @@
+{
+  "id": "case-expression",
+  "title": "CASE Expression",
+  "category": "Filtering",
+  "difficulty": "Intermediate",
+  "estimatedTime": "12 min",
+  "starterQuery": "SELECT name, grade, CASE WHEN grade = 'A' THEN 'Excellent' WHEN grade = 'B' THEN 'Good' ELSE 'Needs Improvement' END AS remarks FROM students;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is a CASE Expression?\nThe CASE expression is a conditional expression in SQL that lets you perform IF-THEN-ELSE logic directly in queries."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use CASE Expressions?\nThey allow you to transform or classify data within your SELECT statements based on conditions \u2014 without needing to modify the underlying data."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where can CASE be used?\nCASE can be used in SELECT, WHERE, ORDER BY, GROUP BY, and even inside aggregations."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How to use it?\nCASE WHEN condition THEN result [WHEN ...] [ELSE default] END."
+    },
+    {
+      "type": "code",
+      "text": "SELECT name, grade,\n  CASE \n    WHEN grade = 'A' THEN 'Excellent'\n    WHEN grade = 'B' THEN 'Good'\n    ELSE 'Needs Improvement'\n  END AS remarks\nFROM students;"
+    },
+    {
+      "type": "note",
+      "text": "The CASE expression always ends with END, and you can use as many WHEN conditions as needed."
+    }
+  ],
+  "examples": [
+    {
+      "query": "SELECT name, CASE WHEN age >= 21 THEN 'Adult' ELSE 'Minor' END AS status FROM students;",
+      "description": "Classify students by age",
+      "explanation": "Returns a list of students labeled as 'Adult' or 'Minor' based on their age."
+    },
+    {
+      "query": "SELECT name, grade, CASE WHEN grade = 'A' THEN 'Excellent' WHEN grade = 'B' THEN 'Good' ELSE 'Average' END AS performance FROM students;",
+      "description": "Evaluate grade level",
+      "explanation": "Adds a new column 'performance' based on the value of grade."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "students",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "age",
+            "type": "INTEGER"
+          },
+          {
+            "name": "grade",
+            "type": "TEXT"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "students": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "age": 20,
+        "grade": "A"
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "age": 22,
+        "grade": "B"
+      },
+      {
+        "id": 3,
+        "name": "Charlie",
+        "age": 19,
+        "grade": "C"
+      },
+      {
+        "id": 4,
+        "name": "Diana",
+        "age": 23,
+        "grade": "A"
+      },
+      {
+        "id": 5,
+        "name": "Eva",
+        "age": 18,
+        "grade": "B"
+      }
+    ]
+  },
+  "practice": [
+    {
+      "id": "case-expression_practice1",
+      "challenge": "Label students as 'Top Performer' if grade is A, else 'Regular'.",
+      "solution": "SELECT name, CASE WHEN grade = 'A' THEN 'Top Performer' ELSE 'Regular' END AS category FROM students;",
+      "hint": "Use CASE WHEN with grade column."
+    },
+    {
+      "id": "case-expression_practice2",
+      "challenge": "Show name and a status column where students 21 or older are labeled 'Adult'.",
+      "solution": "SELECT name, CASE WHEN age >= 21 THEN 'Adult' ELSE 'Minor' END AS status FROM students;",
+      "hint": "Use age in a CASE WHEN expression."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "case-expression_q1",
+      "type": "mcq",
+      "question": "Which SQL clause allows conditional logic in SELECT queries?",
+      "options": [
+        "IF",
+        "CASE",
+        "SWITCH",
+        "CHECK"
+      ],
+      "answer": "CASE"
+    },
+    {
+      "id": "case-expression_q2",
+      "type": "truefalse",
+      "question": "CASE expressions can be used in SELECT and WHERE clauses.",
+      "answer": true
+    },
+    {
+      "id": "case-expression_q3",
+      "type": "fill",
+      "question": "CASE expressions must always end with the keyword ______.",
+      "answer": "END"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "case-expression_ch1",
+      "title": "Conditional Grade Interpretation",
+      "steps": [
+        {
+          "stepId": "case-expression_ch1_step1",
+          "description": "Step 1: Show name, grade, and a 'remarks' column where A = Excellent, B = Good, others = Average.",
+          "solution": "SELECT name, grade, CASE WHEN grade = 'A' THEN 'Excellent' WHEN grade = 'B' THEN 'Good' ELSE 'Average' END AS remarks FROM students;"
+        },
+        {
+          "stepId": "case-expression_ch1_step2",
+          "description": "Step 2: Select name and a column 'age_group' that shows 'Adult' if age >= 21, else 'Minor'.",
+          "solution": "SELECT name, CASE WHEN age >= 21 THEN 'Adult' ELSE 'Minor' END AS age_group FROM students;"
+        }
+      ]
+    }
+  ]
+}

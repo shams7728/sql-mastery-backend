@@ -1,0 +1,117 @@
+{
+  "id": "limit-top",
+  "title": "LIMIT and TOP",
+  "category": "Data Retrieval",
+  "difficulty": "Beginner",
+  "estimatedTime": "6 min",
+  "starterQuery": "SELECT * FROM students LIMIT 3;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is LIMIT/TOP?\nThe LIMIT clause is used to specify how many rows of data to return. It's most commonly used in SQLite and MySQL. In SQL Server, the equivalent is TOP."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use LIMIT?\nTo reduce the number of rows returned in the result set. This is useful for pagination, previews, or focusing on the top records."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is it used?\nIt is added at the end of a SELECT query. Use LIMIT in SQLite/MySQL and TOP in SQL Server (before SELECT columns)."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How does it work?\nAdd LIMIT N to return the first N rows.\nSyntax:\nSELECT column1, column2 FROM table_name LIMIT number;"
+    },
+    {
+      "type": "note",
+      "text": "✅ LIMIT works in SQLite and MySQL.\n✅ Use TOP in SQL Server: SELECT TOP 3 * FROM table_name;\n✅ LIMIT always goes at the end of the query."
+    }
+  ],
+  "examples": [
+    {
+      "query": "SELECT * FROM students LIMIT 2;",
+      "description": "Limit result to 2 rows",
+      "explanation": "Returns only the first two records from the students table."
+    },
+    {
+      "query": "SELECT name FROM students LIMIT 1;",
+      "description": "Top 1 name",
+      "explanation": "Returns the name of the first student."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "students",
+        "columns": [
+          { "name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY" },
+          { "name": "name", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "age", "type": "INTEGER" },
+          { "name": "grade", "type": "TEXT" }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "students": [
+      { "id": 1, "name": "Alice", "age": 20, "grade": "A" },
+      { "id": 2, "name": "Bob", "age": 21, "grade": "B" },
+      { "id": 3, "name": "Charlie", "age": 19, "grade": "A" },
+      { "id": 4, "name": "Diana", "age": 22, "grade": "C" },
+      { "id": 5, "name": "Eva", "age": 18, "grade": "B" }
+    ]
+  },
+  "practice": [
+    {
+      "id": "limit-top_practice1",
+      "challenge": "Select top 3 students from the table.",
+      "solution": "SELECT * FROM students LIMIT 3;",
+      "hint": "Use the LIMIT clause."
+    },
+    {
+      "id": "limit-top_practice2",
+      "challenge": "Get names of the first 2 students.",
+      "solution": "SELECT name FROM students LIMIT 2;",
+      "hint": "Use LIMIT with SELECT name."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "limit-top_q1",
+      "type": "mcq",
+      "question": "Which clause limits the number of rows returned in SQLite?",
+      "options": ["TOP", "ROWNUM", "LIMIT", "MAX"],
+      "answer": "LIMIT"
+    },
+    {
+      "id": "limit-top_q2",
+      "type": "truefalse",
+      "question": "LIMIT can be used to fetch the top N results.",
+      "answer": true
+    },
+    {
+      "id": "limit-top_q3",
+      "type": "fill",
+      "question": "To get only the first 5 rows, write LIMIT ______.",
+      "answer": "5"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "limit-top_ch1",
+      "title": "Top Students Display",
+      "steps": [
+        {
+          "stepId": "limit-top_ch1_step1",
+          "description": "Step 1: Show top 2 students with name and grade.",
+          "solution": "SELECT name, grade FROM students LIMIT 2;"
+        },
+        {
+          "stepId": "limit-top_ch1_step2",
+          "description": "Step 2: Select all data for the first student.",
+          "solution": "SELECT * FROM students LIMIT 1;"
+        }
+      ]
+    }
+  ]
+}

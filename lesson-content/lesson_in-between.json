@@ -1,0 +1,165 @@
+{
+  "id": "in-between",
+  "title": "IN and BETWEEN Operators",
+  "category": "Filtering",
+  "difficulty": "Beginner",
+  "estimatedTime": "10 min",
+  "starterQuery": "SELECT * FROM students WHERE age BETWEEN 18 AND 21;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is BETWEEN?\nBETWEEN is used to filter results within a specified inclusive range. It includes both the starting and ending values.\n\nExample:\nSELECT * FROM students WHERE age BETWEEN 18 AND 21;"
+    },
+    {
+      "type": "paragraph",
+      "text": "2. What is IN?\nIN is used to check if a value matches any value in a list.\n\nExample:\nSELECT * FROM students WHERE grade IN ('A', 'B');"
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is it used?\nThese operators are used in WHERE clauses to filter data based on value ranges or multiple exact values."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. Why use BETWEEN and IN?\nThey simplify conditions that would otherwise require multiple ORs or inequality comparisons."
+    },
+    {
+      "type": "note",
+      "text": "BETWEEN is inclusive of both boundary values. IN can accept multiple values and makes OR comparisons cleaner."
+    },
+    {
+      "type": "code",
+      "text": "SELECT * FROM students WHERE age BETWEEN 18 AND 21;\nSELECT * FROM students WHERE grade IN ('A', 'B');"
+    }
+  ],
+  "examples": [
+    {
+      "query": "SELECT name FROM students WHERE age BETWEEN 18 AND 20;",
+      "description": "Filter age range",
+      "explanation": "Returns students whose age is 18, 19, or 20."
+    },
+    {
+      "query": "SELECT * FROM students WHERE grade IN ('A', 'C');",
+      "description": "Match multiple grades",
+      "explanation": "Returns students with grade A or C."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "students",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "age",
+            "type": "INTEGER"
+          },
+          {
+            "name": "grade",
+            "type": "TEXT"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "students": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "age": 18,
+        "grade": "A"
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "age": 19,
+        "grade": "B"
+      },
+      {
+        "id": 3,
+        "name": "Charlie",
+        "age": 21,
+        "grade": "C"
+      },
+      {
+        "id": 4,
+        "name": "Diana",
+        "age": 22,
+        "grade": "A"
+      },
+      {
+        "id": 5,
+        "name": "Eva",
+        "age": 20,
+        "grade": "B"
+      }
+    ]
+  },
+  "practice": [
+    {
+      "id": "in-between_practice1",
+      "challenge": "Get students whose age is between 18 and 20.",
+      "solution": "SELECT * FROM students WHERE age BETWEEN 18 AND 20;",
+      "hint": "Use BETWEEN to define a range"
+    },
+    {
+      "id": "in-between_practice2",
+      "challenge": "Get all students who have grade A or C.",
+      "solution": "SELECT * FROM students WHERE grade IN ('A', 'C');",
+      "hint": "Use IN to check for multiple grade values"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "in-between_q1",
+      "type": "mcq",
+      "question": "Which SQL operator checks if a value exists in a list?",
+      "options": [
+        "BETWEEN",
+        "IN",
+        "LIKE",
+        "IS"
+      ],
+      "answer": "IN"
+    },
+    {
+      "id": "in-between_q2",
+      "type": "truefalse",
+      "question": "BETWEEN includes both boundary values in the result.",
+      "answer": true
+    },
+    {
+      "id": "in-between_q3",
+      "type": "fill",
+      "question": "To find students aged 18 to 21, use BETWEEN 18 AND _____.",
+      "answer": "21"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "in-between_ch1",
+      "title": "Range & Set Filter",
+      "steps": [
+        {
+          "stepId": "in-between_ch1_step1",
+          "description": "Step 1: Get students aged between 19 and 22.",
+          "solution": "SELECT * FROM students WHERE age BETWEEN 19 AND 22;"
+        },
+        {
+          "stepId": "in-between_ch1_step2",
+          "description": "Step 2: Get students with grade A or B.",
+          "solution": "SELECT * FROM students WHERE grade IN ('A', 'B');"
+        }
+      ]
+    }
+  ]
+}

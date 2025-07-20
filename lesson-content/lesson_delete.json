@@ -1,0 +1,131 @@
+{
+    "id": "delete",
+    "title": "DELETE Statement",
+    "category": "Data Modification",
+    "difficulty": "Beginner",
+    "estimatedTime": "15 min",
+    "starterQuery": "/* Let's remove a completed task from our list. */\n\nDELETE FROM tasks\nWHERE status = 'Completed';",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is DELETE?\nThe `DELETE` statement is a Data Manipulation Language (DML) command used to remove existing records from a table. You can remove one or more rows based on a condition."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What is the syntax?\nThe basic syntax is `DELETE FROM table_name WHERE condition;`. The `WHERE` clause specifies which records should be deleted."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. The Danger of Omitting WHERE\nJust like with the `UPDATE` statement, the `WHERE` clause is critical. If you execute a `DELETE` statement without a `WHERE` clause, it will delete **all records** from the table. This is an irreversible action, so always be cautious."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. Deleting All Rows\nIf you genuinely intend to delete all rows from a table, the command is simply `DELETE FROM table_name;`. In many database systems, `TRUNCATE TABLE` is a faster alternative, but `DELETE` works universally."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "tasks",
+                "columns": [
+                    {
+                        "name": "task_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "description",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    },
+                    {
+                        "name": "status",
+                        "type": "TEXT"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "tasks": [
+            {
+                "task_id": 1,
+                "description": "Submit weekly report",
+                "status": "Completed"
+            },
+            {
+                "task_id": 2,
+                "description": "Prepare presentation",
+                "status": "In Progress"
+            },
+            {
+                "task_id": 3,
+                "description": "Archive old files",
+                "status": "Pending"
+            },
+            {
+                "task_id": 4,
+                "description": "Review project plan",
+                "status": "In Progress"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "delete_practice1",
+            "challenge": "Delete the task with the `task_id` of 3 from the `tasks` table.",
+            "solution": "DELETE FROM tasks WHERE task_id = 3;",
+            "hint": "Use a `WHERE` clause to target the specific row you want to remove."
+        },
+        {
+            "id": "delete_practice2",
+            "challenge": "Delete all tasks that are 'In Progress'.",
+            "solution": "DELETE FROM tasks WHERE status = 'In Progress';",
+            "hint": "Your `WHERE` clause should check the value of the `status` column."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "delete_q1",
+            "type": "mcq",
+            "question": "What happens if you run `DELETE FROM tasks;` without a `WHERE` clause?",
+            "options": [
+                "It deletes the `tasks` table",
+                "It deletes all rows from the `tasks` table",
+                "It fails with a syntax error",
+                "It deletes only the first row"
+            ],
+            "answer": "It deletes all rows from the `tasks` table"
+        },
+        {
+            "id": "delete_q2",
+            "type": "truefalse",
+            "question": "The `DELETE` statement can be used to remove columns from a table.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "delete_ch1",
+            "title": "Clear Completed Tasks",
+            "steps": [
+                {
+                    "stepId": "delete_ch1_step1",
+                    "description": "Write a single command to remove all tasks from the `tasks` table that have a status of 'Completed'.",
+                    "solution": "DELETE FROM tasks WHERE status = 'Completed';"
+                }
+            ]
+        },
+        {
+            "id": "delete_ch2",
+            "title": "Remove a Specific Entry",
+            "steps": [
+                {
+                    "stepId": "delete_ch2_step1",
+                    "description": "A task was entered by mistake. Delete the task whose description is 'Archive old files'.",
+                    "solution": "DELETE FROM tasks WHERE description = 'Archive old files';"
+                }
+            ]
+        }
+    ]
+}

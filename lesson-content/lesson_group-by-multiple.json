@@ -1,0 +1,166 @@
+{
+  "id": "group-by-multiple",
+  "title": "GROUP BY Multiple Columns",
+  "category": "Grouping",
+  "difficulty": "Intermediate",
+  "estimatedTime": "12 min",
+  "starterQuery": "SELECT department, grade, COUNT(*) FROM students GROUP BY department, grade;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is GROUP BY with Multiple Columns?\nThe GROUP BY clause can be used with multiple columns to create groupings based on combinations of values. Each unique combination of values forms a group."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use Multiple Columns in GROUP BY?\nIt helps analyze data based on multiple attributes simultaneously\u2014for example, finding counts by both department and grade."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is it used?\nIn reporting, summarization, or dashboards, when you need grouped insights across multiple categories."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How does it work?\nYou list multiple columns in the GROUP BY clause, and the result groups rows by each unique combination of those column values."
+    },
+    {
+      "type": "code",
+      "text": "SELECT department, grade, COUNT(*) FROM students GROUP BY department, grade;"
+    },
+    {
+      "type": "note",
+      "text": "The order of columns in GROUP BY affects the output grouping structure but not the final count."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "students",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "department",
+            "type": "TEXT"
+          },
+          {
+            "name": "grade",
+            "type": "TEXT"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "students": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "department": "Science",
+        "grade": "A"
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "department": "Science",
+        "grade": "B"
+      },
+      {
+        "id": 3,
+        "name": "Charlie",
+        "department": "Arts",
+        "grade": "A"
+      },
+      {
+        "id": 4,
+        "name": "Diana",
+        "department": "Science",
+        "grade": "A"
+      },
+      {
+        "id": 5,
+        "name": "Eva",
+        "department": "Arts",
+        "grade": "C"
+      },
+      {
+        "id": 6,
+        "name": "Frank",
+        "department": "Science",
+        "grade": "B"
+      },
+      {
+        "id": 7,
+        "name": "Grace",
+        "department": "Commerce",
+        "grade": "A"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "query": "SELECT department, grade, COUNT(*) FROM students GROUP BY department, grade;",
+      "description": "Count students by department and grade",
+      "explanation": "Shows how many students of each grade exist within each department."
+    }
+  ],
+  "practice": [
+    {
+      "id": "group-by-multiple_practice1",
+      "challenge": "Count students by department and grade.",
+      "solution": "SELECT department, grade, COUNT(*) FROM students GROUP BY department, grade;",
+      "hint": "Group by both department and grade."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "group-by-multiple_q1",
+      "type": "mcq",
+      "question": "What does GROUP BY department, grade do?",
+      "options": [
+        "Groups rows by department only",
+        "Groups rows by grade only",
+        "Groups rows by both department and grade",
+        "Sorts rows by grade"
+      ],
+      "answer": "Groups rows by both department and grade"
+    },
+    {
+      "id": "group-by-multiple_q2",
+      "type": "truefalse",
+      "question": "You can group by multiple columns in a single GROUP BY clause.",
+      "answer": true
+    },
+    {
+      "id": "group-by-multiple_q3",
+      "type": "fill",
+      "question": "To group by two columns, write GROUP BY column1, ______.",
+      "answer": "column2"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "group-by-multiple_ch1",
+      "title": "Multi-Level Summary",
+      "steps": [
+        {
+          "stepId": "group-by-multiple_ch1_step1",
+          "description": "Step 1: Show the number of students per department and grade.",
+          "solution": "SELECT department, grade, COUNT(*) FROM students GROUP BY department, grade;"
+        },
+        {
+          "stepId": "group-by-multiple_ch1_step2",
+          "description": "Step 2: Show only department and grade combinations where grade is A.",
+          "solution": "SELECT department, grade, COUNT(*) FROM students WHERE grade = 'A' GROUP BY department, grade;"
+        }
+      ]
+    }
+  ]
+}

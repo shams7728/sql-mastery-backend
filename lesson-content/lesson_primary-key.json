@@ -1,0 +1,117 @@
+{
+    "id": "primary-key",
+    "title": "PRIMARY KEY Constraint",
+    "category": "Data Definition",
+    "difficulty": "Beginner",
+    "estimatedTime": "15 min",
+    "starterQuery": "/* A table should always have a primary key.\n   Let's add one to the 'users' table. */\n\n-- This command won't work on an existing table in SQLite,\n-- but shows the syntax for creating a new one.\nCREATE TABLE users (\n    user_id INTEGER PRIMARY KEY,\n    username TEXT NOT NULL\n);",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a PRIMARY KEY?\nA `PRIMARY KEY` is a constraint that uniquely identifies each record in a table. It is the most important constraint in database design."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What are the rules for a PRIMARY KEY?\nA primary key column must follow two strict rules: it must contain UNIQUE values, and it cannot contain NULL values. A table can only have one primary key."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How is it defined?\nYou can define a primary key on a single column by adding the `PRIMARY KEY` keywords after the column's data type during table creation. You can also define a composite primary key, which consists of multiple columns."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. Why is it so important?\nThe primary key is the main way to identify and access a specific row. It's also used to create relationships between tables using Foreign Keys, which we will learn about next."
+        },
+        {
+            "type": "code",
+            "text": "-- Defining a primary key when creating a table:\nCREATE TABLE products (\n    product_sku TEXT PRIMARY KEY,\n    product_name TEXT NOT NULL,\n    price REAL\n);"
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "users",
+                "columns": [
+                    {
+                        "name": "user_id",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "name": "username",
+                        "type": "TEXT"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "users": [
+            {
+                "user_id": 101,
+                "username": "alice"
+            },
+            {
+                "user_id": 102,
+                "username": "bob"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "pk_practice1",
+            "challenge": "Write the statement to create a new table named `departments` with two columns: `dept_id` (INTEGER) which is the PRIMARY KEY, and `dept_name` (TEXT).",
+            "solution": "CREATE TABLE departments (dept_id INTEGER PRIMARY KEY, dept_name TEXT);",
+            "hint": "Use the `CREATE TABLE` syntax and add the `PRIMARY KEY` constraint to the `dept_id` column definition."
+        },
+        {
+            "id": "pk_practice2",
+            "challenge": "Write the statement to create a table `inventory` with a composite (multi-column) primary key consisting of `product_id` and `warehouse_id`.",
+            "solution": "CREATE TABLE inventory (product_id INTEGER, warehouse_id INTEGER, quantity INTEGER, PRIMARY KEY (product_id, warehouse_id));",
+            "hint": "To create a composite key, define it at the end of the column list: `PRIMARY KEY (col1, col2)`."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "pk_q1",
+            "type": "mcq",
+            "question": "Which two rules must a PRIMARY KEY column always follow?",
+            "options": [
+                "UNIQUE and NOT NULL",
+                "UNIQUE and INDEXED",
+                "NOT NULL and ASC",
+                "FOREIGN KEY and UNIQUE"
+            ],
+            "answer": "UNIQUE and NOT NULL"
+        },
+        {
+            "id": "pk_q2",
+            "type": "truefalse",
+            "question": "A single table can have multiple PRIMARY KEY constraints.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "pk_ch1",
+            "title": "Define a Student Roster",
+            "steps": [
+                {
+                    "stepId": "pk_ch1_step1",
+                    "description": "Create a table named `roster` for students. It needs a `student_id` column (INTEGER) that will serve as the unique identifier for each student.",
+                    "solution": "CREATE TABLE roster (student_id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT);"
+                }
+            ]
+        },
+        {
+            "id": "pk_ch2",
+            "title": "Define Order Items",
+            "steps": [
+                {
+                    "stepId": "pk_ch2_step1",
+                    "description": "Create a table named `order_items`. An order can have multiple products, and a product can be in multiple orders. Therefore, the combination of `order_id` and `product_id` must be unique. Create the table with these two columns as a composite PRIMARY KEY.",
+                    "solution": "CREATE TABLE order_items (order_id INTEGER, product_id INTEGER, quantity INTEGER, PRIMARY KEY (order_id, product_id));"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,78 @@
+{
+    "id": "sql-fundamentals",
+    "title": "SQL Fundamentals",
+    "category": "Getting Started",
+    "difficulty": "Beginner",
+    "estimatedTime": "10 min",
+    "theory": [
+      {
+        "type": "paragraph",
+        "text": "1. What is SQL?\nSQL (Structured Query Language) is a standard language used to interact with relational databases. It allows users to query, insert, update, and delete data. It is essential for data analysis, reporting, application development, and business intelligence.\nExample: SELECT * FROM users; — retrieves all users from the database."
+      },
+      {
+        "type": "paragraph",
+        "text": "2. What is a Database?\nA database is an organized collection of data stored electronically. It enables efficient storage, retrieval, and management of information.\nExample: An e-commerce database might store customer info like names, emails, and orders."
+      },
+      {
+        "type": "paragraph",
+        "text": "3. What is a Table?\nA table is a structured format to store data in rows and columns. Each table represents a particular type of data, such as users, products, or orders.\nExample: A 'products' table with columns like id, name, price."
+      },
+      {
+        "type": "table",
+        "columns": ["Term", "Description"],
+        "rows": [
+          ["Database", "A structured collection of related data"],
+          ["Table", "A collection of rows and columns like a spreadsheet"],
+          ["Row (Record)", "A single entry in a table"],
+          ["Column (Field)", "An attribute or data type of a record"],
+          ["SQL", "Structured Query Language used to interact with data"]
+        ]
+      },
+      {
+        "type": "code",
+        "text": "-- A basic SQL statement\nSELECT * FROM employees;"
+      },
+      {
+        "type": "note",
+        "text": "SQL keywords like SELECT, FROM, WHERE are not case-sensitive, but are written in uppercase for better readability."
+      },
+      {
+        "type": "paragraph",
+        "text": "4. How do you use SQL?\nUse statements like SELECT to get data, INSERT to add, UPDATE to change, and DELETE to remove records.\nExample: INSERT INTO students (name, age) VALUES ('Alice', 22);"
+      }
+    ],
+    "examples": [
+      {
+        "query": "SELECT * FROM employees;",
+        "description": "Fetch all data from a table",
+        "explanation": "Returns all rows and columns from the 'employees' table."
+      }
+    ],
+    "quiz": [
+      {
+        "id": "sql-fundamentals_q1",
+        "type": "mcq",
+        "question": "What does SQL stand for?",
+        "options": [
+          "Standard Query List",
+          "Structured Query Language",
+          "Simple Query Language",
+          "Structured Question Language"
+        ],
+        "answer": "Structured Query Language"
+      },
+      {
+        "id": "sql-fundamentals_q2",
+        "type": "truefalse",
+        "question": "SQL is used to manage and query data in relational databases.",
+        "answer": true
+      },
+      {
+        "id": "sql-fundamentals_q3",
+        "type": "fill",
+        "question": "A table is made up of rows and _____.",
+        "answer": "columns"
+      }
+    ]
+  }
+  

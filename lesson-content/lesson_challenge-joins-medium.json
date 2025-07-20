@@ -1,0 +1,233 @@
+{
+    "id": "challenge-joins-medium",
+    "title": "Challenge: Top Author Analytics",
+    "category": "Challenges",
+    "difficulty": "Intermediate",
+    "estimatedTime": "30 min",
+    "starterQuery": "/* This is a conceptual challenge to test your analytical thinking using JOINs. */",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. The Business Problem\nYou are a data analyst for an online bookstore. The marketing department wants to feature the top 5 best-selling authors on the homepage. Your task is to generate a report that lists these top 5 authors based on their total revenue, sorted from highest to lowest."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Analyzing the Schema\nTo solve this, you have three tables:\n- `authors` (author_id, author_name)\n- `books` (book_id, title, author_id, price)\n- `sales` (sale_id, book_id, quantity_sold)"
+        },
+        {
+            "type": "paragraph",
+            "text": "3. Devising a Query Plan\nThis problem requires combining data from all three tables. The logical steps are:\n- First, calculate the revenue for each individual sale (`quantity_sold` * `price`).\n- To do this, you must `JOIN` the `sales` table with the `books` table on `book_id`.\n- Next, to link this revenue to an author, you must `JOIN` the result with the `authors` table on `author_id`.\n- With all data linked, you can `GROUP BY` the author's name.\n- For each author group, calculate the `SUM()` of the revenue.\n- Finally, `ORDER BY` the total revenue in `DESC` order and take the top 5 results using `LIMIT`."
+        },
+        {
+            "type": "code",
+            "text": "-- The Final Solution Query:\nSELECT\n    a.author_name,\n    SUM(s.quantity_sold * b.price) AS total_revenue\nFROM\n    sales s\n-- Join sales to books to get the price for each sale\nJOIN\n    books b ON s.book_id = b.book_id\n-- Join the result to authors to get the author's name\nJOIN\n    authors a ON b.author_id = a.author_id\n-- Group all sales data by author\nGROUP BY\n    a.author_name\n-- Order the authors by their total revenue\nORDER BY\n    total_revenue DESC\n-- Limit to only the top 5\nLIMIT 5;"
+        },
+        {
+            "type": "note",
+            "text": "This challenge demonstrates a very common and powerful analytics pattern: joining multiple tables to enrich transactional data, then grouping and aggregating to find insights."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "authors",
+                "columns": [
+                    {
+                        "name": "author_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "author_name",
+                        "type": "TEXT"
+                    }
+                ]
+            },
+            {
+                "name": "books",
+                "columns": [
+                    {
+                        "name": "book_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "title",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "author_id",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "name": "price",
+                        "type": "REAL"
+                    }
+                ]
+            },
+            {
+                "name": "sales",
+                "columns": [
+                    {
+                        "name": "sale_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "book_id",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "name": "quantity_sold",
+                        "type": "INTEGER"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "authors": [
+            {
+                "author_id": 1,
+                "author_name": "Jane Austen"
+            },
+            {
+                "author_id": 2,
+                "author_name": "Mark Twain"
+            },
+            {
+                "author_id": 3,
+                "author_name": "Leo Tolstoy"
+            }
+        ],
+        "books": [
+            {
+                "book_id": 101,
+                "title": "Pride and Prejudice",
+                "author_id": 1,
+                "price": 12.99
+            },
+            {
+                "book_id": 102,
+                "title": "Sense and Sensibility",
+                "author_id": 1,
+                "price": 11.99
+            },
+            {
+                "book_id": 201,
+                "title": "Adventures of Huckleberry Finn",
+                "author_id": 2,
+                "price": 9.99
+            },
+            {
+                "book_id": 301,
+                "title": "War and Peace",
+                "author_id": 3,
+                "price": 19.99
+            }
+        ],
+        "sales": [
+            {
+                "sale_id": 1,
+                "book_id": 101,
+                "quantity_sold": 500
+            },
+            {
+                "sale_id": 2,
+                "book_id": 201,
+                "quantity_sold": 800
+            },
+            {
+                "sale_id": 3,
+                "book_id": 301,
+                "quantity_sold": 300
+            },
+            {
+                "sale_id": 4,
+                "book_id": 102,
+                "quantity_sold": 400
+            },
+            {
+                "sale_id": 5,
+                "book_id": 201,
+                "quantity_sold": 200
+            }
+        ]
+    },
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "chj_q1",
+            "type": "mcq",
+            "question": "To solve this problem, how many JOIN operations are required?",
+            "options": [
+                "0",
+                "1",
+                "2",
+                "3"
+            ],
+            "answer": "2"
+        },
+        {
+            "id": "chj_q2",
+            "type": "mcq",
+            "question": "Which type of JOIN is most appropriate for connecting `sales` to `books` and `books` to `authors`?",
+            "options": [
+                "LEFT JOIN",
+                "RIGHT JOIN",
+                "FULL OUTER JOIN",
+                "INNER JOIN"
+            ],
+            "answer": "INNER JOIN"
+        },
+        {
+            "id": "chj_q3",
+            "type": "mcq",
+            "question": "How do you calculate the revenue for a single record in the `sales` table?",
+            "options": [
+                "SUM(price)",
+                "COUNT(quantity_sold)",
+                "quantity_sold * price",
+                "AVG(price)"
+            ],
+            "answer": "quantity_sold * price"
+        },
+        {
+            "id": "chj_q4",
+            "type": "truefalse",
+            "question": "In the final query, the `GROUP BY` clause is executed before the `JOIN` clauses.",
+            "answer": false
+        },
+        {
+            "id": "chj_q5",
+            "type": "mcq",
+            "question": "To find the total revenue per author, you must use which aggregate function?",
+            "options": [
+                "COUNT(author_name)",
+                "SUM(quantity_sold * price)",
+                "AVG(price)",
+                "MAX(quantity_sold)"
+            ],
+            "answer": "SUM(quantity_sold * price)"
+        },
+        {
+            "id": "chj_q6",
+            "type": "truefalse",
+            "question": "The `LIMIT 5` clause is applied before the `ORDER BY` clause to make the query faster.",
+            "answer": false
+        },
+        {
+            "id": "chj_q7",
+            "type": "mcq",
+            "question": "What is the purpose of aliasing the tables (e.g., `sales s`, `books b`)?",
+            "options": [
+                "It's required for all queries",
+                "It makes the query shorter and more readable",
+                "It improves performance",
+                "It hides the real table names for security"
+            ],
+            "answer": "It makes the query shorter and more readable"
+        }
+    ]
+}

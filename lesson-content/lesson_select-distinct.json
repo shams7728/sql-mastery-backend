@@ -1,0 +1,135 @@
+{
+  "id": "select-distinct",
+  "title": "SELECT DISTINCT",
+  "category": "Data Retrieval",
+  "difficulty": "Beginner",
+  "estimatedTime": "7 min",
+  "starterQuery": "SELECT DISTINCT grade FROM students;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is SELECT DISTINCT?\nThe SELECT DISTINCT statement is used to return only different (unique) values from a column or a combination of columns in a table."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use SELECT DISTINCT?\nIt's useful when you're analyzing data and want to avoid repeating the same value multiple times in the result. It ensures that only one occurrence of each value appears."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is it used?\nDISTINCT is typically used in reporting, analytics, and dashboards—where understanding diversity or uniqueness in the data is important."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How does it work?\nIt compares values across rows and filters out duplicates, only returning one record for each unique value."
+    },
+    {
+      "type": "table",
+      "columns": ["Clause", "Purpose"],
+      "rows": [
+        ["SELECT DISTINCT column", "Returns only unique values from the column"],
+        ["SELECT DISTINCT col1, col2", "Returns unique combinations of col1 and col2"],
+        ["FROM", "Specifies the table to query"]
+      ]
+    },
+    {
+      "type": "code",
+      "text": "SELECT DISTINCT column_name FROM table_name;"
+    },
+    {
+      "type": "note",
+      "text": "DISTINCT applies to the entire row of selected columns, not just the first column listed."
+    }
+  ],
+  "examples": [
+    {
+      "query": "SELECT DISTINCT grade FROM students;",
+      "description": "Fetch unique grades",
+      "explanation": "Returns each grade appearing only once from the students table."
+    },
+    {
+      "query": "SELECT DISTINCT age FROM students;",
+      "description": "Fetch unique ages",
+      "explanation": "Returns each unique age found in the students table."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "students",
+        "columns": [
+          { "name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY" },
+          { "name": "name", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "age", "type": "INTEGER" },
+          { "name": "grade", "type": "TEXT" }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "students": [
+      { "id": 1, "name": "Alice", "age": 20, "grade": "A" },
+      { "id": 2, "name": "Bob", "age": 21, "grade": "B" },
+      { "id": 3, "name": "Charlie", "age": 19, "grade": "A" },
+      { "id": 4, "name": "Diana", "age": 22, "grade": "C" },
+      { "id": 5, "name": "Eve", "age": 20, "grade": "B" }
+    ]
+  },
+  "practice": [
+    {
+      "id": "select-distinct_practice1",
+      "challenge": "Get all distinct grades from the students table.",
+      "solution": "SELECT DISTINCT grade FROM students;",
+      "hint": "Use DISTINCT with SELECT on the grade column."
+    },
+    {
+      "id": "select-distinct_practice2",
+      "challenge": "Get all distinct ages from the students table.",
+      "solution": "SELECT DISTINCT age FROM students;",
+      "hint": "Use DISTINCT with SELECT on the age column."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "select-distinct_q1",
+      "type": "mcq",
+      "question": "What does SELECT DISTINCT do?",
+      "options": [
+        "Selects duplicate rows",
+        "Selects all rows",
+        "Selects unique rows",
+        "Deletes duplicates"
+      ],
+      "answer": "Selects unique rows"
+    },
+    {
+      "id": "select-distinct_q2",
+      "type": "truefalse",
+      "question": "SELECT DISTINCT returns only different values.",
+      "answer": true
+    },
+    {
+      "id": "select-distinct_q3",
+      "type": "fill",
+      "question": "The keyword used to eliminate duplicate results is ______.",
+      "answer": "DISTINCT"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "select-distinct_ch1",
+      "title": "Explore Uniqueness",
+      "steps": [
+        {
+          "stepId": "select-distinct_select-distinct_ch1_step1",
+          "description": "Step 1: Get all unique grades.",
+          "solution": "SELECT DISTINCT grade FROM students;"
+        },
+        {
+          "stepId": "select-distinct_select-distinct_ch1_step2",
+          "description": "Step 2: Get all unique ages from the students table.",
+          "solution": "SELECT DISTINCT age FROM students;"
+        }
+      ]
+    }
+  ]
+}

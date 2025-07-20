@@ -1,0 +1,126 @@
+{
+  "id": "sql-commands-overview",
+  "title": "SQL Commands Overview",
+  "category": "Getting Started",
+  "difficulty": "Beginner",
+  "estimatedTime": "10 min",
+  "starterQuery": "SELECT * FROM departments;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What are SQL Commands?\nSQL commands are instructions used to communicate with a database. These commands allow users to perform various operations such as retrieving, updating, inserting, and deleting data."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why are SQL Commands Categorized?\nTo organize and understand the wide range of operations, SQL commands are grouped into categories based on their function — such as Data Definition (DDL), Data Manipulation (DML), Transaction Control (TCL), etc."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. What are the main categories of SQL commands?\nSQL commands are commonly categorized into:"
+    },
+    {
+      "type": "table",
+      "columns": ["Command", "Category", "Description"],
+      "rows": [
+        ["CREATE", "DDL", "Creates a new table or database."],
+        ["DROP", "DDL", "Deletes an existing table or database."],
+        ["INSERT", "DML", "Adds new data into a table."],
+        ["SELECT", "DML", "Fetches data from one or more tables."],
+        ["UPDATE", "DML", "Modifies existing records."],
+        ["DELETE", "DML", "Removes data from a table."],
+        ["COMMIT", "TCL", "Saves changes made by a transaction."],
+        ["ROLLBACK", "TCL", "Reverts changes made in a transaction."]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "4. Where are these commands used?\n- `SELECT` is used in almost every report or data retrieval use case.\n- `INSERT`, `UPDATE`, `DELETE` are used in form submissions, admin dashboards, or applications that modify data.\n- `CREATE` and `DROP` are mostly used in schema design or setup scripts.\n- `COMMIT` and `ROLLBACK` are used when working with transactions (e.g., in banking systems)."
+    },
+    {
+      "type": "code",
+      "text": "-- Example SQL Commands\nSELECT * FROM departments;\nINSERT INTO departments (name, location) VALUES ('Design', 'Boston');\nUPDATE departments SET location = 'Remote' WHERE name = 'HR';\nDELETE FROM departments WHERE id = 2;"
+    },
+    {
+      "type": "note",
+      "text": "Each SQL command has a specific role. DML commands affect data. DDL affects table structures. TCL manages transactions."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "departments",
+        "columns": [
+          { "name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY" },
+          { "name": "name", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "location", "type": "TEXT" }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "departments": [
+      { "id": 1, "name": "Engineering", "location": "New York" },
+      { "id": 2, "name": "Marketing", "location": "San Francisco" },
+      { "id": 3, "name": "HR", "location": "Chicago" }
+    ]
+  },
+  "examples": [
+    {
+      "query": "SELECT name FROM departments;",
+      "description": "Retrieve department names",
+      "explanation": "This gets the `name` column from the departments table."
+    },
+    {
+      "query": "INSERT INTO departments (name, location) VALUES ('Design', 'Boston');",
+      "description": "Insert new department",
+      "explanation": "Adds a new department to the departments table."
+    }
+  ],
+  "practice": [
+    {
+      "id": "sql-commands-overview_practice1",
+      "challenge": "Fetch all departments located in San Francisco.",
+      "solution": "SELECT * FROM departments WHERE location = 'San Francisco';",
+      "hint": "Use WHERE with the location column."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "sql-commands-overview_q1",
+      "type": "mcq",
+      "question": "Which SQL command is used to retrieve data?",
+      "options": ["INSERT", "DELETE", "SELECT", "CREATE"],
+      "answer": "SELECT"
+    },
+    {
+      "id": "sql-commands-overview_q2",
+      "type": "truefalse",
+      "question": "The DROP command removes a table from the database.",
+      "answer": true
+    },
+    {
+      "id": "sql-commands-overview_q3",
+      "type": "fill",
+      "question": "The ______ command is used to add new data to a table.",
+      "answer": "INSERT"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "sql-commands-overview_ch1",
+      "title": "Command Practice",
+      "steps": [
+        {
+          "stepId": "sql-commands-overview_ch1_step1",
+          "description": "Step 1: Select all departments.",
+          "solution": "SELECT * FROM departments;"
+        },
+        {
+          "stepId": "sql-commands-overview_ch1_step2",
+          "description": "Step 2: Insert a new department called 'Design' in 'Boston'.",
+          "solution": "INSERT INTO departments (name, location) VALUES ('Design', 'Boston');"
+        }
+      ]
+    }
+  ]
+}

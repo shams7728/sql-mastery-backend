@@ -1,0 +1,165 @@
+{
+  "id": "null-checks",
+  "title": "NULL Checks in SQL",
+  "category": "Filtering",
+  "difficulty": "Beginner",
+  "estimatedTime": "8 min",
+  "starterQuery": "SELECT * FROM students WHERE grade IS NULL;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is NULL in SQL?\nNULL represents missing, unknown, or undefined data in a table. It's not the same as 0 or an empty string\u2014it means 'no value.'"
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why Use NULL Checks?\nTo identify incomplete or missing data. For example, you might want to find all students who haven't been assigned a grade yet."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is NULL Commonly Used?\nNULL appears in optional fields or during data entry when a value is not available. You may use it in WHERE clauses or conditional expressions."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How to Check for NULL?\nUse `IS NULL` to find rows with missing data and `IS NOT NULL` for rows with present values."
+    },
+    {
+      "type": "note",
+      "text": "You cannot use `=` to compare NULL values. Always use `IS NULL` or `IS NOT NULL`."
+    },
+    {
+      "type": "code",
+      "text": "SELECT * FROM students WHERE grade IS NULL;"
+    }
+  ],
+  "examples": [
+    {
+      "query": "SELECT name FROM students WHERE grade IS NULL;",
+      "description": "Find students with missing grade",
+      "explanation": "Returns names of students whose grade is not recorded."
+    },
+    {
+      "query": "SELECT * FROM students WHERE grade IS NOT NULL;",
+      "description": "Find students with valid grades",
+      "explanation": "Returns all students who have been assigned a grade."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "students",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "age",
+            "type": "INTEGER"
+          },
+          {
+            "name": "grade",
+            "type": "TEXT"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "students": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "age": 20,
+        "grade": "A"
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "age": 21,
+        "grade": null
+      },
+      {
+        "id": 3,
+        "name": "Charlie",
+        "age": 19,
+        "grade": "B"
+      },
+      {
+        "id": 4,
+        "name": "Diana",
+        "age": 22,
+        "grade": null
+      },
+      {
+        "id": 5,
+        "name": "Eva",
+        "age": 18,
+        "grade": "C"
+      }
+    ]
+  },
+  "practice": [
+    {
+      "id": "null-checks_practice1",
+      "challenge": "Find students whose grade is not yet assigned.",
+      "solution": "SELECT * FROM students WHERE grade IS NULL;",
+      "hint": "Use IS NULL to check for missing values."
+    },
+    {
+      "id": "null-checks_practice2",
+      "challenge": "List all students who have a grade.",
+      "solution": "SELECT * FROM students WHERE grade IS NOT NULL;",
+      "hint": "Use IS NOT NULL to find non-missing values."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "null-checks_q1",
+      "type": "mcq",
+      "question": "Which clause is used to find NULL values?",
+      "options": [
+        "= NULL",
+        "IS NULL",
+        "NULL",
+        "== NULL"
+      ],
+      "answer": "IS NULL"
+    },
+    {
+      "id": "null-checks_q2",
+      "type": "truefalse",
+      "question": "NULL is the same as 0 in SQL.",
+      "answer": false
+    },
+    {
+      "id": "null-checks_q3",
+      "type": "fill",
+      "question": "To find rows where a column is not NULL, we use ________.",
+      "answer": "IS NOT NULL"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "null-checks_ch1",
+      "title": "Handle Missing Data",
+      "steps": [
+        {
+          "stepId": "null-checks_ch1_step1",
+          "description": "Step 1: Get students with NULL grade.",
+          "solution": "SELECT * FROM students WHERE grade IS NULL;"
+        },
+        {
+          "stepId": "null-checks_ch1_step2",
+          "description": "Step 2: Get students with a recorded grade.",
+          "solution": "SELECT * FROM students WHERE grade IS NOT NULL;"
+        }
+      ]
+    }
+  ]
+}

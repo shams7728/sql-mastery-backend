@@ -1,0 +1,114 @@
+{
+    "id": "sql-injection-prevention",
+    "title": "SQL Injection Prevention",
+    "category": "Security & Admin",
+    "difficulty": "Advanced",
+    "estimatedTime": "25 min",
+    "starterQuery": "/* This is a conceptual lesson on a critical security topic. */",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is SQL Injection?\nSQL Injection (SQLi) is a code injection technique used to attack data-driven applications. It occurs when malicious SQL statements are inserted into an entry field for execution. A successful SQLi attack can read sensitive data from the database, modify database data (Insert/Update/Delete), execute administration operations on the database (like shutdown), and in some cases, issue commands to the operating system."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. How does it happen?\nThe vulnerability is most commonly found in application code that constructs SQL queries by concatenating strings with user input. An attacker can supply specially crafted input that changes the structure of the original query."
+        },
+        {
+            "type": "code",
+            "text": "-- VULNERABLE CODE (Example in Python-like pseudocode)\n-- userInput = \"' OR '1'='1' --\";\n-- query = \"SELECT * FROM users WHERE username = '\" + userInput + \"';\";\n\n-- The final query becomes:\n-- SELECT * FROM users WHERE username = '' OR '1'='1' --';\n-- The '--' comments out the rest of the line, the `OR '1'='1'` is always true, \n-- potentially logging the attacker in as the first user."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How do you prevent it? The #1 Rule.\nThe absolute best way to prevent SQL injection is to use **Prepared Statements** (also known as Parameterized Queries). This method separates the SQL code from the data. The database is sent the query structure first, and then the parameters (user input) are sent separately. The database treats the parameters strictly as data and never as executable code."
+        },
+        {
+            "type": "code",
+            "text": "-- SECURE CODE (Example in Python-like pseudocode using parameters)\n-- userInput = \"admin\";\n-- query = \"SELECT * FROM users WHERE username = ?;\";\n-- database.execute(query, [userInput]);\n\n-- Even if an attacker provides malicious input like \"' OR '1'='1' --\",\n-- the database is only looking for a user whose name is literally that entire string.\n-- The attack fails completely."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What are other defense layers?\nWhile prepared statements are the primary defense, other layers include: \n- **Input Validation:** Rejecting input that contains suspicious characters or doesn't match the expected format (e.g., an email address). \n- **Principle of Least Privilege:** Ensuring the database user account the application uses has the minimum necessary permissions. It should not have administrator rights."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "sqli_q1",
+            "type": "mcq",
+            "question": "What is the most effective method to prevent SQL Injection attacks?",
+            "options": [
+                "Encrypting the database",
+                "Using complex passwords",
+                "Using Prepared Statements / Parameterized Queries",
+                "Hiding error messages"
+            ],
+            "answer": "Using Prepared Statements / Parameterized Queries"
+        },
+        {
+            "id": "sqli_q2",
+            "type": "mcq",
+            "question": "SQL Injection is a vulnerability in the...",
+            "options": [
+                "Database software itself",
+                "Application code that builds queries",
+                "Network firewall",
+                "Operating system"
+            ],
+            "answer": "Application code that builds queries"
+        },
+        {
+            "id": "sqli_q3",
+            "type": "truefalse",
+            "question": "If a query is vulnerable, an attacker could potentially delete an entire table.",
+            "answer": true
+        },
+        {
+            "id": "sqli_q4",
+            "type": "mcq",
+            "question": "What is the primary risk of building SQL queries by concatenating strings with user input?",
+            "options": [
+                "It is slower than other methods",
+                "It can lead to syntax errors",
+                "It allows user input to be misinterpreted as executable SQL code",
+                "It only works with text data"
+            ],
+            "answer": "It allows user input to be misinterpreted as executable SQL code"
+        },
+        {
+            "id": "sqli_q5",
+            "type": "truefalse",
+            "question": "The 'Principle of Least Privilege' means giving your application's database user full admin rights to be safe.",
+            "answer": false
+        },
+        {
+            "id": "sqli_q6",
+            "type": "mcq",
+            "question": "In a parameterized query, user input is always treated as...",
+            "options": [
+                "Part of the SQL command",
+                "A literal value (data)",
+                "A potential threat to be scanned",
+                "A table name"
+            ],
+            "answer": "A literal value (data)"
+        },
+        {
+            "id": "sqli_q7",
+            "type": "mcq",
+            "question": "What does the `--` sequence often signify in a SQL Injection attack payload?",
+            "options": [
+                "A way to select all columns",
+                "A command to drop a table",
+                "A comment, used to ignore the rest of the original query",
+                "A string concatenation operator"
+            ],
+            "answer": "A comment, used to ignore the rest of the original query"
+        }
+    ]
+}

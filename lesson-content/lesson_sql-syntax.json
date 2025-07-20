@@ -1,0 +1,121 @@
+{
+  "id": "sql-syntax",
+  "title": "SQL Syntax & Structure",
+  "category": "Getting Started",
+  "difficulty": "Beginner",
+  "estimatedTime": "10 min",
+  "starterQuery": "SELECT * FROM employees;",
+  "schema": {
+    "tables": [
+      {
+        "name": "employees",
+        "columns": [
+          { "name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY" },
+          { "name": "name", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "department", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "salary", "type": "INTEGER" }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "employees": [
+      { "id": 1, "name": "Alice", "department": "Engineering", "salary": 75000 },
+      { "id": 2, "name": "Bob", "department": "Marketing", "salary": 65000 },
+      { "id": 3, "name": "Charlie", "department": "Engineering", "salary": 80000 },
+      { "id": 4, "name": "Diana", "department": "HR", "salary": 70000 }
+    ]
+  },
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is SQL Syntax? SQL syntax refers to the set of rules and structure used to write SQL statements. It includes commands, clauses, and expressions arranged in a logical sequence."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. What is a SQL Statement? A SQL statement is a complete instruction composed of SQL keywords. It tells the database what action to perform, such as retrieving or updating data."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. How does SQL syntax work? SQL statements follow a specific structure like SELECT columns FROM table WHERE condition. For example, SELECT name FROM employees WHERE salary > 50000; retrieves employee names with salaries over 50000."
+    },
+    {
+      "type": "table",
+      "columns": ["Keyword", "Purpose"],
+      "rows": [
+        ["SELECT", "Specifies the columns to retrieve"],
+        ["FROM", "Indicates the table to select from"],
+        ["WHERE", "Filters the rows based on condition"],
+        ["; (semicolon)", "Indicates end of the SQL statement"]
+      ]
+    },
+    {
+      "type": "code",
+      "text": "SELECT column1, column2 FROM table_name WHERE condition;"
+    },
+    {
+      "type": "note",
+      "text": "SQL is not case-sensitive. Semicolons are used to terminate queries."
+    }
+  ],
+  "examples": [
+    {
+      "query": "SELECT name FROM employees;",
+      "description": "Select specific column",
+      "explanation": "This retrieves only the name column from employees."
+    }
+  ],
+  "practice": [
+    {
+      "id": "sql-syntax_practice1",
+      "challenge": "Get the full list of employees using proper SQL syntax.",
+      "solution": "SELECT * FROM employees;",
+      "hint": "Use SELECT and FROM with * to get all rows"
+    },
+    {
+      "id": "sql-syntax_practice2",
+      "challenge": "Retrieve just the names of all employees.",
+      "solution": "SELECT name FROM employees;",
+      "hint": "You only need one column"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "sql-syntax_syntax_ch1",
+      "title": "Explore Basic SQL Syntax",
+      "steps": [
+        {
+          "stepId": "sql-syntax_sql-syntax_syntax_ch1_step1",
+          "description": "Step 1: Select all columns from the employees table.",
+          "solution": "SELECT * FROM employees;"
+        },
+        {
+          "stepId": "sql-syntax_sql-syntax_syntax_ch1_step2",
+          "description": "Step 2: Select only the department and salary.",
+          "solution": "SELECT department, salary FROM employees;"
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "sql-syntax_q1",
+      "type": "mcq",
+      "question": "Which keyword is used to filter rows in SQL?",
+      "options": ["SELECT", "FROM", "WHERE", "GROUP"],
+      "answer": "WHERE"
+    },
+    {
+      "id": "sql-syntax_q2",
+      "type": "truefalse",
+      "question": "SQL is case-sensitive.",
+      "answer": false
+    },
+    {
+      "id": "sql-syntax_q3",
+      "type": "fill",
+      "question": "A SQL statement usually ends with a ________.",
+      "answer": ";"
+    }
+  ]
+}

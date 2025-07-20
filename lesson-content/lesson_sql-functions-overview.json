@@ -1,0 +1,197 @@
+{
+  "id": "sql-functions-overview",
+  "title": "SQL Functions Overview",
+  "category": "Functions",
+  "difficulty": "Beginner",
+  "estimatedTime": "10 min",
+  "starterQuery": "SELECT UPPER(name) FROM employees;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What are SQL Functions?\nSQL functions are predefined operations that can be used to perform tasks on data such as transformation, aggregation, or computation."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why are SQL Functions Useful?\nThey help in simplifying and shortening complex queries. Instead of writing long logic, you can use built-in functions like SUM, AVG, UPPER, LOWER to achieve results quickly and cleanly."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where Can SQL Functions Be Used?\nSQL functions can be used in SELECT statements, WHERE clauses, GROUP BY, ORDER BY, and even in HAVING conditions to manipulate or filter data."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How to Use SQL Functions?\nYou call them like any function, e.g., `SELECT UPPER(name) FROM employees;`. Each function takes arguments (usually columns or values) and returns a result."
+    },
+    {
+      "type": "table",
+      "columns": [
+        "Function Type",
+        "Example",
+        "Purpose"
+      ],
+      "rows": [
+        [
+          "Aggregate",
+          "SUM(salary)",
+          "Returns the total sum of salary values"
+        ],
+        [
+          "String",
+          "UPPER(name)",
+          "Converts names to uppercase"
+        ],
+        [
+          "Date",
+          "DATE('now')",
+          "Gets the current date"
+        ],
+        [
+          "Math",
+          "ROUND(salary, 2)",
+          "Rounds the salary to 2 decimal places"
+        ]
+      ]
+    },
+    {
+      "type": "note",
+      "text": "Functions vary slightly between SQL dialects. SQLite supports many but not all functions available in other systems like MySQL or PostgreSQL."
+    },
+    {
+      "type": "code",
+      "text": "SELECT AVG(salary) FROM employees; -- Calculates average salary\nSELECT LENGTH(name) FROM employees; -- Returns length of each name"
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "employees",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "salary",
+            "type": "INTEGER"
+          },
+          {
+            "name": "department",
+            "type": "TEXT"
+          },
+          {
+            "name": "join_date",
+            "type": "DATE"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "employees": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "salary": 75000,
+        "department": "Engineering",
+        "join_date": "2020-01-15"
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "salary": 62000,
+        "department": "Marketing",
+        "join_date": "2019-11-03"
+      },
+      {
+        "id": 3,
+        "name": "Charlie",
+        "salary": 72000,
+        "department": "Engineering",
+        "join_date": "2021-06-01"
+      },
+      {
+        "id": 4,
+        "name": "Diana",
+        "salary": 80000,
+        "department": "HR",
+        "join_date": "2018-05-20"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "query": "SELECT MAX(salary) FROM employees;",
+      "description": "Get highest salary",
+      "explanation": "Returns the highest salary among all employees."
+    },
+    {
+      "query": "SELECT LENGTH(name) FROM employees;",
+      "description": "Measure string length",
+      "explanation": "Returns the number of characters in each employee name."
+    }
+  ],
+  "practice": [
+    {
+      "id": "sql-functions-overview_practice1",
+      "challenge": "Find the average salary of employees.",
+      "solution": "SELECT AVG(salary) FROM employees;",
+      "hint": "Use AVG function on the salary column."
+    },
+    {
+      "id": "sql-functions-overview_practice2",
+      "challenge": "Convert all employee names to lowercase.",
+      "solution": "SELECT LOWER(name) FROM employees;",
+      "hint": "Use LOWER function on the name column."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "sql-functions-overview_q1",
+      "type": "mcq",
+      "question": "Which function is used to calculate the average?",
+      "options": [
+        "SUM",
+        "COUNT",
+        "AVG",
+        "TOTAL"
+      ],
+      "answer": "AVG"
+    },
+    {
+      "id": "sql-functions-overview_q2",
+      "type": "truefalse",
+      "question": "The UPPER function converts text to lowercase.",
+      "answer": false
+    },
+    {
+      "id": "sql-functions-overview_q3",
+      "type": "fill",
+      "question": "To find the length of a string, use the ______ function.",
+      "answer": "LENGTH"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "sql-functions-overview_ch1",
+      "title": "Explore SQL Functions",
+      "steps": [
+        {
+          "stepId": "sql-functions-overview_ch1_step1",
+          "description": "Step 1: Get total salary paid to all employees.",
+          "solution": "SELECT SUM(salary) FROM employees;"
+        },
+        {
+          "stepId": "sql-functions-overview_ch1_step2",
+          "description": "Step 2: Show names and their string lengths.",
+          "solution": "SELECT name, LENGTH(name) FROM employees;"
+        }
+      ]
+    }
+  ]
+}

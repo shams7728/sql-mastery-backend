@@ -1,0 +1,135 @@
+{
+  "id": "and-or-not",
+  "title": "AND, OR, NOT Operators",
+  "category": "Data Retrieval",
+  "difficulty": "Beginner",
+  "estimatedTime": "10 min",
+  "starterQuery": "SELECT * FROM students WHERE age > 18 AND grade = 'A';",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What are AND, OR, NOT?\nThese are logical operators used in SQL to combine multiple conditions in the WHERE clause. They refine the result set by controlling logic flow."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use them?\nThese operators allow you to build powerful filters. For example, filter students who are over 18 AND have grade A, or students with grade A OR B."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where are they used?\nThey are used inside the WHERE clause of SELECT, UPDATE, DELETE, and other statements."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How do they work?\n- AND returns true only if both conditions are true\n- OR returns true if at least one condition is true\n- NOT reverses the condition result (true becomes false)"
+    },
+    {
+      "type": "table",
+      "columns": ["Operator", "Description"],
+      "rows": [
+        ["AND", "Returns rows that match all conditions"],
+        ["OR", "Returns rows that match at least one condition"],
+        ["NOT", "Excludes rows matching the condition"]
+      ]
+    },
+    {
+      "type": "code",
+      "text": "SELECT * FROM table WHERE condition1 AND/OR/NOT condition2;"
+    },
+    {
+      "type": "note",
+      "text": "Use parentheses to group complex logic: (condition1 AND condition2) OR condition3"
+    }
+  ],
+  "examples": [
+    {
+      "query": "SELECT name FROM students WHERE age > 18 AND grade = 'A';",
+      "description": "AND operator",
+      "explanation": "Returns students older than 18 AND with grade A."
+    },
+    {
+      "query": "SELECT * FROM students WHERE grade = 'A' OR grade = 'B';",
+      "description": "OR operator",
+      "explanation": "Returns students who have either grade A or grade B."
+    },
+    {
+      "query": "SELECT * FROM students WHERE NOT grade = 'C';",
+      "description": "NOT operator",
+      "explanation": "Returns students who do NOT have grade C."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "students",
+        "columns": [
+          { "name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY" },
+          { "name": "name", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "age", "type": "INTEGER" },
+          { "name": "grade", "type": "TEXT" }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "students": [
+      { "id": 1, "name": "Alice", "age": 20, "grade": "A" },
+      { "id": 2, "name": "Bob", "age": 21, "grade": "B" },
+      { "id": 3, "name": "Charlie", "age": 17, "grade": "A" },
+      { "id": 4, "name": "Diana", "age": 22, "grade": "C" },
+      { "id": 5, "name": "Eva", "age": 19, "grade": "B" }
+    ]
+  },
+  "practice": [
+    {
+      "id": "and-or-not_practice1",
+      "challenge": "Get students who are older than 18 and have grade B.",
+      "solution": "SELECT * FROM students WHERE age > 18 AND grade = 'B';",
+      "hint": "Use AND to combine age and grade conditions."
+    },
+    {
+      "id": "and-or-not_practice2",
+      "challenge": "Get students who have grade A or grade C.",
+      "solution": "SELECT * FROM students WHERE grade = 'A' OR grade = 'C';",
+      "hint": "Use OR to allow either of the conditions."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "and-or-not_q1",
+      "type": "mcq",
+      "question": "What operator is used to exclude a condition?",
+      "options": ["AND", "OR", "NOT", "XOR"],
+      "answer": "NOT"
+    },
+    {
+      "id": "and-or-not_q2",
+      "type": "truefalse",
+      "question": "The AND operator returns true only if both conditions are true.",
+      "answer": true
+    },
+    {
+      "id": "and-or-not_q3",
+      "type": "fill",
+      "question": "To select students with grade A or B, we use grade = 'A' ___ grade = 'B'.",
+      "answer": "OR"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "and-or-not_ch1",
+      "title": "Multi-Condition Filtering",
+      "steps": [
+        {
+          "stepId": "and-or-not_and-or-not_ch1_step1",
+          "description": "Step 1: Select students older than 18 and with grade B.",
+          "solution": "SELECT * FROM students WHERE age > 18 AND grade = 'B';"
+        },
+        {
+          "stepId": "and-or-not_and-or-not_ch1_step2",
+          "description": "Step 2: Select students not having grade C.",
+          "solution": "SELECT * FROM students WHERE NOT grade = 'C';"
+        }
+      ]
+    }
+  ]
+}

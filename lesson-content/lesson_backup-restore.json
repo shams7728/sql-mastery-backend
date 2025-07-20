@@ -1,0 +1,114 @@
+{
+    "id": "backup-restore",
+    "title": "Backup and Restore",
+    "category": "Security & Admin",
+    "difficulty": "Advanced",
+    "estimatedTime": "25 min",
+    "starterQuery": "/* This is a conceptual lesson on database backup and recovery strategies. */\n-- The examples below show conceptual commands.",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a Database Backup?\nA database backup is a copy of data that is stored separately from the original. Its primary purpose is to allow you to restore the database to a previous state in case of data loss, corruption, hardware failure, or other disasters."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What are the main types of backups?\nThere are two main categories: **Physical backups** copy the actual data files, making for a very fast restore. **Logical backups** export the data into a file (like a `.sql` script containing `CREATE TABLE` and `INSERT` statements), which is more flexible but slower to restore."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What are Full, Differential, and Incremental Backups?\n- **Full Backup:** A complete copy of the entire database. \n- **Differential Backup:** Copies only the data that has changed since the last *full* backup. \n- **Incremental Backup:** Copies only the data that has changed since the last backup of *any* type (full or incremental)."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is a Recovery Plan?\nA recovery plan is a documented strategy that outlines how to restore a database after a failure. It includes details like the location of backups, the order of restoration (e.g., restore the last full backup, then all subsequent differential backups), and who is responsible. A backup is useless without a tested recovery plan."
+        },
+        {
+            "type": "code",
+            "text": "-- Example: A logical backup using a command-line tool (PostgreSQL)\n-- pg_dump -U username -d mydatabase > mydatabase_backup.sql\n\n-- Example: Restoring from that backup\n-- psql -U username -d mydatabase < mydatabase_backup.sql"
+        },
+        {
+            "type": "note",
+            "text": "For SQLite, a backup can be as simple as making a copy of the `.db` file itself. More advanced databases have dedicated tools for managing complex backup strategies."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "backup_q1",
+            "type": "mcq",
+            "question": "Which type of backup copies the physical data files of the database?",
+            "options": [
+                "Logical Backup",
+                "Incremental Backup",
+                "Physical Backup",
+                "Differential Backup"
+            ],
+            "answer": "Physical Backup"
+        },
+        {
+            "id": "backup_q2",
+            "type": "mcq",
+            "question": "Which type of backup only copies data that has changed since the last FULL backup?",
+            "options": [
+                "Logical",
+                "Full",
+                "Incremental",
+                "Differential"
+            ],
+            "answer": "Differential"
+        },
+        {
+            "id": "backup_q3",
+            "type": "mcq",
+            "question": "What is the primary purpose of a database backup?",
+            "options": [
+                "To improve query speed",
+                "To free up disk space",
+                "To enable disaster recovery",
+                "To enforce security"
+            ],
+            "answer": "To enable disaster recovery"
+        },
+        {
+            "id": "backup_q4",
+            "type": "truefalse",
+            "question": "A logical backup is generally faster to restore than a physical backup.",
+            "answer": false
+        },
+        {
+            "id": "backup_q5",
+            "type": "mcq",
+            "question": "A backup strategy is incomplete without a tested...",
+            "options": [
+                "Encryption key",
+                "Recovery plan",
+                "Cloud storage account",
+                "SQL script"
+            ],
+            "answer": "Recovery plan"
+        },
+        {
+            "id": "backup_q6",
+            "type": "truefalse",
+            "question": "For a simple SQLite database, making a direct copy of the .db file can serve as a valid backup.",
+            "answer": true
+        },
+        {
+            "id": "backup_q7",
+            "type": "mcq",
+            "question": "Exporting your database as a single `.sql` file containing all `INSERT` statements is an example of what?",
+            "options": [
+                "A physical backup",
+                "A differential backup",
+                "A logical backup",
+                "A clustered index"
+            ],
+            "answer": "A logical backup"
+        }
+    ]
+}

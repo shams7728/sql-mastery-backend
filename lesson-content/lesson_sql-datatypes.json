@@ -1,0 +1,134 @@
+{
+  "id": "sql-datatypes",
+  "title": "SQL Data Types",
+  "category": "Getting Started",
+  "difficulty": "Beginner",
+  "estimatedTime": "12 min",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What are SQL Data Types?\nSQL Data Types define the kind of values that can be stored in a column. Each column in a table is assigned a specific data type which determines the nature of the data it can hold."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why are Data Types Important?\nData types ensure data integrity, optimize storage, and improve performance. Choosing the right type prevents invalid data and improves query efficiency."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where are Data Types Used?\nData types are defined when creating a table and affect how values are stored and validated. For example: `CREATE TABLE users (id INTEGER, name TEXT);`"
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How Do You Choose the Right Data Type?\nBase it on the nature of the data: use INTEGER for whole numbers, TEXT for names or messages, DATETIME for timestamps, etc."
+    },
+    {
+      "type": "table",
+      "columns": ["Data Type", "Description"],
+      "rows": [
+        ["INTEGER", "Stores whole numbers (e.g., 1, 42, 999)"],
+        ["REAL", "Stores floating-point numbers (e.g., 3.14, 2.718)"],
+        ["TEXT", "Stores string values (e.g., 'Alice', 'hello')"],
+        ["BLOB", "Stores binary data such as images or files"],
+        ["BOOLEAN", "Stores true/false as 0/1 (SQLite only supports INTEGER 0/1)"],
+        ["DATE", "Stores date values (e.g., '2023-07-15')"],
+        ["DATETIME", "Stores date and time values (e.g., '2023-07-15 14:30:00')"]
+      ]
+    },
+    {
+      "type": "note",
+      "text": "SQLite is flexible with data types. You can insert a string into an INTEGER column, but it's not recommended for data consistency."
+    },
+    {
+      "type": "code",
+      "text": "CREATE TABLE users (\n  id INTEGER PRIMARY KEY,\n  username TEXT NOT NULL,\n  email TEXT NOT NULL,\n  age INTEGER,\n  created_at DATETIME,\n  is_active BOOLEAN\n);"
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "users",
+        "columns": [
+          { "name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY" },
+          { "name": "username", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "email", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "age", "type": "INTEGER" },
+          { "name": "created_at", "type": "DATETIME" },
+          { "name": "is_active", "type": "BOOLEAN" }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "users": [
+      { "id": 1, "username": "alice", "email": "alice@example.com", "age": 25, "created_at": "2023-01-01 10:00:00", "is_active": 1 },
+      { "id": 2, "username": "bob", "email": "bob@example.com", "age": 30, "created_at": "2023-02-10 14:30:00", "is_active": 0 },
+      { "id": 3, "username": "charlie", "email": "charlie@example.com", "age": 22, "created_at": "2023-03-15 09:15:00", "is_active": 1 }
+    ]
+  },
+  "starterQuery": "SELECT * FROM users;",
+  "examples": [
+    {
+      "query": "SELECT username, age FROM users;",
+      "description": "Access text and integer columns",
+      "explanation": "Retrieves usernames and ages from the users table."
+    },
+    {
+      "query": "SELECT * FROM users WHERE is_active = 1;",
+      "description": "Filter by boolean column",
+      "explanation": "Shows only active users (is_active = 1)."
+    }
+  ],
+  "practice": [
+    {
+      "id": "sql-datatypes_practice1",
+      "challenge": "Get all usernames and their creation date.",
+      "solution": "SELECT username, created_at FROM users;",
+      "hint": "Select two specific columns."
+    },
+    {
+      "id": "sql-datatypes_practice2",
+      "challenge": "Get all users whose age is greater than 25.",
+      "solution": "SELECT * FROM users WHERE age > 25;",
+      "hint": "Use a WHERE clause with the age column."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "sql-datatypes_q1",
+      "type": "mcq",
+      "question": "Which SQL data type is used to store text values?",
+      "options": ["VARCHAR", "TEXT", "STRING", "CHAR"],
+      "answer": "TEXT"
+    },
+    {
+      "id": "sql-datatypes_q2",
+      "type": "truefalse",
+      "question": "A column with BOOLEAN type can only hold 0 or 1 in SQLite.",
+      "answer": true
+    },
+    {
+      "id": "sql-datatypes_q3",
+      "type": "fill",
+      "question": "The ______ data type is used to store floating-point numbers.",
+      "answer": "REAL"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "sql-datatypes_ch1",
+      "title": "User Age Analysis",
+      "steps": [
+        {
+          "stepId": "sql-datatypes_ch1_step1",
+          "description": "Step 1: Show usernames of users younger than 30.",
+          "solution": "SELECT username FROM users WHERE age < 30;"
+        },
+        {
+          "stepId": "sql-datatypes_ch1_step2",
+          "description": "Step 2: Count how many users are active.",
+          "solution": "SELECT COUNT(*) FROM users WHERE is_active = 1;"
+        }
+      ]
+    }
+  ]
+}

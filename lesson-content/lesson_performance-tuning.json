@@ -1,0 +1,118 @@
+{
+    "id": "performance-tuning",
+    "title": "Performance Tuning Concepts",
+    "category": "Advanced Querying",
+    "difficulty": "Advanced",
+    "estimatedTime": "30 min",
+    "starterQuery": "/* This is a conceptual lesson on query performance.\n   There are no queries to run in this editor. */",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is Performance Tuning?\nPerformance tuning is the process of optimizing SQL queries to make them run faster and more efficiently. On large datasets, a poorly written query can take minutes or even hours, while a well-tuned query can return the same result in seconds."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What is an Execution Plan?\nAn execution plan (or query plan) is the sequence of steps that the database's query optimizer generates to access data. By analyzing the execution plan (often using a command like `EXPLAIN`), you can identify bottlenecks, such as full table scans, and understand how your query is actually being run."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What is the most important tool for performance?\nIndexes. Properly created indexes are the single most effective tool for improving query speed. An index allows the database to find the data it needs directly, avoiding a costly 'full table scan' where it has to read every single row."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What does 'SARGable' mean?\nA query is 'SARGable' (Search-Argument-Able) if the database can use an index to speed it up. A common mistake is to use a function on an indexed column in the `WHERE` clause (e.g., `WHERE YEAR(order_date) = 2025`). This often prevents the database from using the index. The SARGable alternative would be `WHERE order_date >= '2025-01-01' AND order_date < '2026-01-01'`."
+        },
+        {
+            "type": "paragraph",
+            "text": "5. Why should I avoid `SELECT *`?\nSelecting all columns with `*` can hurt performance, especially on tables with many columns or large data types (like TEXT or BLOB). It increases network traffic and memory usage. You should always specify only the columns you actually need."
+        },
+        {
+            "type": "paragraph",
+            "text": "6. How do JOINs affect performance?\nPoorly written JOINs are a major source of performance problems. Ensure that the columns used in your `ON` clauses are indexed (especially foreign keys). The order of joins can also matter, though modern query optimizers are very good at figuring out the most efficient join order."
+        },
+        {
+            "type": "note",
+            "text": "Performance tuning is both a science and an art. It involves understanding the theory, analyzing execution plans, and testing different query structures to see what works best for your specific data and workload."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "perf_q1",
+            "type": "mcq",
+            "question": "What is the primary purpose of an execution plan?",
+            "options": [
+                "To run the query",
+                "To show how the database will execute the query",
+                "To back up the data",
+                "To create a table"
+            ],
+            "answer": "To show how the database will execute the query"
+        },
+        {
+            "id": "perf_q2",
+            "type": "mcq",
+            "question": "Which of these `WHERE` clauses is most likely 'SARGable' and able to use an index on `order_date`?",
+            "options": [
+                "WHERE SUBSTR(order_date, 1, 4) = '2025'",
+                "WHERE order_date > '2024-12-31'",
+                "WHERE order_date + 1 = '2025-01-01'",
+                "WHERE a_function(order_date) = 123"
+            ],
+            "answer": "WHERE order_date > '2024-12-31'"
+        },
+        {
+            "id": "perf_q3",
+            "type": "mcq",
+            "question": "What is the most common negative effect of adding too many indexes to a table?",
+            "options": [
+                "It slows down `SELECT` statements",
+                "It increases database storage size",
+                "It slows down data modification (INSERT, UPDATE, DELETE)",
+                "It makes the database crash"
+            ],
+            "answer": "It slows down data modification (INSERT, UPDATE, DELETE)"
+        },
+        {
+            "id": "perf_q4",
+            "type": "truefalse",
+            "question": "Using `SELECT *` is a recommended best practice for production queries.",
+            "answer": false
+        },
+        {
+            "id": "perf_q5",
+            "type": "mcq",
+            "question": "A 'full table scan' is generally considered...",
+            "options": [
+                "The fastest way to get data",
+                "A sign of a well-optimized query",
+                "An efficient operation on large tables",
+                "An inefficient operation to be avoided if possible"
+            ],
+            "answer": "An inefficient operation to be avoided if possible"
+        },
+        {
+            "id": "perf_q6",
+            "type": "truefalse",
+            "question": "You should always create an index on every column in your table to make it fast.",
+            "answer": false
+        },
+        {
+            "id": "perf_q7",
+            "type": "mcq",
+            "question": "What is the primary tool for improving query performance?",
+            "options": [
+                "Using `SELECT *`",
+                "Creating appropriate indexes",
+                "Avoiding JOINs",
+                "Using temporary tables"
+            ],
+            "answer": "Creating appropriate indexes"
+        }
+    ]
+}

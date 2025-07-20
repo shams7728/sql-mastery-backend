@@ -1,0 +1,121 @@
+{
+    "id": "upsert-merge",
+    "title": "UPSERT / MERGE",
+    "category": "Data Modification",
+    "difficulty": "Advanced",
+    "estimatedTime": "20 min",
+    "starterQuery": "/* Let's update the inventory for product_id 101, or insert it if it's new. */\n\nINSERT INTO product_inventory (product_id, stock_count)\nVALUES (101, 75)\nON CONFLICT(product_id) DO UPDATE SET\n  stock_count = excluded.stock_count;",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is an UPSERT?\nAn 'UPSERT' (a portmanteau of UPDATE and INSERT) is a database operation that inserts rows into a table if they do not already exist, or updates them if they do. This is also commonly known as a `MERGE` operation in some database systems."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why is it useful?\nUpserting is incredibly efficient for synchronizing data. Instead of writing complex application logic to first `SELECT` a row to see if it exists, and then deciding whether to `INSERT` or `UPDATE`, you can do it all in a single, atomic database command."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What is the syntax in SQLite?\nSQLite implements this using the `ON CONFLICT` clause with an `INSERT` statement. The syntax is `INSERT INTO table (...) VALUES (...) ON CONFLICT(target_column) DO UPDATE SET ...;`."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. How does `ON CONFLICT` work?\nYou specify a column (or columns) that has a `UNIQUE` or `PRIMARY KEY` constraint. If the `INSERT` statement would violate this constraint (meaning the row already exists), the `DO UPDATE` part of the command is executed instead. You can reference the values from the attempted `INSERT` using the special `excluded` table."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "product_inventory",
+                "columns": [
+                    {
+                        "name": "product_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "product_name",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "stock_count",
+                        "type": "INTEGER",
+                        "constraints": "NOT NULL"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "product_inventory": [
+            {
+                "product_id": 101,
+                "product_name": "Laptop",
+                "stock_count": 50
+            },
+            {
+                "product_id": 102,
+                "product_name": "Mouse",
+                "stock_count": 200
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "upsert_practice1",
+            "challenge": "A new shipment of 'Laptops' (product_id 101) has arrived. Upsert the inventory to set the `stock_count` for product_id 101 to 65.",
+            "solution": "INSERT INTO product_inventory (product_id, stock_count) VALUES (101, 65) ON CONFLICT(product_id) DO UPDATE SET stock_count = 65;",
+            "hint": "Use `INSERT ... ON CONFLICT(product_id) DO UPDATE SET ...`."
+        },
+        {
+            "id": "upsert_practice2",
+            "challenge": "A new product, a 'Webcam' (product_id 103), is being added to inventory with a stock count of 150. Write a single upsert statement to add it. This statement should also work if the webcam already exists.",
+            "solution": "INSERT INTO product_inventory (product_id, product_name, stock_count) VALUES (103, 'Webcam', 150) ON CONFLICT(product_id) DO UPDATE SET product_name = excluded.product_name, stock_count = excluded.stock_count;",
+            "hint": "Your `INSERT` statement should include all columns. The `ON CONFLICT` clause can then use the `excluded` table to get the new values."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "upsert_q1",
+            "type": "mcq",
+            "question": "An `ON CONFLICT` clause in SQLite requires the target column to have which constraint?",
+            "options": [
+                "NOT NULL",
+                "CHECK",
+                "UNIQUE or PRIMARY KEY",
+                "FOREIGN KEY"
+            ],
+            "answer": "UNIQUE or PRIMARY KEY"
+        },
+        {
+            "id": "upsert_q2",
+            "type": "truefalse",
+            "question": "An 'UPSERT' operation is used to select data from two tables simultaneously.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "upsert_ch1",
+            "title": "Update User Scores",
+            "steps": [
+                {
+                    "stepId": "upsert_ch1_step1",
+                    "description": "Imagine a `user_scores` table with `user_id` (PRIMARY KEY) and `score`. A user with `user_id` 5 just got a new score of 1500. Write an upsert statement to either insert their new record or update their existing one.",
+                    "solution": "INSERT INTO user_scores (user_id, score) VALUES (5, 1500) ON CONFLICT(user_id) DO UPDATE SET score = excluded.score;"
+                }
+            ]
+        },
+        {
+            "id": "upsert_ch2",
+            "title": "Increment a Value on Conflict",
+            "steps": [
+                {
+                    "stepId": "upsert_ch2_step1",
+                    "description": "The `product_inventory` table needs to be updated. For `product_id` 102, you want to add 50 to the current stock. Write an upsert statement that increments the `stock_count` if the product exists.",
+                    "solution": "INSERT INTO product_inventory (product_id, stock_count) VALUES (102, 50) ON CONFLICT(product_id) DO UPDATE SET stock_count = stock_count + excluded.stock_count;"
+                }
+            ]
+        }
+    ]
+}

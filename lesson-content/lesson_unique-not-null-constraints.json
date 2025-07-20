@@ -1,0 +1,92 @@
+{
+    "id": "unique-not-null-constraints",
+    "title": "UNIQUE and NOT NULL",
+    "category": "Data Definition",
+    "difficulty": "Beginner",
+    "estimatedTime": "18 min",
+    "starterQuery": "/* Let's create a table with some data integrity rules! */\n\nCREATE TABLE app_users (\n    user_id INTEGER PRIMARY KEY,\n    username TEXT UNIQUE NOT NULL,\n    email TEXT UNIQUE,\n    full_name TEXT NOT NULL\n);",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is the NOT NULL Constraint?\nThe `NOT NULL` constraint ensures that a column cannot have a NULL (empty) value. This forces a field to always contain a value, which is critical for important information like names, IDs, or status fields."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What is the UNIQUE Constraint?\nThe `UNIQUE` constraint ensures that all values in a column are different from one another. This prevents duplicate entries in that specific column. A `PRIMARY KEY` constraint automatically has a `UNIQUE` constraint by default."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. Can they be used together?\nYes. Using `UNIQUE` and `NOT NULL` together on a column ensures that every row has a value in that column, and each of those values is unique across the entire table. This is common for usernames or email addresses."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. How are they defined?\nYou simply add the keywords `UNIQUE` and/or `NOT NULL` after the data type in a column's definition within a `CREATE TABLE` statement."
+        },
+        {
+            "type": "code",
+            "text": "-- Example: Creating a products table\nCREATE TABLE products (\n    product_id INTEGER PRIMARY KEY,\n    sku TEXT UNIQUE NOT NULL, -- Stock Keeping Unit must be unique and not empty\n    name TEXT NOT NULL -- Every product must have a name\n);"
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [
+        {
+            "id": "unn_practice1",
+            "challenge": "Create a table named `categories`. It should have a `category_id` (INTEGER PRIMARY KEY) and a `category_name` (TEXT) which must be unique and cannot be null.",
+            "solution": "CREATE TABLE categories (category_id INTEGER PRIMARY KEY, category_name TEXT UNIQUE NOT NULL);",
+            "hint": "Add both the `UNIQUE` and `NOT NULL` keywords after the `TEXT` data type for the `category_name` column."
+        },
+        {
+            "id": "unn_practice2",
+            "challenge": "Create a table named `settings`. It should have a `setting_key` (TEXT) which must be unique, and a `setting_value` (TEXT) which cannot be null.",
+            "solution": "CREATE TABLE settings (setting_key TEXT UNIQUE, setting_value TEXT NOT NULL);",
+            "hint": "Apply the `UNIQUE` constraint to `setting_key` and the `NOT NULL` constraint to `setting_value`."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "unn_q1",
+            "type": "mcq",
+            "question": "If a column has a `UNIQUE` constraint, can it contain NULL values?",
+            "options": [
+                "Yes, it can contain multiple NULLs",
+                "No, it can never be NULL",
+                "Only one NULL is allowed",
+                "It depends on the database system"
+            ],
+            "answer": "Yes, it can contain multiple NULLs"
+        },
+        {
+            "id": "unn_q2",
+            "type": "truefalse",
+            "question": "A `PRIMARY KEY` constraint automatically includes both `UNIQUE` and `NOT NULL` constraints.",
+            "answer": true
+        }
+    ],
+    "challenges": [
+        {
+            "id": "unn_ch1",
+            "title": "Define a Secure User Table",
+            "steps": [
+                {
+                    "stepId": "unn_ch1_step1",
+                    "description": "Create a table named `login_credentials`. It should have `user_id` (INTEGER PRIMARY KEY), `username` (TEXT) that must be unique and not null, and `password_hash` (TEXT) that cannot be null.",
+                    "solution": "CREATE TABLE login_credentials (user_id INTEGER PRIMARY KEY, username TEXT UNIQUE NOT NULL, password_hash TEXT NOT NULL);"
+                }
+            ]
+        },
+        {
+            "id": "unn_ch2",
+            "title": "Define a Tags Table",
+            "steps": [
+                {
+                    "stepId": "unn_ch2_step1",
+                    "description": "Create a table named `tags` for a blog. It needs a `tag_id` (INTEGER PRIMARY KEY) and a `tag_name` (TEXT). Each tag name must be unique.",
+                    "solution": "CREATE TABLE tags (tag_id INTEGER PRIMARY KEY, tag_name TEXT UNIQUE);"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,138 @@
+{
+    "id": "cross-join",
+    "title": "CROSS JOIN",
+    "category": "Joins",
+    "difficulty": "Intermediate",
+    "estimatedTime": "15 min",
+    "starterQuery": "SELECT s.size, c.color\nFROM sizes s\nCROSS JOIN colors c;",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a CROSS JOIN?\nA CROSS JOIN returns the Cartesian product of rows from the tables in the join. In other words, it combines each row from the first table with each row from the second table. It does not have an `ON` clause."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why use a CROSS JOIN?\nIt's used in specific scenarios where you need to generate all possible combinations of items between two sets of data. For example, creating a master list of all possible T-shirt variations by combining every available size with every available color."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How does it work?\nIf the first table has 'N' rows and the second table has 'M' rows, the CROSS JOIN will produce a result set with N * M rows. It simply pairs every row from the first table with every row from the second."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is the syntax?\nThe explicit syntax is `SELECT ... FROM table1 CROSS JOIN table2;`. An older, implicit syntax is `SELECT ... FROM table1, table2;`, but using the `CROSS JOIN` keyword is clearer and recommended."
+        },
+        {
+            "type": "image",
+            "src": "/assests/cross-join.jpg",
+            "alt": "CROSS JOIN Illustration"
+        },
+        {
+            "type": "note",
+            "text": "Warning: Be very careful with CROSS JOINs on large tables. If you join a table with 1,000 rows to another with 1,000 rows, the result will be 1,000,000 rows, which can crash your database or application."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "sizes",
+                "columns": [
+                    {
+                        "name": "size",
+                        "type": "TEXT",
+                        "constraints": "PRIMARY KEY"
+                    }
+                ]
+            },
+            {
+                "name": "colors",
+                "columns": [
+                    {
+                        "name": "color",
+                        "type": "TEXT",
+                        "constraints": "PRIMARY KEY"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "sizes": [
+            {
+                "size": "Small"
+            },
+            {
+                "size": "Medium"
+            },
+            {
+                "size": "Large"
+            }
+        ],
+        "colors": [
+            {
+                "color": "Red"
+            },
+            {
+                "color": "Blue"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "crossjoin_practice1",
+            "challenge": "Generate a master list of all possible T-shirt variations by combining every size with every color. Select the size and the color.",
+            "solution": "SELECT s.size, c.color FROM sizes s CROSS JOIN colors c;",
+            "hint": "Use the `CROSS JOIN` keyword between the `sizes` and `colors` tables. No `ON` clause is needed."
+        },
+        {
+            "id": "crossjoin_practice2",
+            "challenge": "Count the total number of combinations that a CROSS JOIN between `sizes` and `colors` would produce.",
+            "solution": "SELECT COUNT(*) FROM sizes CROSS JOIN colors;",
+            "hint": "You can use `COUNT(*)` on a `CROSS JOIN` just like any other query to get the total number of rows."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "crossjoin_q1",
+            "type": "mcq",
+            "question": "If table A has 10 rows and table B has 5 rows, how many rows will `A CROSS JOIN B` return?",
+            "options": [
+                "10",
+                "5",
+                "15",
+                "50"
+            ],
+            "answer": "50"
+        },
+        {
+            "id": "crossjoin_q2",
+            "type": "truefalse",
+            "question": "A CROSS JOIN requires an `ON` clause to specify how the tables are related.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "crossjoin_ch1",
+            "title": "Generate a Deck of Cards",
+            "steps": [
+                {
+                    "stepId": "crossjoin_ch1_step1",
+                    "description": "Imagine you have a `suits` table ('Hearts', 'Diamonds') and a `ranks` table ('King', 'Queen'). Write a query to generate all combinations of ranks and suits.",
+                    "solution": "SELECT r.rank, s.suit FROM ranks r CROSS JOIN suits s;"
+                }
+            ]
+        },
+        {
+            "id": "crossjoin_ch2",
+            "title": "Create a Price Matrix",
+            "steps": [
+                {
+                    "stepId": "crossjoin_ch2_step1",
+                    "description": "Imagine a `products` table and a `regions` table. Write a query to create every possible combination of product and region, which could be used as a starting point for a pricing matrix.",
+                    "solution": "SELECT p.product_name, r.region_name FROM products p CROSS JOIN regions r;"
+                }
+            ]
+        }
+    ]
+}

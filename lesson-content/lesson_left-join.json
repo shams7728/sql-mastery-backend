@@ -1,0 +1,165 @@
+{
+  "id": "left-join",
+  "title": "LEFT JOIN",
+  "category": "Joins",
+  "difficulty": "Intermediate",
+  "estimatedTime": "12 min",
+  "starterQuery": "SELECT employees.name, departments.name FROM employees LEFT JOIN departments ON employees.department_id = departments.id;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is a LEFT JOIN?\nA LEFT JOIN returns all rows from the left table and the matched rows from the right table. If no match is found, NULLs are returned for columns from the right table."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use LEFT JOIN?\nIt is useful for finding all items from a primary table (left) and any available related data from the secondary table (right), even if there is no match."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is LEFT JOIN used?\nLEFT JOIN is used in data analysis and reporting where you want to keep all records from the main table and optionally match extra information from another."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How is LEFT JOIN written?\nUse the LEFT JOIN keyword followed by the ON clause to specify matching columns between the two tables."
+    },
+    {
+      "type": "image",
+      "src": "/assests/left-join.jpeg",
+      "alt": "LEFT JOIN Illustration"
+    },
+    {
+      "type": "code",
+      "text": "SELECT employees.name, departments.name FROM employees LEFT JOIN departments ON employees.department_id = departments.id;"
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "employees",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "department_id",
+            "type": "INTEGER"
+          }
+        ]
+      },
+      {
+        "name": "departments",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "employees": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "department_id": 1
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "department_id": 2
+      },
+      {
+        "id": 3,
+        "name": "Charlie",
+        "department_id": 3
+      },
+      {
+        "id": 4,
+        "name": "Diana",
+        "department_id": null
+      }
+    ],
+    "departments": [
+      {
+        "id": 1,
+        "name": "Engineering"
+      },
+      {
+        "id": 2,
+        "name": "Marketing"
+      },
+      {
+        "id": 4,
+        "name": "Sales"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "query": "SELECT e.name, d.name FROM employees e LEFT JOIN departments d ON e.department_id = d.id;",
+      "description": "LEFT JOIN example",
+      "explanation": "Returns all employees and their departments. If a department doesn\u2019t exist, NULL is shown."
+    }
+  ],
+  "practice": [
+    {
+      "id": "left-join_practice1",
+      "challenge": "List all employees and their department names, if available.",
+      "solution": "SELECT e.name, d.name FROM employees e LEFT JOIN departments d ON e.department_id = d.id;",
+      "hint": "Use LEFT JOIN to keep all employee records."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "left-join_q1",
+      "type": "mcq",
+      "question": "Which JOIN includes all rows from the left table and matched rows from the right?",
+      "options": [
+        "INNER JOIN",
+        "RIGHT JOIN",
+        "LEFT JOIN",
+        "FULL JOIN"
+      ],
+      "answer": "LEFT JOIN"
+    },
+    {
+      "id": "left-join_q2",
+      "type": "truefalse",
+      "question": "LEFT JOIN excludes unmatched left rows.",
+      "answer": false
+    },
+    {
+      "id": "left-join_q3",
+      "type": "fill",
+      "question": "The JOIN type that retains all rows from the left table is called ______ JOIN.",
+      "answer": "LEFT"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "left-join_ch1",
+      "title": "Employee Listing with Optional Departments",
+      "steps": [
+        {
+          "stepId": "left-join_ch1_step1",
+          "description": "Step 1: Perform a LEFT JOIN between employees and departments.",
+          "solution": "SELECT * FROM employees LEFT JOIN departments ON employees.department_id = departments.id;"
+        }
+      ]
+    }
+  ]
+}

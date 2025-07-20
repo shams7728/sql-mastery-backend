@@ -1,0 +1,131 @@
+{
+  "id": "where",
+  "title": "WHERE Clause",
+  "category": "Data Retrieval",
+  "difficulty": "Beginner",
+  "estimatedTime": "10 min",
+  "starterQuery": "SELECT * FROM students WHERE grade = 'A';",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is the WHERE clause?\nThe WHERE clause in SQL is used to filter records from a table based on specific conditions. It allows you to return only those rows that meet the defined criteria."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use the WHERE clause?\nYou use WHERE when you want to retrieve only the records that match certain conditions, such as students older than 20 or employees from a particular department."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is WHERE used?\nThe WHERE clause comes after the FROM clause in a SELECT statement. It is also used with UPDATE, DELETE, and other statements."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How does it work?\nSQL evaluates the condition(s) provided after WHERE. If the condition returns true for a row, that row is included in the result set."
+    },
+    {
+      "type": "table",
+      "columns": ["Clause", "Purpose"],
+      "rows": [
+        ["WHERE column = value", "Match exact value"],
+        ["WHERE column > value", "Match values greater than"],
+        ["WHERE column < value", "Match values less than"],
+        ["WHERE column <> value", "Match values not equal to"]
+      ]
+    },
+    {
+      "type": "code",
+      "text": "SELECT column1, column2 FROM table_name WHERE condition;"
+    },
+    {
+      "type": "note",
+      "text": "You can combine multiple conditions using AND, OR, and NOT."
+    }
+  ],
+  "examples": [
+    {
+      "query": "SELECT name FROM students WHERE grade = 'A';",
+      "description": "Select students with grade A",
+      "explanation": "Returns names of students who got grade A."
+    },
+    {
+      "query": "SELECT * FROM students WHERE age > 20;",
+      "description": "Select students older than 20",
+      "explanation": "Returns full data of students whose age is above 20."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "students",
+        "columns": [
+          { "name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY" },
+          { "name": "name", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "age", "type": "INTEGER" },
+          { "name": "grade", "type": "TEXT" }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "students": [
+      { "id": 1, "name": "Alice", "age": 20, "grade": "A" },
+      { "id": 2, "name": "Bob", "age": 21, "grade": "B" },
+      { "id": 3, "name": "Charlie", "age": 19, "grade": "A" },
+      { "id": 4, "name": "Diana", "age": 22, "grade": "C" },
+      { "id": 5, "name": "Eva", "age": 20, "grade": "B" }
+    ]
+  },
+  "practice": [
+    {
+      "id": "where_practice1",
+      "challenge": "Get names of students who got grade B.",
+      "solution": "SELECT name FROM students WHERE grade = 'B';",
+      "hint": "Use WHERE clause with the grade column."
+    },
+    {
+      "id": "where_practice2",
+      "challenge": "Get all students older than 20.",
+      "solution": "SELECT * FROM students WHERE age > 20;",
+      "hint": "Use WHERE with a numeric comparison."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "where_q1",
+      "type": "mcq",
+      "question": "What clause is used to filter rows in SQL?",
+      "options": ["FILTER", "WHERE", "HAVING", "ORDER"],
+      "answer": "WHERE"
+    },
+    {
+      "id": "where_q2",
+      "type": "truefalse",
+      "question": "The WHERE clause must come before the FROM clause.",
+      "answer": false
+    },
+    {
+      "id": "where_q3",
+      "type": "fill",
+      "question": "To filter students aged over 18, we use WHERE age > ____. ",
+      "answer": "18"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "where_ch1",
+      "title": "Filter School Records",
+      "steps": [
+        {
+          "stepId": "where_where_ch1_step1",
+          "description": "Step 1: Select students with grade A.",
+          "solution": "SELECT * FROM students WHERE grade = 'A';"
+        },
+        {
+          "stepId": "where_where_ch1_step2",
+          "description": "Step 2: Select students younger than 21.",
+          "solution": "SELECT * FROM students WHERE age < 21;"
+        }
+      ]
+    }
+  ]
+}

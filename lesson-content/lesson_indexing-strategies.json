@@ -1,0 +1,144 @@
+{
+    "id": "indexing-strategies",
+    "title": "Indexing Strategies",
+    "category": "Database Design & Perf",
+    "difficulty": "Advanced",
+    "estimatedTime": "30 min",
+    "starterQuery": "/* This is a conceptual lesson on advanced indexing strategies. */",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is an Indexing Strategy?\nAn indexing strategy is the plan for how you create and manage indexes to maximize query performance. It's not just about creating indexes, but about creating the *right* indexes for your specific workload, balancing the speed of reads (`SELECT`) against the cost of writes (`INSERT`, `UPDATE`, `DELETE`)."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What is a Clustered vs. Non-Clustered Index?\nThis is a fundamental concept. A table can have only one **clustered index**, which determines the physical order of data in the table. A **non-clustered index** has a separate structure that points back to the data rows, like a book's index. You can have many non-clustered indexes."
+        },
+        {
+            "type": "table",
+            "columns": [
+                "Aspect",
+                "Clustered Index",
+                "Non-Clustered Index"
+            ],
+            "rows": [
+                [
+                    "Number per Table",
+                    "Only one",
+                    "Many"
+                ],
+                [
+                    "Physical Order",
+                    "Sorts the data physically on disk",
+                    "Does not affect physical data order"
+                ],
+                [
+                    "Structure",
+                    "The index IS the table data",
+                    "A separate structure with pointers to the data"
+                ],
+                [
+                    "Performance",
+                    "Very fast for range scans",
+                    "Fast for point lookups"
+                ]
+            ]
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What is a Composite Index?\nA composite (or multi-column) index is an index on two or more columns. The order of columns is critical. An index on `(last_name, first_name)` is very efficient for queries that filter by `last_name` and `first_name`, or just by `last_name`. However, it is not efficient for queries that only filter by `first_name`."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is a Covering Index?\nA covering index is a special type of composite index that includes all the columns requested in a query's `SELECT`, `JOIN`, and `WHERE` clauses. When a query can get all the data it needs directly from the index itself, it doesn't have to touch the main table data at all, making it extremely fast."
+        },
+        {
+            "type": "paragraph",
+            "text": "5. What is Index Selectivity?\nSelectivity refers to how many unique values a column has relative to the number of rows. A column with high selectivity (like a `user_id` or `email`) is an excellent candidate for an index. A column with low selectivity (like a `gender` column with only a few possible values) is a poor candidate for an index."
+        },
+        {
+            "type": "note",
+            "text": "General Strategy: Start by indexing your primary keys (which is automatic) and foreign keys. Then, analyze your most frequent and slowest queries and add indexes to the columns used in their `WHERE` and `JOIN` clauses."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "idxstrat_q1",
+            "type": "mcq",
+            "question": "How many clustered indexes can a single table have?",
+            "options": [
+                "0",
+                "1",
+                "As many as you want",
+                "1 per column"
+            ],
+            "answer": "1"
+        },
+        {
+            "id": "idxstrat_q2",
+            "type": "mcq",
+            "question": "An index on `(city, state)` would be most efficient for which type of query?",
+            "options": [
+                "WHERE state = 'CA'",
+                "WHERE city = 'LA'",
+                "WHERE city = 'LA' AND state = 'CA'",
+                "Both B and C"
+            ],
+            "answer": "Both B and C"
+        },
+        {
+            "id": "idxstrat_q3",
+            "type": "mcq",
+            "question": "A query that can be answered entirely using data from the index without accessing the table is using a...",
+            "options": [
+                "Clustered Index",
+                "Composite Index",
+                "Covering Index",
+                "Foreign Key"
+            ],
+            "answer": "Covering Index"
+        },
+        {
+            "id": "idxstrat_q4",
+            "type": "truefalse",
+            "question": "A column with only two possible values ('Active', 'Inactive') has high selectivity.",
+            "answer": false
+        },
+        {
+            "id": "idxstrat_q5",
+            "type": "mcq",
+            "question": "What is the main trade-off when adding a new index to a table?",
+            "options": [
+                "It makes the table read-only",
+                "It improves read performance but can slow down write performance",
+                "It improves write performance but can slow down read performance",
+                "It uses a lot of CPU but no disk space"
+            ],
+            "answer": "It improves read performance but can slow down write performance"
+        },
+        {
+            "id": "idxstrat_q6",
+            "type": "truefalse",
+            "question": "It is always a good practice to create an index on a foreign key column.",
+            "answer": true
+        },
+        {
+            "id": "idxstrat_q7",
+            "type": "mcq",
+            "question": "Which index type determines the physical storage order of the data in a table?",
+            "options": [
+                "Non-Clustered",
+                "Covering",
+                "Composite",
+                "Clustered"
+            ],
+            "answer": "Clustered"
+        }
+    ]
+}

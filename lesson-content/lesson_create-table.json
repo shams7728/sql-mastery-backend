@@ -1,0 +1,92 @@
+{
+    "id": "create-table",
+    "title": "CREATE TABLE",
+    "category": "Data Definition",
+    "difficulty": "Beginner",
+    "estimatedTime": "20 min",
+    "starterQuery": "/* Let's create our first table! */\n\nCREATE TABLE students (\n    student_id INTEGER PRIMARY KEY,\n    first_name TEXT,\n    last_name TEXT,\n    enrollment_date DATE\n);",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is CREATE TABLE?\nThe `CREATE TABLE` statement is used to create a new table in your database. This is where you define the structure of the table, including the names of the columns and the type of data each column will hold."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What is the basic syntax?\nThe basic syntax is `CREATE TABLE table_name (column1 datatype, column2 datatype, ...);`. You provide a name for the table, followed by a list of column definitions enclosed in parentheses."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What are Data Types?\nA data type specifies what kind of value a column can hold. Common types include `INTEGER` (for whole numbers), `TEXT` (for strings), `REAL` (for decimal numbers), `DATE`, and `BLOB` (for binary data)."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What are Constraints?\nConstraints are rules applied to columns to ensure data integrity. A common constraint is `PRIMARY KEY`, which uniquely identifies each record in a table. Another is `NOT NULL`, which ensures a column cannot have a NULL value."
+        },
+        {
+            "type": "code",
+            "text": "-- Example: Creating a table to store car information\nCREATE TABLE cars (\n    car_id INTEGER PRIMARY KEY,\n    make TEXT NOT NULL,\n    model TEXT NOT NULL,\n    year INTEGER\n);"
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [
+        {
+            "id": "createtable_practice1",
+            "challenge": "Create a table named `courses` with two columns: `course_id` (which should be an INTEGER and the PRIMARY KEY) and `course_name` (which should be TEXT).",
+            "solution": "CREATE TABLE courses (course_id INTEGER PRIMARY KEY, course_name TEXT);",
+            "hint": "Follow the `CREATE TABLE table_name (column1 datatype, ...)` structure."
+        },
+        {
+            "id": "createtable_practice2",
+            "challenge": "Create a table named `employees` with three columns: `employee_id` (INTEGER PRIMARY KEY), `full_name` (TEXT, and cannot be empty), and `hire_date` (DATE).",
+            "solution": "CREATE TABLE employees (employee_id INTEGER PRIMARY KEY, full_name TEXT NOT NULL, hire_date DATE);",
+            "hint": "Use the `NOT NULL` constraint to ensure the `full_name` column must have a value."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "createtable_q1",
+            "type": "mcq",
+            "question": "Which of the following is NOT a common SQL data type?",
+            "options": [
+                "INTEGER",
+                "TEXT",
+                "BOOLEAN",
+                "STRING"
+            ],
+            "answer": "STRING"
+        },
+        {
+            "id": "createtable_q2",
+            "type": "truefalse",
+            "question": "The `PRIMARY KEY` constraint ensures that every value in that column is unique and not null.",
+            "answer": true
+        }
+    ],
+    "challenges": [
+        {
+            "id": "createtable_ch1",
+            "title": "Create a 'Books' Table",
+            "steps": [
+                {
+                    "stepId": "createtable_ch1_step1",
+                    "description": "Start by writing the `CREATE TABLE books (...)` statement.",
+                    "solution": "CREATE TABLE books (book_id INTEGER PRIMARY KEY, title TEXT NOT NULL, author TEXT, published_year INTEGER);"
+                }
+            ]
+        },
+        {
+            "id": "createtable_ch2",
+            "title": "Create a 'Products' Table with Constraints",
+            "steps": [
+                {
+                    "stepId": "createtable_ch2_step1",
+                    "description": "Create a table named `products`.",
+                    "solution": "CREATE TABLE products (product_id INTEGER PRIMARY KEY, product_name TEXT NOT NULL, price REAL NOT NULL, stock_quantity INTEGER);"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,130 @@
+{
+  "id": "order-by",
+  "title": "ORDER BY Clause",
+  "category": "Data Retrieval",
+  "difficulty": "Beginner",
+  "estimatedTime": "8 min",
+  "starterQuery": "SELECT * FROM students ORDER BY age;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is ORDER BY?\nThe ORDER BY clause is used to sort the rows returned by a query based on one or more columns."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use ORDER BY?\nTo arrange the results in a meaningful order, such as sorting names alphabetically, or arranging students by age or grades."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is it used?\nORDER BY is added at the end of a SELECT query to sort the result set."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How does it work?\nUse ASC (ascending) or DESC (descending) keywords after the column name. ASC is the default if not specified."
+    },
+    {
+      "type": "table",
+      "columns": ["Clause", "Description"],
+      "rows": [
+        ["ORDER BY column ASC", "Sorts the result in ascending order (lowest to highest)"],
+        ["ORDER BY column DESC", "Sorts the result in descending order (highest to lowest)"],
+        ["ORDER BY col1, col2", "Sorts by col1 first, then col2"]
+      ]
+    },
+    {
+      "type": "code",
+      "text": "SELECT * FROM table_name ORDER BY column1 ASC, column2 DESC;"
+    },
+    {
+      "type": "note",
+      "text": "ORDER BY comes after the WHERE clause, if one is present."
+    }
+  ],
+  "examples": [
+    {
+      "query": "SELECT name, age FROM students ORDER BY age ASC;",
+      "description": "Sort by age ascending",
+      "explanation": "Returns students sorted by age from youngest to oldest."
+    },
+    {
+      "query": "SELECT name, grade FROM students ORDER BY grade DESC;",
+      "description": "Sort by grade descending",
+      "explanation": "Returns students sorted by grade from Z to A."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "students",
+        "columns": [
+          { "name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY" },
+          { "name": "name", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "age", "type": "INTEGER" },
+          { "name": "grade", "type": "TEXT" }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "students": [
+      { "id": 1, "name": "Alice", "age": 20, "grade": "A" },
+      { "id": 2, "name": "Bob", "age": 21, "grade": "B" },
+      { "id": 3, "name": "Charlie", "age": 19, "grade": "A" },
+      { "id": 4, "name": "Diana", "age": 22, "grade": "C" },
+      { "id": 5, "name": "Eva", "age": 18, "grade": "B" }
+    ]
+  },
+  "practice": [
+    {
+      "id": "order-by_practice1",
+      "challenge": "List all students sorted by name in ascending order.",
+      "solution": "SELECT * FROM students ORDER BY name ASC;",
+      "hint": "Use ORDER BY with the name column."
+    },
+    {
+      "id": "order-by_practice2",
+      "challenge": "Select names and ages of students sorted by age in descending order.",
+      "solution": "SELECT name, age FROM students ORDER BY age DESC;",
+      "hint": "Use ORDER BY age DESC"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "order-by_q1",
+      "type": "mcq",
+      "question": "Which keyword is used to sort results in descending order?",
+      "options": ["ASC", "DESC", "SORT", "ORDER"],
+      "answer": "DESC"
+    },
+    {
+      "id": "order-by_q2",
+      "type": "truefalse",
+      "question": "ORDER BY can only sort by one column.",
+      "answer": false
+    },
+    {
+      "id": "order-by_q3",
+      "type": "fill",
+      "question": "To sort students by name in ascending order, use ORDER BY ______ ASC.",
+      "answer": "name"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "order-by_ch1",
+      "title": "Sort Students Challenge",
+      "steps": [
+        {
+          "stepId": "order-by_order-by_ch1_step1",
+          "description": "Step 1: Select all students sorted by grade.",
+          "solution": "SELECT * FROM students ORDER BY grade;"
+        },
+        {
+          "stepId": "order-by_order-by_ch1_step2",
+          "description": "Step 2: Get students sorted by age descending.",
+          "solution": "SELECT * FROM students ORDER BY age DESC;"
+        }
+      ]
+    }
+  ]
+}

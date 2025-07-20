@@ -1,0 +1,141 @@
+{
+    "id": "sql-dialects-overview",
+    "title": "SQL Dialects Overview",
+    "category": "Security & Admin",
+    "difficulty": "Intermediate",
+    "estimatedTime": "20 min",
+    "starterQuery": "/* This is a conceptual lesson on the differences between SQL versions. */",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a SQL Dialect?\nWhile SQL is a standard language (defined by ANSI), almost every database management system (DBMS) implements its own version of the language. These different versions are known as 'dialects'. Common dialects include T-SQL (Microsoft SQL Server), PL/pgSQL (PostgreSQL), PL/SQL (Oracle), and the simpler SQL used by MySQL and SQLite."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why do dialects exist?\nDialects exist because database vendors add their own proprietary extensions and functions to the standard SQL to provide more features or to optimize performance on their specific system. This leads to differences in syntax, data types, and available functions."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What are some common differences?\nDifferences are common in areas like string concatenation, limiting results, handling NULLs, and advanced features like window functions or stored procedures. Understanding these differences is key to writing portable code or migrating from one database to another."
+        },
+        {
+            "type": "table",
+            "columns": [
+                "Feature",
+                "PostgreSQL / SQLite",
+                "SQL Server (T-SQL)",
+                "MySQL"
+            ],
+            "rows": [
+                [
+                    "String Concatenation",
+                    "|| operator",
+                    "+ operator",
+                    "CONCAT() function"
+                ],
+                [
+                    "Limit Results",
+                    "LIMIT n",
+                    "TOP n",
+                    "LIMIT n"
+                ],
+                [
+                    "Auto-incrementing Key",
+                    "SERIAL or IDENTITY",
+                    "IDENTITY(1,1)",
+                    "AUTO_INCREMENT"
+                ],
+                [
+                    "'If Null' Function",
+                    "COALESCE()",
+                    "ISNULL()",
+                    "IFNULL() or COALESCE()"
+                ]
+            ]
+        },
+        {
+            "type": "note",
+            "text": "The SQL taught in this course is primarily based on the SQLite dialect, which is very close to the ANSI standard for core commands. However, we often show examples from other dialects for advanced, conceptual topics."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "dialect_q1",
+            "type": "mcq",
+            "question": "What is a 'SQL dialect'?",
+            "options": [
+                "A different language from SQL",
+                "A specific vendor's implementation of the SQL standard",
+                "An error in a SQL query",
+                "A type of database"
+            ],
+            "answer": "A specific vendor's implementation of the SQL standard"
+        },
+        {
+            "id": "dialect_q2",
+            "type": "mcq",
+            "question": "In SQL Server (T-SQL), how do you typically limit the number of rows returned?",
+            "options": [
+                "LIMIT 10",
+                "FETCH FIRST 10 ROWS ONLY",
+                "TOP 10",
+                "ROWNUM <= 10"
+            ],
+            "answer": "TOP 10"
+        },
+        {
+            "id": "dialect_q3",
+            "type": "mcq",
+            "question": "The `||` operator for string concatenation is most commonly associated with which database?",
+            "options": [
+                "SQL Server",
+                "MySQL",
+                "PostgreSQL",
+                "Microsoft Access"
+            ],
+            "answer": "PostgreSQL"
+        },
+        {
+            "id": "dialect_q4",
+            "type": "truefalse",
+            "question": "All SQL commands work exactly the same way across all major database systems.",
+            "answer": false
+        },
+        {
+            "id": "dialect_q5",
+            "type": "mcq",
+            "question": "Why do different SQL dialects exist?",
+            "options": [
+                "To make learning harder",
+                "Because vendors add proprietary features and extensions",
+                "Because the ANSI standard changes every year",
+                "To support different programming languages"
+            ],
+            "answer": "Because vendors add proprietary features and extensions"
+        },
+        {
+            "id": "dialect_q6",
+            "type": "truefalse",
+            "question": "The SQL used by SQLite is very different from the official ANSI SQL standard.",
+            "answer": false
+        },
+        {
+            "id": "dialect_q7",
+            "type": "mcq",
+            "question": "If you need to write SQL code that works on multiple different database systems, what should you do?",
+            "options": [
+                "Use only the most advanced features",
+                "Write code specific to each dialect",
+                "Stick to the core ANSI SQL standard as much as possible",
+                "Only use `SELECT *`"
+            ],
+            "answer": "Stick to the core ANSI SQL standard as much as possible"
+        }
+    ]
+}

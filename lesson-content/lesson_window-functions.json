@@ -1,0 +1,188 @@
+{
+    "id": "window-functions",
+    "title": "Window Functions",
+    "category": "Advanced Querying",
+    "difficulty": "Advanced",
+    "estimatedTime": "25 min",
+    "starterQuery": "/* Let's rank products within each category by sales amount. */\nSELECT\n  product,\n  category,\n  amount,\n  RANK() OVER (PARTITION BY category ORDER BY amount DESC) as category_rank\nFROM sales;",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What are Window Functions?\nWindow functions perform calculations across a set of table rows that are somehow related to the current row. Unlike aggregate functions, they do not group rows into a single output row\u2014they return a value for each row."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why are they useful?\nThey are incredibly powerful for creating rankings, calculating running totals, moving averages, or finding the first/last value within a group without collapsing the rows."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What is the basic syntax?\nThe core of a window function is the `OVER()` clause. The syntax is `FUNCTION_NAME() OVER (PARTITION BY ... ORDER BY ...)`."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What does PARTITION BY do?\n`PARTITION BY` divides the rows into smaller 'windows' or groups. The window function is then applied independently to each partition. It's like a `GROUP BY` but for window functions."
+        },
+        {
+            "type": "code",
+            "text": "-- Example: Calculate the running total of sales over time\nSELECT \n  sale_date, \n  amount, \n  SUM(amount) OVER (ORDER BY sale_date) as running_total\nFROM sales;"
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "sales",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "product",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    },
+                    {
+                        "name": "category",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    },
+                    {
+                        "name": "sale_date",
+                        "type": "DATE"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "REAL",
+                        "constraints": "NOT NULL"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "sales": [
+            {
+                "id": 1,
+                "product": "Laptop",
+                "category": "Electronics",
+                "sale_date": "2025-01-15",
+                "amount": 1200.0
+            },
+            {
+                "id": 2,
+                "product": "Mouse",
+                "category": "Electronics",
+                "sale_date": "2025-01-15",
+                "amount": 25.0
+            },
+            {
+                "id": 3,
+                "product": "Keyboard",
+                "category": "Electronics",
+                "sale_date": "2025-01-16",
+                "amount": 75.0
+            },
+            {
+                "id": 4,
+                "product": "T-Shirt",
+                "category": "Apparel",
+                "sale_date": "2025-01-17",
+                "amount": 20.0
+            },
+            {
+                "id": 5,
+                "product": "Jeans",
+                "category": "Apparel",
+                "sale_date": "2025-01-18",
+                "amount": 90.0
+            },
+            {
+                "id": 6,
+                "product": "Jacket",
+                "category": "Apparel",
+                "sale_date": "2025-01-18",
+                "amount": 150.0
+            },
+            {
+                "id": 7,
+                "product": "Monitor",
+                "category": "Electronics",
+                "sale_date": "2025-01-20",
+                "amount": 300.0
+            },
+            {
+                "id": 8,
+                "product": "Coffee Maker",
+                "category": "Home Goods",
+                "sale_date": "2025-01-21",
+                "amount": 120.0
+            },
+            {
+                "id": 9,
+                "product": "Blender",
+                "category": "Home Goods",
+                "sale_date": "2025-01-22",
+                "amount": 80.0
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "wf_practice1",
+            "challenge": "Rank all sales from most expensive to least expensive overall. Select the product, amount, and the rank.",
+            "solution": "SELECT product, amount, RANK() OVER (ORDER BY amount DESC) as price_rank FROM sales;",
+            "hint": "Use the `RANK()` function with an `ORDER BY` clause inside `OVER()`. Since you're ranking all sales, you don't need a `PARTITION BY`."
+        },
+        {
+            "id": "wf_practice2",
+            "challenge": "For each category, find the total sales amount for that category. Display the product, category, amount, and the total sales for its category in a new column named `category_total`.",
+            "solution": "SELECT product, category, amount, SUM(amount) OVER (PARTITION BY category) as category_total FROM sales;",
+            "hint": "Use `SUM(amount)` as the window function. You need to partition the data by `category` to get the sum for each group."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "wf_q1",
+            "type": "mcq",
+            "question": "Which clause within OVER() is used to split rows into groups before the window function is applied?",
+            "options": [
+                "GROUP BY",
+                "ORDER BY",
+                "PARTITION BY",
+                "WHERE"
+            ],
+            "answer": "PARTITION BY"
+        },
+        {
+            "id": "wf_q2",
+            "type": "truefalse",
+            "question": "Window functions, like aggregate functions, reduce the number of rows returned by the query.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "wf_ch1",
+            "title": "Calculate Running Total Sales",
+            "steps": [
+                {
+                    "stepId": "wf_ch1_step1",
+                    "description": "Write a query that calculates a running total of sales amounts over time. Select the `sale_date`, `amount`, and the running total, aliased as `running_total`.",
+                    "solution": "SELECT sale_date, amount, SUM(amount) OVER (ORDER BY sale_date) AS running_total FROM sales;"
+                }
+            ]
+        },
+        {
+            "id": "wf_ch2",
+            "title": "Number Rows Within Categories",
+            "steps": [
+                {
+                    "stepId": "wf_ch2_step1",
+                    "description": "Assign a unique, sequential number to each product within its category, ordered by price from highest to lowest. Use the `ROW_NUMBER()` function.",
+                    "solution": "SELECT product, category, ROW_NUMBER() OVER (PARTITION BY category ORDER BY amount DESC) as row_num FROM sales;"
+                }
+            ]
+        }
+    ]
+}

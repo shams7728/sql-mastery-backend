@@ -1,0 +1,174 @@
+{
+    "id": "exists-any-all",
+    "title": "EXISTS, ANY, and ALL",
+    "category": "Subqueries & Set Ops",
+    "difficulty": "Advanced",
+    "estimatedTime": "25 min",
+    "starterQuery": "-- Find customers who have placed an order\nSELECT c.name\nFROM customers c\nWHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What are these operators?\n`EXISTS`, `ANY`, and `ALL` are logical operators used with subqueries. They allow you to perform more complex checks than a simple `=` or `IN`."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. How does EXISTS work?\nThe `EXISTS` operator checks for the existence of rows in a subquery's result set. It returns `TRUE` if the subquery returns one or more rows, and `FALSE` otherwise. It's highly efficient because it stops processing as soon as it finds the first matching row."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How do ANY and ALL work?\n`ANY` and `ALL` are used to compare a single value to a list of values returned by a subquery. `ANY` returns `TRUE` if the comparison is true for at least one value in the list. `ALL` returns `TRUE` only if the comparison is true for all values in the list."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What's a practical example?\n`= ANY(subquery)` is the same as `IN (subquery)`. A more interesting example is `> ANY(subquery)`, which means 'greater than the minimum value'. Conversely, `> ALL(subquery)` means 'greater than the maximum value'."
+        },
+        {
+            "type": "code",
+            "text": "-- Find products with a price greater than ANY product in the 'Budget' category\nSELECT product_name FROM products\nWHERE price > ANY (SELECT price FROM products WHERE category = 'Budget');"
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "customers",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "city",
+                        "type": "TEXT"
+                    }
+                ]
+            },
+            {
+                "name": "orders",
+                "columns": [
+                    {
+                        "name": "order_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "customer_id",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "INTEGER"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "customers": [
+            {
+                "id": 1,
+                "name": "John Smith",
+                "city": "New York"
+            },
+            {
+                "id": 2,
+                "name": "Jane Doe",
+                "city": "London"
+            },
+            {
+                "id": 3,
+                "name": "Peter Jones",
+                "city": "Paris"
+            },
+            {
+                "id": 4,
+                "name": "Susan Williams",
+                "city": "London"
+            }
+        ],
+        "orders": [
+            {
+                "order_id": 101,
+                "customer_id": 1,
+                "amount": 150
+            },
+            {
+                "order_id": 102,
+                "customer_id": 2,
+                "amount": 200
+            },
+            {
+                "order_id": 103,
+                "customer_id": 1,
+                "amount": 50
+            },
+            {
+                "order_id": 104,
+                "customer_id": 4,
+                "amount": 300
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "eaa_practice1",
+            "challenge": "Using `EXISTS`, find the names of all customers who have placed at least one order.",
+            "solution": "SELECT name FROM customers c WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);",
+            "hint": "Your subquery should check if any row exists in the `orders` table for the current customer's ID."
+        },
+        {
+            "id": "eaa_practice2",
+            "challenge": "Using `ANY`, find the names of customers from 'London' whose order amount is greater than ANY order placed by the customer with id=1.",
+            "solution": "SELECT c.name FROM customers c JOIN orders o ON c.id = o.customer_id WHERE c.city = 'London' AND o.amount > ANY (SELECT amount FROM orders WHERE customer_id = 1);",
+            "hint": "The main query selects London customers. The subquery selects all order amounts for customer 1. The condition is `> ANY`."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "eaa_q1",
+            "type": "mcq",
+            "question": "The condition `price > ALL (subquery)` is true if price is greater than the...?",
+            "options": [
+                "Minimum value from the subquery",
+                "Maximum value from the subquery",
+                "Average value from the subquery",
+                "Sum of values from the subquery"
+            ],
+            "answer": "Maximum value from the subquery"
+        },
+        {
+            "id": "eaa_q2",
+            "type": "truefalse",
+            "question": "The `EXISTS` operator is generally less efficient than using `IN` with a subquery.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "eaa_ch1",
+            "title": "Find Customers with No Orders",
+            "steps": [
+                {
+                    "stepId": "eaa_ch1_step1",
+                    "description": "Using `NOT EXISTS`, write a query to find the names of all customers who have not placed any orders.",
+                    "solution": "SELECT name FROM customers c WHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);"
+                }
+            ]
+        },
+        {
+            "id": "eaa_ch2",
+            "title": "Find the Top Spender",
+            "steps": [
+                {
+                    "stepId": "eaa_ch2_step1",
+                    "description": "Using `>= ALL`, find the name of the customer(s) who have placed an order with an amount greater than or equal to all other order amounts.",
+                    "solution": "SELECT c.name FROM customers c JOIN orders o ON c.id = o.customer_id WHERE o.amount >= ALL (SELECT amount FROM orders);"
+                }
+            ]
+        }
+    ]
+}

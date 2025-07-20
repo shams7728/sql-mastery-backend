@@ -1,0 +1,188 @@
+{
+    "id": "subqueries",
+    "title": "Subqueries (Inner Queries)",
+    "category": "Subqueries & Set Ops",
+    "difficulty": "Intermediate",
+    "estimatedTime": "22 min",
+    "starterQuery": "SELECT name, salary\nFROM employees\nWHERE salary > (SELECT AVG(salary) FROM employees);",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a Subquery?\nA subquery, also known as an inner query or nested query, is a query that is nested inside another SQL query. The subquery is always executed first, and its result is used by the outer query."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Where can Subqueries be used?\nSubqueries are most commonly used within the `WHERE` clause to filter data. They can also be used in the `FROM` clause (as a temporary table), the `SELECT` clause (as a scalar value), or with `IN`, `NOT IN`, `ANY`, and `ALL` operators."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What are the types of Subqueries?\nSubqueries can be categorized based on the number of rows they return. A 'single-row subquery' returns only one row and can be used with standard comparison operators (=, >, <). A 'multiple-row subquery' returns more than one row and must be used with operators like `IN` or `NOT IN`."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. How does it work?\nThe database executes the innermost query first. The result of this inner query is then passed to the outer query, which uses it to determine the final result set. It's a powerful way to break down a complex problem into smaller, logical steps."
+        },
+        {
+            "type": "code",
+            "text": "-- Find all employees who work in the 'Sales' department\nSELECT name\nFROM employees\nWHERE department_id = (SELECT id FROM departments WHERE name = 'Sales');"
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "employees",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    },
+                    {
+                        "name": "salary",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "name": "department_id",
+                        "type": "INTEGER"
+                    }
+                ]
+            },
+            {
+                "name": "departments",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "employees": [
+            {
+                "id": 1,
+                "name": "Alice",
+                "salary": 90000,
+                "department_id": 1
+            },
+            {
+                "id": 2,
+                "name": "Bob",
+                "salary": 80000,
+                "department_id": 1
+            },
+            {
+                "id": 3,
+                "name": "Charlie",
+                "salary": 110000,
+                "department_id": 2
+            },
+            {
+                "id": 4,
+                "name": "Diana",
+                "salary": 75000,
+                "department_id": 3
+            },
+            {
+                "id": 5,
+                "name": "Eve",
+                "salary": 95000,
+                "department_id": 2
+            }
+        ],
+        "departments": [
+            {
+                "id": 1,
+                "name": "Engineering"
+            },
+            {
+                "id": 2,
+                "name": "Sales"
+            },
+            {
+                "id": 3,
+                "name": "HR"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "subquery_practice1",
+            "challenge": "Find the names of all employees who have a salary greater than the average salary of all employees.",
+            "solution": "SELECT name FROM employees WHERE salary > (SELECT AVG(salary) FROM employees);",
+            "hint": "You'll need a subquery in the `WHERE` clause to first calculate the average salary."
+        },
+        {
+            "id": "subquery_practice2",
+            "challenge": "Find the names of all employees who work in the 'Engineering' department. Use a subquery to find the department's ID.",
+            "solution": "SELECT name FROM employees WHERE department_id = (SELECT id FROM departments WHERE name = 'Engineering');",
+            "hint": "Your subquery should select the `id` from the `departments` table where the name is 'Engineering'."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "subquery_q1",
+            "type": "mcq",
+            "question": "A subquery that returns multiple rows can be used with which operator?",
+            "options": [
+                "=",
+                ">",
+                "IN",
+                "!="
+            ],
+            "answer": "IN"
+        },
+        {
+            "id": "subquery_q2",
+            "type": "truefalse",
+            "question": "In a statement with a subquery, the outer query always executes first.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "subquery_ch1",
+            "title": "Find the Highest-Paid Employee(s)",
+            "steps": [
+                {
+                    "stepId": "subquery_ch1_step1",
+                    "description": "First, write a subquery to find the maximum salary from the `employees` table.",
+                    "solution": "SELECT MAX(salary) FROM employees;"
+                },
+                {
+                    "stepId": "subquery_ch1_step2",
+                    "description": "Now, use that subquery in a `WHERE` clause to find the name(s) of the employee(s) who have that maximum salary.",
+                    "solution": "SELECT name FROM employees WHERE salary = (SELECT MAX(salary) FROM employees);"
+                }
+            ]
+        },
+        {
+            "id": "subquery_ch2",
+            "title": "List Departments With Employees",
+            "steps": [
+                {
+                    "stepId": "subquery_ch2_step1",
+                    "description": "Write a subquery that returns a distinct list of all `department_id` values present in the `employees` table.",
+                    "solution": "SELECT DISTINCT department_id FROM employees;"
+                },
+                {
+                    "stepId": "subquery_ch2_step2",
+                    "description": "Use this subquery with the `IN` operator to select the names of the departments from the `departments` table that are in the list.",
+                    "solution": "SELECT name FROM departments WHERE id IN (SELECT DISTINCT department_id FROM employees);"
+                }
+            ]
+        }
+    ]
+}

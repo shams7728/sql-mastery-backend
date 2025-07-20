@@ -1,0 +1,192 @@
+{
+  "id": "having",
+  "title": "HAVING Clause",
+  "category": "Grouping",
+  "difficulty": "Intermediate",
+  "estimatedTime": "10 min",
+  "starterQuery": "SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 2;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is the HAVING Clause?\nThe HAVING clause in SQL is used to filter groups created by the GROUP BY clause based on aggregate conditions. Unlike WHERE, which filters individual rows, HAVING applies conditions to grouped rows."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use HAVING?\nWhen you want to filter groups after aggregation (e.g., departments with more than 2 employees), HAVING provides a way to refine the results of GROUP BY queries using aggregate functions like COUNT(), SUM(), AVG()."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is HAVING used?\nIt follows the GROUP BY clause in SQL queries. It's especially useful in reporting and analytics where summaries and totals are filtered."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How to use the HAVING Clause?\nUse it in combination with GROUP BY and aggregate functions. Example: SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 2;"
+    },
+    {
+      "type": "table",
+      "columns": [
+        "Clause",
+        "Usage"
+      ],
+      "rows": [
+        [
+          "WHERE",
+          "Filters rows before grouping"
+        ],
+        [
+          "HAVING",
+          "Filters groups after aggregation"
+        ],
+        [
+          "GROUP BY",
+          "Groups rows by one or more columns"
+        ]
+      ]
+    },
+    {
+      "type": "note",
+      "text": "HAVING is necessary when you need to filter based on aggregated values. It cannot replace WHERE for filtering rows."
+    },
+    {
+      "type": "code",
+      "text": "SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 2;"
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "employees",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "department",
+            "type": "TEXT"
+          },
+          {
+            "name": "salary",
+            "type": "INTEGER"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "employees": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "department": "Sales",
+        "salary": 50000
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "department": "Sales",
+        "salary": 52000
+      },
+      {
+        "id": 3,
+        "name": "Charlie",
+        "department": "HR",
+        "salary": 47000
+      },
+      {
+        "id": 4,
+        "name": "Diana",
+        "department": "Sales",
+        "salary": 51000
+      },
+      {
+        "id": 5,
+        "name": "Eve",
+        "department": "HR",
+        "salary": 48000
+      },
+      {
+        "id": 6,
+        "name": "Frank",
+        "department": "IT",
+        "salary": 60000
+      }
+    ]
+  },
+  "examples": [
+    {
+      "query": "SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 2;",
+      "description": "Departments with more than 2 employees",
+      "explanation": "Groups employees by department and filters to show only departments that have more than two employees."
+    },
+    {
+      "query": "SELECT department, AVG(salary) FROM employees GROUP BY department HAVING AVG(salary) > 50000;",
+      "description": "Departments with average salary above 50,000",
+      "explanation": "Shows departments where the average salary exceeds 50,000."
+    }
+  ],
+  "practice": [
+    {
+      "id": "having_practice1",
+      "challenge": "Show departments with more than 2 employees.",
+      "solution": "SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 2;",
+      "hint": "Use COUNT and HAVING after GROUP BY."
+    },
+    {
+      "id": "having_practice2",
+      "challenge": "Find departments with total salary over 100,000.",
+      "solution": "SELECT department, SUM(salary) FROM employees GROUP BY department HAVING SUM(salary) > 100000;",
+      "hint": "Use SUM in the HAVING clause."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "having_q1",
+      "type": "mcq",
+      "question": "Which clause is used to filter groups created by GROUP BY?",
+      "options": [
+        "WHERE",
+        "HAVING",
+        "ORDER BY",
+        "SELECT"
+      ],
+      "answer": "HAVING"
+    },
+    {
+      "id": "having_q2",
+      "type": "truefalse",
+      "question": "HAVING can be used without GROUP BY.",
+      "answer": false
+    },
+    {
+      "id": "having_q3",
+      "type": "fill",
+      "question": "To filter groups based on aggregate values, we use ______ clause.",
+      "answer": "HAVING"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "having_ch1",
+      "title": "Grouped Filters",
+      "steps": [
+        {
+          "stepId": "having_ch1_step1",
+          "description": "Step 1: List departments with more than 2 employees.",
+          "solution": "SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 2;"
+        },
+        {
+          "stepId": "having_ch1_step2",
+          "description": "Step 2: List departments with average salary over 50,000.",
+          "solution": "SELECT department, AVG(salary) FROM employees GROUP BY department HAVING AVG(salary) > 50000;"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+    "id": "constraints-overview",
+    "title": "Constraints Overview",
+    "category": "Data Definition",
+    "difficulty": "Beginner",
+    "estimatedTime": "15 min",
+    "starterQuery": "/* This is a conceptual lesson on database constraints.\n   The following lessons will cover practical implementation. */",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What are Constraints?\nConstraints are rules enforced on data columns in a table. They are used to limit the type of data that can go into a table, ensuring the accuracy and reliability of the data. If any action violates a constraint, the action is aborted."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why are they so important?\nConstraints are the bedrock of data integrity. They prevent invalid data from being entered into the database. For example, a `NOT NULL` constraint prevents empty values, and a `UNIQUE` constraint prevents duplicate entries, which are critical for maintaining a clean and trustworthy dataset."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. Where are they defined?\nConstraints can be specified when a table is created with the `CREATE TABLE` statement, or they can be added to an existing table using the `ALTER TABLE` statement."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What are the common types of constraints?\nSQL provides several types of constraints, which we will cover in the next lessons. The most common are: `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, and `DEFAULT`."
+        },
+        {
+            "type": "note",
+            "text": "Think of constraints as the automated security guards for your data, protecting it from accidental errors and ensuring its quality."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [
+        {
+            "id": "constraints_practice1",
+            "challenge": "If you wanted to ensure that every user in a `users` table has a unique email address, which constraint would you use on the `email` column?",
+            "solution": "UNIQUE",
+            "hint": "This constraint ensures that all values in a column are different."
+        },
+        {
+            "id": "constraints_practice2",
+            "challenge": "Which constraint would you use to make sure a `product_price` column can never be left empty when a new product is added?",
+            "solution": "NOT NULL",
+            "hint": "This constraint enforces that a column cannot accept NULL values."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "constraints_q1",
+            "type": "mcq",
+            "question": "What is the primary purpose of using constraints in a database?",
+            "options": [
+                "To make queries run faster",
+                "To improve data integrity and accuracy",
+                "To make tables smaller",
+                "To encrypt data"
+            ],
+            "answer": "To improve data integrity and accuracy"
+        },
+        {
+            "id": "constraints_q2",
+            "type": "truefalse",
+            "question": "Constraints can only be defined when you first create a table.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "constraints_ch1",
+            "title": "Conceptual Design: User Registration",
+            "steps": [
+                {
+                    "stepId": "constraints_ch1_step1",
+                    "description": "You are designing a `users` table. Which constraint would you use on the `user_id` column to ensure every user has a unique identifier?",
+                    "solution": "PRIMARY KEY"
+                }
+            ]
+        },
+        {
+            "id": "constraints_ch2",
+            "title": "Conceptual Design: Product Inventory",
+            "steps": [
+                {
+                    "stepId": "constraints_ch2_step1",
+                    "description": "In a `products` table, you have a `stock_level` column. Which constraint could you use to ensure the stock level can never be a negative number?",
+                    "solution": "CHECK (stock_level >= 0)"
+                }
+            ]
+        }
+    ]
+}

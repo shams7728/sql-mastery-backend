@@ -1,0 +1,169 @@
+{
+  "id": "inner-join",
+  "title": "INNER JOIN",
+  "category": "Joins",
+  "difficulty": "Intermediate",
+  "estimatedTime": "10 min",
+  "starterQuery": "SELECT employees.name, departments.name FROM employees INNER JOIN departments ON employees.department_id = departments.id;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is INNER JOIN?\nAn INNER JOIN returns rows from both tables that satisfy the given join condition. It only includes matching rows based on the specified relationship."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use INNER JOIN?\nTo fetch related data from two tables where a match exists. It helps reduce duplication and improve data organization by querying related rows together."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is INNER JOIN used?\nIn cases where we need to combine data\u2014for example, joining customers with orders, employees with departments, or students with their courses."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How is INNER JOIN written?\nUse the `INNER JOIN` clause in a `SELECT` statement and match foreign keys using the `ON` condition."
+    },
+    {
+      "type": "image",
+      "src": "/assests/inner-join.jpeg",
+      "alt": "INNER JOIN Visual Example"
+    },
+    {
+      "type": "code",
+      "text": "SELECT e.name, d.name FROM employees e INNER JOIN departments d ON e.department_id = d.id;"
+    },
+    {
+      "type": "note",
+      "text": "Only rows with matching department_id in both employees and departments are returned."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "employees",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "department_id",
+            "type": "INTEGER"
+          }
+        ]
+      },
+      {
+        "name": "departments",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "employees": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "department_id": 1
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "department_id": 2
+      },
+      {
+        "id": 3,
+        "name": "Charlie",
+        "department_id": 3
+      },
+      {
+        "id": 4,
+        "name": "Diana",
+        "department_id": null
+      }
+    ],
+    "departments": [
+      {
+        "id": 1,
+        "name": "Engineering"
+      },
+      {
+        "id": 2,
+        "name": "Marketing"
+      },
+      {
+        "id": 4,
+        "name": "Sales"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "query": "SELECT e.name, d.name FROM employees e INNER JOIN departments d ON e.department_id = d.id;",
+      "description": "Join employees and departments",
+      "explanation": "Returns employee names with their department names if a department match exists."
+    }
+  ],
+  "practice": [
+    {
+      "id": "inner-join_practice1",
+      "challenge": "List employee names and their department names using INNER JOIN.",
+      "solution": "SELECT e.name, d.name FROM employees e INNER JOIN departments d ON e.department_id = d.id;",
+      "hint": "Join employees and departments on matching department_id"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "inner-join_q1",
+      "type": "mcq",
+      "question": "Which join returns only matching rows from both tables?",
+      "options": [
+        "INNER JOIN",
+        "LEFT JOIN",
+        "FULL JOIN",
+        "RIGHT JOIN"
+      ],
+      "answer": "INNER JOIN"
+    },
+    {
+      "id": "inner-join_q2",
+      "type": "truefalse",
+      "question": "INNER JOIN can return rows with no match in one table.",
+      "answer": false
+    },
+    {
+      "id": "inner-join_q3",
+      "type": "fill",
+      "question": "The clause used to specify how to join tables is called ______.",
+      "answer": "ON"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "inner-join_ch1",
+      "title": "Department Linking",
+      "steps": [
+        {
+          "stepId": "inner-join_ch1_step1",
+          "description": "Step 1: Show all employee names with matching department names.",
+          "solution": "SELECT e.name, d.name FROM employees e INNER JOIN departments d ON e.department_id = d.id;"
+        }
+      ]
+    }
+  ]
+}

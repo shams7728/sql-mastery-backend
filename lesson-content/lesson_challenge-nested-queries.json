@@ -1,0 +1,216 @@
+{
+    "id": "challenge-nested-queries",
+    "title": "Challenge: Nested Queries",
+    "category": "Challenges",
+    "difficulty": "Advanced",
+    "estimatedTime": "30 min",
+    "starterQuery": "/* This is a conceptual challenge on using nested subqueries. */",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. The Business Problem\nYou are an analyst for a university. The dean wants a list of all students who are enrolled in the 'Computer Science' department and have achieved a grade higher than the average grade of all students in that same department. This will be used to identify candidates for a special scholarship."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Analyzing the Schema\nTo solve this, you have three tables:\n- `students` (student_id, student_name, department_id)\n- `departments` (department_id, department_name)\n- `grades` (grade_id, student_id, grade)"
+        },
+        {
+            "type": "paragraph",
+            "text": "3. Devising a Query Plan\nThis is a multi-step problem that is perfect for nested queries. We need to find a value (the average grade) that depends on another value (the department ID).\n- **Step A (Innermost Query):** First, we need to find the `department_id` for 'Computer Science'. A subquery is perfect for this: `SELECT department_id FROM departments WHERE department_name = 'Computer Science'`.\n- **Step B (Middle Query):** Next, we need to calculate the average grade *only* for students in that department. We'll use the result of Step A inside the `WHERE` clause of another subquery: `SELECT AVG(grade) FROM grades WHERE student_id IN (SELECT student_id FROM students WHERE department_id = ...)`.\n- **Step C (Outer Query):** Finally, we can select the students. The `WHERE` clause will have two conditions: the student must be in the 'Computer Science' department, AND their grade must be greater than the result of our middle query (Step B)."
+        },
+        {
+            "type": "code",
+            "text": "-- The Final Solution Query:\nSELECT\n    s.student_name,\n    g.grade\nFROM\n    students s\nJOIN\n    grades g ON s.student_id = g.student_id\nWHERE\n    s.department_id = (\n        -- Innermost query: Find the department ID for Computer Science\n        SELECT department_id FROM departments WHERE department_name = 'Computer Science'\n    )\nAND\n    g.grade > (\n        -- Middle query: Calculate the average grade for ONLY CS students\n        SELECT AVG(grade) FROM grades\n        WHERE student_id IN (\n            SELECT student_id FROM students WHERE department_id = (\n                -- We need the innermost query again here\n                SELECT department_id FROM departments WHERE department_name = 'Computer Science'\n            )\n        )\n    );"
+        },
+        {
+            "type": "note",
+            "text": "While this works, you can see it gets repetitive. This is a perfect example of a problem that can often be simplified and made more readable using Common Table Expressions (CTEs), which you learned about in a previous lesson."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "students",
+                "columns": [
+                    {
+                        "name": "student_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "student_name",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "department_id",
+                        "type": "INTEGER"
+                    }
+                ]
+            },
+            {
+                "name": "departments",
+                "columns": [
+                    {
+                        "name": "department_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "department_name",
+                        "type": "TEXT"
+                    }
+                ]
+            },
+            {
+                "name": "grades",
+                "columns": [
+                    {
+                        "name": "grade_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "student_id",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "name": "grade",
+                        "type": "INTEGER"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "students": [
+            {
+                "student_id": 1,
+                "student_name": "Alice",
+                "department_id": 101
+            },
+            {
+                "student_id": 2,
+                "student_name": "Bob",
+                "department_id": 101
+            },
+            {
+                "student_id": 3,
+                "student_name": "Charlie",
+                "department_id": 102
+            },
+            {
+                "student_id": 4,
+                "student_name": "Diana",
+                "department_id": 101
+            }
+        ],
+        "departments": [
+            {
+                "department_id": 101,
+                "department_name": "Computer Science"
+            },
+            {
+                "department_id": 102,
+                "department_name": "Physics"
+            }
+        ],
+        "grades": [
+            {
+                "grade_id": 1,
+                "student_id": 1,
+                "grade": 92
+            },
+            {
+                "grade_id": 2,
+                "student_id": 2,
+                "grade": 85
+            },
+            {
+                "grade_id": 3,
+                "student_id": 3,
+                "grade": 95
+            },
+            {
+                "grade_id": 4,
+                "student_id": 4,
+                "grade": 88
+            }
+        ]
+    },
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "chnq_q1",
+            "type": "mcq",
+            "question": "In a nested query, which part is executed first by the database?",
+            "options": [
+                "The outermost query",
+                "The innermost query",
+                "All queries at the same time",
+                "The JOIN clause"
+            ],
+            "answer": "The innermost query"
+        },
+        {
+            "id": "chnq_q2",
+            "type": "mcq",
+            "question": "Why is a subquery needed to calculate the average grade in this problem?",
+            "options": [
+                "To sort the grades",
+                "Because AVG() only works inside a subquery",
+                "To calculate a dynamic value (the average) that the outer query can compare against",
+                "To join the tables"
+            ],
+            "answer": "To calculate a dynamic value (the average) that the outer query can compare against"
+        },
+        {
+            "id": "chnq_q3",
+            "type": "mcq",
+            "question": "The subquery `SELECT department_id FROM departments WHERE ...` is what type of subquery?",
+            "options": [
+                "Multi-row",
+                "Scalar (Single-row, single-column)",
+                "Multi-column",
+                "Recursive"
+            ],
+            "answer": "Scalar (Single-row, single-column)"
+        },
+        {
+            "id": "chnq_q4",
+            "type": "truefalse",
+            "question": "It is possible to solve this problem using only JOINs and no subqueries.",
+            "answer": false
+        },
+        {
+            "id": "chnq_q5",
+            "type": "mcq",
+            "question": "What is a major downside of deeply nested queries, as shown in the solution?",
+            "options": [
+                "They are very slow",
+                "They are difficult to read and maintain",
+                "They cannot use JOINs",
+                "They only work in SQLite"
+            ],
+            "answer": "They are difficult to read and maintain"
+        },
+        {
+            "id": "chnq_q6",
+            "type": "truefalse",
+            "question": "The outer query uses the actual result (e.g., the number 88.33) from the subquery, not the subquery's text.",
+            "answer": true
+        },
+        {
+            "id": "chnq_q7",
+            "type": "mcq",
+            "question": "What alternative SQL feature is often used to make complex, multi-step queries like this more readable?",
+            "options": [
+                "Views",
+                "Triggers",
+                "Stored Procedures",
+                "Common Table Expressions (CTEs)"
+            ],
+            "answer": "Common Table Expressions (CTEs)"
+        }
+    ]
+}

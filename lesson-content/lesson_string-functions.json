@@ -1,0 +1,188 @@
+{
+  "id": "string-functions",
+  "title": "String Functions",
+  "category": "Functions",
+  "difficulty": "Intermediate",
+  "estimatedTime": "12 min",
+  "starterQuery": "SELECT UPPER(name) FROM employees;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What are String Functions?\nString functions in SQL are used to perform operations on string (text) values, such as modifying case, extracting substrings, or finding length."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why are String Functions Important?\nThey help in data formatting, cleaning, and analysis. You can standardize text, extract patterns, and manipulate user inputs efficiently."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where are String Functions Used?\nThey are used in SELECT statements, WHERE clauses, and data transformation queries, especially in reporting and search features."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How Do You Use String Functions?\nThey are applied as part of the SELECT clause like `UPPER(column)`, `LOWER(column)`, `LENGTH(column)`, etc."
+    },
+    {
+      "type": "table",
+      "columns": [
+        "Function",
+        "Description"
+      ],
+      "rows": [
+        [
+          "UPPER()",
+          "Converts text to uppercase"
+        ],
+        [
+          "LOWER()",
+          "Converts text to lowercase"
+        ],
+        [
+          "LENGTH()",
+          "Returns number of characters"
+        ],
+        [
+          "SUBSTR(str, start, len)",
+          "Extracts a substring"
+        ],
+        [
+          "TRIM()",
+          "Removes leading/trailing spaces"
+        ]
+      ]
+    },
+    {
+      "type": "note",
+      "text": "String functions are often combined with other clauses like WHERE and ORDER BY for advanced filtering and sorting."
+    },
+    {
+      "type": "code",
+      "text": "SELECT name, LENGTH(name) AS length FROM employees WHERE LENGTH(name) > 4;"
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "employees",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "email",
+            "type": "TEXT"
+          },
+          {
+            "name": "department",
+            "type": "TEXT"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "employees": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "email": "alice@company.com",
+        "department": "HR"
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "email": "bob@company.com",
+        "department": "Engineering"
+      },
+      {
+        "id": 3,
+        "name": "Charlie",
+        "email": "charlie@company.com",
+        "department": "Marketing"
+      },
+      {
+        "id": 4,
+        "name": "Dave",
+        "email": "dave@company.com",
+        "department": "HR"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "query": "SELECT UPPER(name) FROM employees;",
+      "description": "Convert names to uppercase",
+      "explanation": "Displays employee names in all uppercase letters."
+    },
+    {
+      "query": "SELECT name, LENGTH(name) FROM employees;",
+      "description": "Name length",
+      "explanation": "Shows each employee's name and the number of characters in it."
+    }
+  ],
+  "practice": [
+    {
+      "id": "string-functions_practice1",
+      "challenge": "Get all employee names in lowercase.",
+      "solution": "SELECT LOWER(name) FROM employees;",
+      "hint": "Use the LOWER() function."
+    },
+    {
+      "id": "string-functions_practice2",
+      "challenge": "Find names with more than 4 characters.",
+      "solution": "SELECT name FROM employees WHERE LENGTH(name) > 4;",
+      "hint": "Use LENGTH in a WHERE clause."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "string-functions_q1",
+      "type": "mcq",
+      "question": "Which function returns the number of characters in a string?",
+      "options": [
+        "SIZE()",
+        "LENGTH()",
+        "CHARS()",
+        "COUNT()"
+      ],
+      "answer": "LENGTH()"
+    },
+    {
+      "id": "string-functions_q2",
+      "type": "truefalse",
+      "question": "UPPER() and LOWER() change the case of string values.",
+      "answer": true
+    },
+    {
+      "id": "string-functions_q3",
+      "type": "fill",
+      "question": "To extract 'lice' from 'Alice', you can use ________.",
+      "answer": "SUBSTR('Alice', 2, 4)"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "string-functions_ch1",
+      "title": "Employee Name Tasks",
+      "steps": [
+        {
+          "stepId": "string-functions_ch1_step1",
+          "description": "Step 1: Show names and their lengths.",
+          "solution": "SELECT name, LENGTH(name) FROM employees;"
+        },
+        {
+          "stepId": "string-functions_ch1_step2",
+          "description": "Step 2: Show names starting from second character for 3 chars.",
+          "solution": "SELECT SUBSTR(name, 2, 3) FROM employees;"
+        }
+      ]
+    }
+  ]
+}

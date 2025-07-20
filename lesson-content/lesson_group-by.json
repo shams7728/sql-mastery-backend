@@ -1,0 +1,190 @@
+{
+  "id": "group-by",
+  "title": "GROUP BY Clause",
+  "category": "Grouping",
+  "difficulty": "Intermediate",
+  "estimatedTime": "12 min",
+  "starterQuery": "SELECT department, COUNT(*) FROM employees GROUP BY department;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is GROUP BY in SQL?\nThe GROUP BY clause is used to arrange identical data into groups. It is often used with aggregate functions like COUNT(), SUM(), AVG(), etc., to perform operations on each group of data."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why is GROUP BY important?\nIt allows summarizing large datasets. For example, you can count employees in each department or calculate average salary per team."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is GROUP BY used?\nCommon in reports and dashboards to group sales by region, students by grade, or users by status. It's also helpful when combining data aggregation and filtering."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How to use GROUP BY?\nUse it with aggregate functions. For example:\nSELECT department, COUNT(*) FROM employees GROUP BY department;"
+    },
+    {
+      "type": "table",
+      "columns": [
+        "Clause/Function",
+        "Description"
+      ],
+      "rows": [
+        [
+          "GROUP BY",
+          "Groups records by specified column(s)"
+        ],
+        [
+          "COUNT()",
+          "Counts records in each group"
+        ],
+        [
+          "SUM()",
+          "Adds up values in each group"
+        ],
+        [
+          "AVG()",
+          "Calculates average for each group"
+        ]
+      ]
+    },
+    {
+      "type": "note",
+      "text": "Every column in SELECT that is not an aggregate function must be listed in the GROUP BY clause."
+    },
+    {
+      "type": "code",
+      "text": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "employees",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "department",
+            "type": "TEXT"
+          },
+          {
+            "name": "salary",
+            "type": "REAL"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "employees": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "department": "HR",
+        "salary": 55000
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "department": "Engineering",
+        "salary": 70000
+      },
+      {
+        "id": 3,
+        "name": "Charlie",
+        "department": "Engineering",
+        "salary": 72000
+      },
+      {
+        "id": 4,
+        "name": "Diana",
+        "department": "HR",
+        "salary": 58000
+      },
+      {
+        "id": 5,
+        "name": "Eve",
+        "department": "Marketing",
+        "salary": 60000
+      }
+    ]
+  },
+  "examples": [
+    {
+      "query": "SELECT department, COUNT(*) FROM employees GROUP BY department;",
+      "description": "Count employees in each department",
+      "explanation": "This groups employees by department and counts how many employees are in each one."
+    },
+    {
+      "query": "SELECT department, AVG(salary) FROM employees GROUP BY department;",
+      "description": "Average salary per department",
+      "explanation": "Calculates the average salary for each department."
+    }
+  ],
+  "practice": [
+    {
+      "id": "group-by_practice1",
+      "challenge": "Find total employees in each department.",
+      "solution": "SELECT department, COUNT(*) FROM employees GROUP BY department;",
+      "hint": "Use COUNT with GROUP BY"
+    },
+    {
+      "id": "group-by_practice2",
+      "challenge": "Get average salary of employees per department.",
+      "solution": "SELECT department, AVG(salary) FROM employees GROUP BY department;",
+      "hint": "Use AVG function with GROUP BY"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "group-by_q1",
+      "type": "mcq",
+      "question": "Which SQL clause groups rows that have the same values into summary rows?",
+      "options": [
+        "ORDER BY",
+        "GROUP BY",
+        "JOIN",
+        "HAVING"
+      ],
+      "answer": "GROUP BY"
+    },
+    {
+      "id": "group-by_q2",
+      "type": "truefalse",
+      "question": "GROUP BY is always used with aggregate functions.",
+      "answer": false
+    },
+    {
+      "id": "group-by_q3",
+      "type": "fill",
+      "question": "To group employees by department, use GROUP BY ________.",
+      "answer": "department"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "group-by_ch1",
+      "title": "Departmental Summary",
+      "steps": [
+        {
+          "stepId": "group-by_ch1_step1",
+          "description": "Step 1: Count how many employees each department has.",
+          "solution": "SELECT department, COUNT(*) FROM employees GROUP BY department;"
+        },
+        {
+          "stepId": "group-by_ch1_step2",
+          "description": "Step 2: Get the average salary of each department.",
+          "solution": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        }
+      ]
+    }
+  ]
+}

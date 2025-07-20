@@ -1,0 +1,190 @@
+{
+  "id": "like",
+  "title": "LIKE Operator",
+  "category": "Filtering",
+  "difficulty": "Beginner",
+  "estimatedTime": "10 min",
+  "starterQuery": "SELECT * FROM students WHERE name LIKE 'A%';",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is the LIKE operator?\nThe LIKE operator is used in a WHERE clause to search for a specified pattern in a column."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use LIKE?\nLIKE is useful when you want to filter rows based on partial matches, such as finding names starting with 'A' or ending with 'n'."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is LIKE used?\nIt's commonly used with text columns in SELECT queries to find matching string patterns."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How does LIKE work?\nLIKE supports two wildcard characters: \n- % (percent) matches any sequence of characters\n- _ (underscore) matches a single character"
+    },
+    {
+      "type": "table",
+      "columns": [
+        "Pattern",
+        "Matches"
+      ],
+      "rows": [
+        [
+          "'A%'",
+          "Values starting with 'A'"
+        ],
+        [
+          "'%n'",
+          "Values ending with 'n'"
+        ],
+        [
+          "'%a%'",
+          "Values containing 'a'"
+        ],
+        [
+          "'Jo_n'",
+          "Values like 'John', 'Joan'"
+        ]
+      ]
+    },
+    {
+      "type": "note",
+      "text": "LIKE is case-insensitive in SQLite, but may be case-sensitive in other databases like PostgreSQL."
+    },
+    {
+      "type": "code",
+      "text": "SELECT * FROM students WHERE name LIKE '%a%';"
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "students",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "age",
+            "type": "INTEGER"
+          },
+          {
+            "name": "grade",
+            "type": "TEXT"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "students": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "age": 20,
+        "grade": "A"
+      },
+      {
+        "id": 2,
+        "name": "Aaron",
+        "age": 21,
+        "grade": "B"
+      },
+      {
+        "id": 3,
+        "name": "Brian",
+        "age": 22,
+        "grade": "C"
+      },
+      {
+        "id": 4,
+        "name": "Diana",
+        "age": 19,
+        "grade": "A"
+      },
+      {
+        "id": 5,
+        "name": "Evan",
+        "age": 18,
+        "grade": "B"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "query": "SELECT name FROM students WHERE name LIKE 'A%';",
+      "description": "Names starting with A",
+      "explanation": "Finds all students whose names begin with the letter A."
+    },
+    {
+      "query": "SELECT * FROM students WHERE name LIKE '%n';",
+      "description": "Names ending with n",
+      "explanation": "Returns students whose names end with the letter n."
+    }
+  ],
+  "practice": [
+    {
+      "id": "like_practice1",
+      "challenge": "Find names starting with 'A'.",
+      "solution": "SELECT name FROM students WHERE name LIKE 'A%';",
+      "hint": "Use LIKE with the % wildcard."
+    },
+    {
+      "id": "like_practice2",
+      "challenge": "Find names that contain the letter 'i'.",
+      "solution": "SELECT name FROM students WHERE name LIKE '%i%';",
+      "hint": "Use LIKE with % before and after the letter."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "like_q1",
+      "type": "mcq",
+      "question": "Which symbol is used as a wildcard in LIKE?",
+      "options": [
+        "*",
+        "%",
+        "#",
+        "$"
+      ],
+      "answer": "%"
+    },
+    {
+      "id": "like_q2",
+      "type": "truefalse",
+      "question": "LIKE is case-sensitive in SQLite.",
+      "answer": "false"
+    },
+    {
+      "id": "like_q3",
+      "type": "fill",
+      "question": "To find names ending with 'n', use LIKE '%___'.",
+      "answer": "n'"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "like_ch1",
+      "title": "Pattern Matching",
+      "steps": [
+        {
+          "stepId": "like_ch1_step1",
+          "description": "Step 1: Get students with 'a' in their name.",
+          "solution": "SELECT * FROM students WHERE name LIKE '%a%';"
+        },
+        {
+          "stepId": "like_ch1_step2",
+          "description": "Step 2: Select names starting with 'E'.",
+          "solution": "SELECT name FROM students WHERE name LIKE 'E%';"
+        }
+      ]
+    }
+  ]
+}

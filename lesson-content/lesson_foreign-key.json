@@ -1,0 +1,114 @@
+{
+    "id": "foreign-key",
+    "title": "FOREIGN KEY Constraint",
+    "category": "Data Definition",
+    "difficulty": "Intermediate",
+    "estimatedTime": "20 min",
+    "starterQuery": "/* Let's create an 'orders' table that links to our 'customers' table. */\n\nCREATE TABLE orders (\n    order_id INTEGER PRIMARY KEY,\n    order_date DATE NOT NULL,\n    customer_id INTEGER,\n    FOREIGN KEY (customer_id) REFERENCES customers (customer_id)\n);",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a FOREIGN KEY?\nA `FOREIGN KEY` is a key used to link two tables together. It is a field (or collection of fields) in one table that refers to the `PRIMARY KEY` in another table. The table containing the foreign key is called the child table, and the table containing the primary key is called the parent table."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why is it important?\nForeign keys are the foundation of relational database design. They enforce 'referential integrity', which means that a row in a child table cannot have a foreign key value that does not exist in the parent table's primary key. This prevents 'orphan' records (like an order without a customer)."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How is it defined?\nYou define a foreign key using the `FOREIGN KEY` constraint. The syntax is `FOREIGN KEY (column_in_child_table) REFERENCES parent_table (column_in_parent_table);`. This is typically defined at the end of the `CREATE TABLE` statement."
+        },
+        {
+            "type": "note",
+            "text": "By creating this link, the database ensures that you can't add an order for a customer who doesn't exist, maintaining the consistency and logic of your data."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "customers",
+                "columns": [
+                    {
+                        "name": "customer_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "customer_name",
+                        "type": "TEXT"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "customers": [
+            {
+                "customer_id": 1,
+                "customer_name": "John Smith"
+            },
+            {
+                "customer_id": 2,
+                "customer_name": "Jane Doe"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "fk_practice1",
+            "challenge": "Create a table named `products`. It should have a `product_id` (INTEGER PRIMARY KEY), a `name` (TEXT), and a `category_id` (INTEGER). Assume a `categories` table exists with a primary key `category_id`.",
+            "solution": "CREATE TABLE products (product_id INTEGER PRIMARY KEY, name TEXT, category_id INTEGER, FOREIGN KEY (category_id) REFERENCES categories (category_id));",
+            "hint": "Add the `FOREIGN KEY` constraint at the end of your `CREATE TABLE` statement, referencing the imaginary `categories` table."
+        },
+        {
+            "id": "fk_practice2",
+            "challenge": "Create a table named `order_details`. It needs an `order_id` and a `product_id`. An order detail can't exist without a valid order and product. Make both columns part of a composite `FOREIGN KEY` system, assuming `orders` and `products` tables exist.",
+            "solution": "CREATE TABLE order_details (order_id INTEGER, product_id INTEGER, quantity INTEGER, FOREIGN KEY (order_id) REFERENCES orders (order_id), FOREIGN KEY (product_id) REFERENCES products (product_id));",
+            "hint": "You can define multiple `FOREIGN KEY` constraints in a single `CREATE TABLE` statement."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "fk_q1",
+            "type": "mcq",
+            "question": "A FOREIGN KEY in a child table typically points to which type of key in the parent table?",
+            "options": [
+                "Another FOREIGN KEY",
+                "A UNIQUE key",
+                "A PRIMARY KEY",
+                "Any column"
+            ],
+            "answer": "A PRIMARY KEY"
+        },
+        {
+            "id": "fk_q2",
+            "type": "truefalse",
+            "question": "You can insert a row into a child table with a `customer_id` of 999, even if there is no customer with id 999 in the parent `customers` table.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "fk_ch1",
+            "title": "Link Books to Authors",
+            "steps": [
+                {
+                    "stepId": "fk_ch1_step1",
+                    "description": "Imagine an `authors` table with an `author_id` PRIMARY KEY. Create a `books` table with a `book_id` (PRIMARY KEY), a `title` (TEXT), and an `author_id` column that correctly links to the `authors` table.",
+                    "solution": "CREATE TABLE books (book_id INTEGER PRIMARY KEY, title TEXT, author_id INTEGER, FOREIGN KEY (author_id) REFERENCES authors (author_id));"
+                }
+            ]
+        },
+        {
+            "id": "fk_ch2",
+            "title": "Link Employees to Departments",
+            "steps": [
+                {
+                    "stepId": "fk_ch2_step1",
+                    "description": "Assume a `departments` table exists with a `dept_code` (TEXT) PRIMARY KEY. Create an `employees` table with an `emp_id` (PRIMARY KEY), `name` (TEXT), and a `department_code` (TEXT) column that enforces referential integrity with the `departments` table.",
+                    "solution": "CREATE TABLE employees (emp_id INTEGER PRIMARY KEY, name TEXT, department_code TEXT, FOREIGN KEY (department_code) REFERENCES departments (dept_code));"
+                }
+            ]
+        }
+    ]
+}

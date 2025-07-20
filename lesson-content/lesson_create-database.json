@@ -1,0 +1,92 @@
+{
+    "id": "create-database",
+    "title": "CREATE DATABASE",
+    "category": "Data Definition",
+    "difficulty": "Beginner",
+    "estimatedTime": "10 min",
+    "starterQuery": "/* The CREATE DATABASE command cannot be run in this editor.\n   This lesson is conceptual. */\n\n-- The standard syntax is:\n-- CREATE DATABASE database_name;",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is CREATE DATABASE?\n`CREATE DATABASE` is the fundamental Data Definition Language (DDL) command used to create a new, empty database. A database acts as a container for all your tables, views, and other database objects."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why use it?\nEvery application that stores data needs a database. This is the very first command you would run when setting up a new project. It prepares the space where all your application's data will live."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How does it work?\nWhen you execute `CREATE DATABASE database_name;`, the database management system (like MySQL, PostgreSQL, or SQL Server) allocates disk space and creates the necessary system files to manage the new database. You only need to provide a unique name for it."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is the syntax?\nThe syntax is very simple: `CREATE DATABASE database_name;`. Some systems offer additional options, but this is the universal standard."
+        },
+        {
+            "type": "note",
+            "text": "You typically only have permission to run this command if you are a database administrator. In most shared environments, the database is created for you."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [
+        {
+            "id": "createdb_practice1",
+            "challenge": "Write the SQL command to create a new database named `music_library`.",
+            "solution": "CREATE DATABASE music_library;",
+            "hint": "Use the `CREATE DATABASE` command followed by the desired name."
+        },
+        {
+            "id": "createdb_practice2",
+            "challenge": "Write the SQL command to create a new database for an e-commerce store named `e_store`.",
+            "solution": "CREATE DATABASE e_store;",
+            "hint": "The pattern is the same: `CREATE DATABASE` followed by the name `e_store`."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "createdb_q1",
+            "type": "mcq",
+            "question": "`CREATE DATABASE` is part of which subset of SQL commands?",
+            "options": [
+                "DML (Data Manipulation Language)",
+                "DQL (Data Query Language)",
+                "DDL (Data Definition Language)",
+                "DCL (Data Control Language)"
+            ],
+            "answer": "DDL (Data Definition Language)"
+        },
+        {
+            "id": "createdb_q2",
+            "type": "truefalse",
+            "question": "You can run the `CREATE DATABASE` command from any SQL editor, regardless of your user permissions.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "createdb_ch1",
+            "title": "Name a New Database",
+            "steps": [
+                {
+                    "stepId": "createdb_ch1_step1",
+                    "description": "You are building a social media app. Write the command to create its database, named `social_app_db`.",
+                    "solution": "CREATE DATABASE social_app_db;"
+                }
+            ]
+        },
+        {
+            "id": "createdb_ch2",
+            "title": "Name a University Database",
+            "steps": [
+                {
+                    "stepId": "createdb_ch2_step1",
+                    "description": "You are creating a system for a university to manage students and courses. Write the command to create its database, named `university_records`.",
+                    "solution": "CREATE DATABASE university_records;"
+                }
+            ]
+        }
+    ]
+}

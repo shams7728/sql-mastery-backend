@@ -1,0 +1,150 @@
+{
+    "id": "union-intersect-except",
+    "title": "UNION, INTERSECT, EXCEPT",
+    "category": "Subqueries & Set Ops",
+    "difficulty": "Intermediate",
+    "estimatedTime": "20 min",
+    "starterQuery": "-- Get a unique list of all customers from both cities\nSELECT name FROM london_customers\nUNION\nSELECT name FROM paris_customers;",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What are Set Operators?\nSet operators are used to combine the results of two or more `SELECT` statements into a single result set. The main operators are `UNION`, `UNION ALL`, `INTERSECT`, and `EXCEPT`."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What is UNION vs. UNION ALL?\n`UNION` combines the result sets and removes all duplicate rows. `UNION ALL` also combines the result sets but includes all duplicate rows. `UNION ALL` is faster because it doesn't have to check for duplicates."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What is INTERSECT?\n`INTERSECT` returns only the rows that appear in both result sets. It's a way to find the common entries between two queries."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is EXCEPT?\n`EXCEPT` returns the rows from the first query's result set that do not appear in the second query's result set. It's a way to find the difference between two sets."
+        },
+        {
+            "type": "note",
+            "text": "Important Rule: For all set operators, the `SELECT` statements being combined must have the same number of columns in the same order, and the data types of corresponding columns must be compatible."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "london_customers",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT"
+                    }
+                ]
+            },
+            {
+                "name": "paris_customers",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "london_customers": [
+            {
+                "id": 1,
+                "name": "John Smith"
+            },
+            {
+                "id": 2,
+                "name": "Jane Doe"
+            },
+            {
+                "id": 3,
+                "name": "David Williams"
+            }
+        ],
+        "paris_customers": [
+            {
+                "id": 1,
+                "name": "Jane Doe"
+            },
+            {
+                "id": 2,
+                "name": "Mary Adams"
+            },
+            {
+                "id": 3,
+                "name": "David Williams"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "setops_practice1",
+            "challenge": "Find the names of customers who are present in both the `london_customers` and `paris_customers` tables.",
+            "solution": "SELECT name FROM london_customers INTERSECT SELECT name FROM paris_customers;",
+            "hint": "The `INTERSECT` operator is perfect for finding common rows between two queries."
+        },
+        {
+            "id": "setops_practice2",
+            "challenge": "Find the names of customers who are in the `london_customers` table but NOT in the `paris_customers` table.",
+            "solution": "SELECT name FROM london_customers EXCEPT SELECT name FROM paris_customers;",
+            "hint": "The `EXCEPT` operator returns rows from the first query that aren't in the second."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "setops_q1",
+            "type": "mcq",
+            "question": "Which set operator combines results but keeps duplicate rows?",
+            "options": [
+                "UNION",
+                "INTERSECT",
+                "EXCEPT",
+                "UNION ALL"
+            ],
+            "answer": "UNION ALL"
+        },
+        {
+            "id": "setops_q2",
+            "type": "truefalse",
+            "question": "The `SELECT` statements in a `UNION` clause can have a different number of columns.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "setops_ch1",
+            "title": "Create a Master Customer List",
+            "steps": [
+                {
+                    "stepId": "setops_ch1_step1",
+                    "description": "Write a query using `UNION` to get a single, combined list of all unique customer names from both the London and Paris tables.",
+                    "solution": "SELECT name FROM london_customers UNION SELECT name FROM paris_customers;"
+                }
+            ]
+        },
+        {
+            "id": "setops_ch2",
+            "title": "Audit All Customer Records",
+            "steps": [
+                {
+                    "stepId": "setops_ch2_step1",
+                    "description": "To see every single record from both tables, including duplicates, combine the two customer tables using `UNION ALL`.",
+                    "solution": "SELECT name FROM london_customers UNION ALL SELECT name FROM paris_customers;"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,77 @@
+{
+    "id": "temp-tables-vs-ctes",
+    "title": "Temp Tables vs. CTEs",
+    "category": "Advanced Querying",
+    "difficulty": "Advanced",
+    "estimatedTime": "15 min",
+    "starterQuery": "/* This is a conceptual lesson comparing two powerful techniques. */\n\n-- CTE Example:\nWITH SalesSummary AS (\n    SELECT region, SUM(amount) as total_sales\n    FROM sales\n    GROUP BY region\n)\nSELECT * FROM SalesSummary WHERE total_sales > 10000;\n\n-- Temp Table Example (T-SQL Syntax):\nCREATE TABLE #SalesSummary (\n    region TEXT,\n    total_sales INT\n);\nINSERT INTO #SalesSummary\nSELECT region, SUM(amount) FROM sales GROUP BY region;\n\nSELECT * FROM #SalesSummary WHERE total_sales > 10000;",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What's the core difference?\nThe main difference is scope and persistence. A Common Table Expression (CTE) exists only for the duration of a single query. A Temporary Table is a physical table that is created in the database (in a special area like tempdb) and persists for the entire session, allowing it to be referenced by multiple subsequent queries."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. When should I use a CTE?\nCTEs are perfect for improving the readability and structure of a single, complex query. They are ideal for one-off calculations and are often used for recursive queries. Since they aren't physically created, they can be more efficient for simple, single-use cases."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. When should I use a Temporary Table?\nTemporary tables are better when you need to reuse an intermediate result set multiple times in a script. If you have a complex data set that you need to filter, join, and aggregate in several different ways, creating a temp table once at the beginning is much more efficient than re-calculating the same CTE over and over."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What about performance?\nFor a single, straightforward query, a CTE is usually faster. For complex scripts where the same intermediate data is needed multiple times, a temp table is almost always better because the data is 'materialized' (physically stored), can be indexed, and doesn't need to be re-calculated."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [
+        {
+            "id": "ttvcte_practice1",
+            "challenge": "You need to write a single query to find employees whose salary is above the company average. Which tool is better suited for this task?",
+            "solution": "A CTE. This is a simple, single-use query, which is the perfect use case for a Common Table Expression.",
+            "hint": "Consider if you need to reuse the result set in multiple other queries."
+        },
+        {
+            "id": "ttvcte_practice2",
+            "challenge": "You need to generate a complex sales summary report. You will then use this summary data to create three different charts, each requiring a separate query on the summary. Which tool is better here?",
+            "solution": "A Temporary Table. Since you need to query the intermediate summary data multiple times, creating a temp table is more efficient.",
+            "hint": "Think about whether the intermediate data needs to persist beyond a single statement."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "ttvcte_q1",
+            "type": "mcq",
+            "question": "Which of these can be referenced by multiple, separate SQL statements within the same session?",
+            "options": [
+                "CTE",
+                "Subquery",
+                "Temporary Table",
+                "View"
+            ],
+            "answer": "Temporary Table"
+        },
+        {
+            "id": "ttvcte_q2",
+            "type": "truefalse",
+            "question": "A CTE is generally the best choice for performing recursive queries.",
+            "answer": true
+        }
+    ],
+    "challenges": [
+        {
+            "id": "ttvcte_ch1",
+            "title": "Scenario: Daily Report",
+            "steps": [
+                {
+                    "stepId": "ttvcte_ch1_step1",
+                    "description": "You are writing a script that first calculates daily user activity, then calculates weekly trends from that daily data, and finally calculates monthly trends from the same daily data. Should you use a CTE or a Temp Table to hold the initial daily activity data?",
+                    "solution": "A Temporary Table. Because the daily activity data is calculated once and then used by two subsequent queries (weekly and monthly trends), a temp table is more efficient."
+                }
+            ]
+        }
+    ]
+}

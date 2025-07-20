@@ -1,0 +1,132 @@
+{
+    "id": "indexes",
+    "title": "Indexes",
+    "category": "Data Definition",
+    "difficulty": "Intermediate",
+    "estimatedTime": "15 min",
+    "starterQuery": "/* Let's add an index to speed up searches on the 'users' table. */\n\nCREATE INDEX idx_lastname ON users (last_name);",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is an INDEX?\nAn `INDEX` is a special lookup table that the database search engine can use to speed up data retrieval. Think of it like the index at the back of a book: instead of searching through every page (every row), the database can use the index to go directly to the information it needs."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why use an INDEX?\nThe primary purpose of an index is to improve query performance. Queries that filter or sort on indexed columns are significantly faster, especially on large tables. Without an index, the database has to do a 'full table scan', reading every single row to find matching data."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What is the downside?\nWhile indexes speed up data retrieval (`SELECT`), they can slow down data modification (`INSERT`, `UPDATE`, `DELETE`). This is because every time you change data, the database must also update the index. Therefore, you should only create indexes on columns that are frequently used in `WHERE` clauses or `JOIN` conditions."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is the syntax?\nThe syntax to create an index is `CREATE INDEX index_name ON table_name (column1, column2, ...);`. You give the index a unique name and specify the table and the column(s) to be indexed."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "users",
+                "columns": [
+                    {
+                        "name": "user_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "first_name",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "last_name",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "email",
+                        "type": "TEXT"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "users": [
+            {
+                "user_id": 1,
+                "first_name": "John",
+                "last_name": "Smith",
+                "email": "john.s@email.com"
+            },
+            {
+                "user_id": 2,
+                "first_name": "Jane",
+                "last_name": "Doe",
+                "email": "jane.d@email.com"
+            },
+            {
+                "user_id": 3,
+                "first_name": "Peter",
+                "last_name": "Jones",
+                "email": "peter.j@email.com"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "indexes_practice1",
+            "challenge": "Create an index named `idx_email` on the `email` column of the `users` table to speed up lookups by email address.",
+            "solution": "CREATE INDEX idx_email ON users (email);",
+            "hint": "Use the `CREATE INDEX` command, provide a name, and specify the table and column in parentheses."
+        },
+        {
+            "id": "indexes_practice2",
+            "challenge": "Create a composite index named `idx_fullname` on the `last_name` and `first_name` columns of the `users` table.",
+            "solution": "CREATE INDEX idx_fullname ON users (last_name, first_name);",
+            "hint": "To create a composite index, list multiple columns inside the parentheses, separated by commas."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "indexes_q1",
+            "type": "mcq",
+            "question": "What is the main purpose of creating an index?",
+            "options": [
+                "To enforce data integrity",
+                "To speed up data retrieval",
+                "To store more data",
+                "To make tables smaller"
+            ],
+            "answer": "To speed up data retrieval"
+        },
+        {
+            "id": "indexes_q2",
+            "type": "truefalse",
+            "question": "Adding many indexes to a table will always make all database operations faster.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "indexes_ch1",
+            "title": "Index a Foreign Key",
+            "steps": [
+                {
+                    "stepId": "indexes_ch1_step1",
+                    "description": "It's a best practice to create an index on foreign key columns. Imagine an `orders` table with a `customer_id` foreign key. Write the command to create an index named `idx_customer_id` on that column.",
+                    "solution": "CREATE INDEX idx_customer_id ON orders (customer_id);"
+                }
+            ]
+        },
+        {
+            "id": "indexes_ch2",
+            "title": "Create a Unique Index",
+            "steps": [
+                {
+                    "stepId": "indexes_ch2_step1",
+                    "description": "You can create an index that also enforces uniqueness. Write the command to create a unique index named `uidx_email` on the `email` column of the `users` table.",
+                    "solution": "CREATE UNIQUE INDEX uidx_email ON users (email);"
+                }
+            ]
+        }
+    ]
+}

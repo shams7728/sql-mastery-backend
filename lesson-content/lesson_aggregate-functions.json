@@ -1,0 +1,194 @@
+{
+  "id": "aggregate-functions",
+  "title": "Aggregate Functions",
+  "category": "Functions",
+  "difficulty": "Intermediate",
+  "estimatedTime": "12 min",
+  "starterQuery": "SELECT COUNT(*) FROM employees;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What Are Aggregate Functions?\nAggregate functions perform a calculation on a set of values and return a single value. They are used to summarize data."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why Are They Useful?\nThey help answer questions like totals, averages, counts, max, and min values. Useful in reporting and analytics."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where Are They Used?\nUsed with SELECT statements and often grouped using GROUP BY. Common in dashboards and summaries."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How to Use Them?\nJust wrap the column inside a function like COUNT(), AVG(), MAX(), etc. Example: `SELECT AVG(salary) FROM employees;`"
+    },
+    {
+      "type": "table",
+      "columns": [
+        "Function",
+        "Description"
+      ],
+      "rows": [
+        [
+          "COUNT()",
+          "Returns the number of rows"
+        ],
+        [
+          "SUM()",
+          "Calculates total sum of values"
+        ],
+        [
+          "AVG()",
+          "Calculates average of values"
+        ],
+        [
+          "MAX()",
+          "Finds the maximum value"
+        ],
+        [
+          "MIN()",
+          "Finds the minimum value"
+        ]
+      ]
+    },
+    {
+      "type": "note",
+      "text": "Aggregate functions ignore NULL values except for COUNT(*), which includes them."
+    },
+    {
+      "type": "code",
+      "text": "SELECT AVG(salary) FROM employees;"
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "employees",
+        "columns": [
+          {
+            "name": "id",
+            "type": "INTEGER",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "TEXT",
+            "constraints": "NOT NULL"
+          },
+          {
+            "name": "department",
+            "type": "TEXT"
+          },
+          {
+            "name": "salary",
+            "type": "INTEGER"
+          }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "employees": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "department": "HR",
+        "salary": 60000
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "department": "Engineering",
+        "salary": 75000
+      },
+      {
+        "id": 3,
+        "name": "Charlie",
+        "department": "Engineering",
+        "salary": 80000
+      },
+      {
+        "id": 4,
+        "name": "Diana",
+        "department": "Marketing",
+        "salary": 65000
+      },
+      {
+        "id": 5,
+        "name": "Eva",
+        "department": "HR",
+        "salary": 62000
+      }
+    ]
+  },
+  "examples": [
+    {
+      "query": "SELECT COUNT(*) FROM employees;",
+      "description": "Count total employees",
+      "explanation": "Returns the number of rows in the employees table."
+    },
+    {
+      "query": "SELECT AVG(salary) FROM employees;",
+      "description": "Average salary",
+      "explanation": "Calculates the average salary across all employees."
+    }
+  ],
+  "practice": [
+    {
+      "id": "aggregate-functions_practice1",
+      "challenge": "Find the total number of employees.",
+      "solution": "SELECT COUNT(*) FROM employees;",
+      "hint": "Use COUNT()"
+    },
+    {
+      "id": "aggregate-functions_practice2",
+      "challenge": "Get the maximum salary from employees.",
+      "solution": "SELECT MAX(salary) FROM employees;",
+      "hint": "Use MAX() function on the salary column."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "aggregate-functions_q1",
+      "type": "mcq",
+      "question": "Which function returns the highest value?",
+      "options": [
+        "SUM()",
+        "MAX()",
+        "AVG()",
+        "MIN()"
+      ],
+      "answer": "MAX()"
+    },
+    {
+      "id": "aggregate-functions_q2",
+      "type": "truefalse",
+      "question": "AVG() returns the average value of a numeric column.",
+      "answer": true
+    },
+    {
+      "id": "aggregate-functions_q3",
+      "type": "fill",
+      "question": "To count all rows in a table, use ______(*).",
+      "answer": "COUNT"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "aggregate-functions_ch1",
+      "title": "Aggregate Salary Challenge",
+      "steps": [
+        {
+          "stepId": "aggregate-functions_ch1_step1",
+          "description": "Step 1: Calculate the total salary of all employees.",
+          "solution": "SELECT SUM(salary) FROM employees;"
+        },
+        {
+          "stepId": "aggregate-functions_ch1_step2",
+          "description": "Step 2: Get the minimum salary from employees.",
+          "solution": "SELECT MIN(salary) FROM employees;"
+        }
+      ]
+    }
+  ]
+}

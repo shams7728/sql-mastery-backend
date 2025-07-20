@@ -1,0 +1,118 @@
+{
+    "id": "sql-anti-patterns",
+    "title": "SQL Anti-Patterns",
+    "category": "Database Design & Perf",
+    "difficulty": "Advanced",
+    "estimatedTime": "30 min",
+    "starterQuery": "/* This is a conceptual lesson on common SQL mistakes. */",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is an Anti-Pattern?\nAn anti-pattern is a common response to a recurring problem that is usually ineffective and risks being counterproductive. In SQL, these are common mistakes in database design or query writing that lead to poor performance, data integrity issues, and maintenance nightmares."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Anti-Pattern: Storing Comma-Separated Lists\nOne of the most common mistakes is storing multiple values in a single text column (e.g., a `tags` column with 'sql,python,database'). This violates normalization, makes searching for a single tag extremely difficult and inefficient, and makes joining to a `tags` table impossible."
+        },
+        {
+            "type": "code",
+            "text": "-- BAD: Storing a list\n-- CREATE TABLE posts (id INT, title TEXT, tags TEXT);\n-- INSERT INTO posts VALUES (1, 'My Post', 'sql,database,performance');\n\n-- GOOD: Using a separate junction table (Normalized)\n-- CREATE TABLE posts (id INT, title TEXT);\n-- CREATE TABLE tags (id INT, name TEXT);\n-- CREATE TABLE post_tags (post_id INT, tag_id INT);"
+        },
+        {
+            "type": "paragraph",
+            "text": "3. Anti-Pattern: Fear of Indexes\nSome developers avoid creating indexes because they slow down write operations (`INSERT`, `UPDATE`). While this is true, the performance gain on `SELECT` queries is almost always worth the trade-off for any column that is frequently used for filtering (`WHERE`) or joining (`ON`). Not indexing foreign keys is a particularly bad oversight."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. Anti-Pattern: Using `SELECT *` in Production Code\nWhile convenient for quick checks, `SELECT *` is harmful in application code. It retrieves more data than necessary, increasing network traffic. More importantly, if the table schema changes (e.g., a column is added), it can break the application code that expects a specific number or order of columns."
+        },
+        {
+            "type": "paragraph",
+            "text": "5. Anti-Pattern: Using `HAVING` as a `WHERE` Clause\n`WHERE` filters individual rows *before* they are grouped. `HAVING` filters groups *after* they have been created by `GROUP BY`. Using `HAVING` to do the job of `WHERE` is inefficient because the database has to group all the rows first and then filter them, instead of filtering the rows down to a smaller set before grouping."
+        },
+        {
+            "type": "code",
+            "text": "-- BAD: Using HAVING to filter rows\n-- SELECT category, COUNT(*) FROM products GROUP BY category HAVING category = 'Electronics';\n\n-- GOOD: Using WHERE to filter rows first\n-- SELECT category, COUNT(*) FROM products WHERE category = 'Electronics' GROUP BY category;"
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "ap_q1",
+            "type": "mcq",
+            "question": "Storing a comma-separated list of values in a single column violates which database principle?",
+            "options": [
+                "Performance Tuning",
+                "Normalization",
+                "Security",
+                "ACID Compliance"
+            ],
+            "answer": "Normalization"
+        },
+        {
+            "id": "ap_q2",
+            "type": "mcq",
+            "question": "Why is using `SELECT *` in application code considered an anti-pattern?",
+            "options": [
+                "It is not valid SQL syntax",
+                "It can break the application if the table schema changes",
+                "It is always slower than selecting specific columns",
+                "Both B and C"
+            ],
+            "answer": "Both B and C"
+        },
+        {
+            "id": "ap_q3",
+            "type": "mcq",
+            "question": "When should you use the `HAVING` clause?",
+            "options": [
+                "To filter individual rows before grouping",
+                "To filter groups after a GROUP BY operation",
+                "In place of a JOIN",
+                "To sort results"
+            ],
+            "answer": "To filter groups after a GROUP BY operation"
+        },
+        {
+            "id": "ap_q4",
+            "type": "truefalse",
+            "question": "It is a good practice to avoid creating any indexes on tables that have frequent `INSERT` operations.",
+            "answer": false
+        },
+        {
+            "id": "ap_q5",
+            "type": "mcq",
+            "question": "Which of these is the correct, normalized way to store post tags?",
+            "options": [
+                "A `tags` column in the `posts` table",
+                "A separate `post_tags` junction table",
+                "A `tags.json` file",
+                "A `tags` view"
+            ],
+            "answer": "A separate `post_tags` junction table"
+        },
+        {
+            "id": "ap_q6",
+            "type": "truefalse",
+            "question": "Using a function on a column in a `WHERE` clause (e.g., `WHERE YEAR(order_date) = 2025`) is always the most performant option.",
+            "answer": false
+        },
+        {
+            "id": "ap_q7",
+            "type": "mcq",
+            "question": "What is a major downside of not indexing a foreign key column?",
+            "options": [
+                "It prevents `INSERT` operations",
+                "It makes `JOIN` operations on that key very slow",
+                "It violates data integrity",
+                "It uses more disk space"
+            ],
+            "answer": "It makes `JOIN` operations on that key very slow"
+        }
+    ]
+}

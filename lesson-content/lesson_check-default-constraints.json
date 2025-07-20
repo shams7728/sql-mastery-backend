@@ -1,0 +1,88 @@
+{
+    "id": "check-default-constraints",
+    "title": "CHECK and DEFAULT Constraints",
+    "category": "Data Definition",
+    "difficulty": "Intermediate",
+    "estimatedTime": "18 min",
+    "starterQuery": "/* Let's create a table with custom rules and default values. */\n\nCREATE TABLE products (\n    product_id INTEGER PRIMARY KEY,\n    product_name TEXT NOT NULL,\n    price REAL NOT NULL CHECK (price > 0),\n    status TEXT DEFAULT 'in_stock' CHECK (status IN ('in_stock', 'out_of_stock', 'discontinued'))\n);",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is the DEFAULT Constraint?\nThe `DEFAULT` constraint provides a default value for a column when no value is specified during an `INSERT` operation. This is useful for setting initial statuses, timestamps, or standard values."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What is the CHECK Constraint?\nThe `CHECK` constraint is used to limit the value range that can be placed in a column. It ensures that all values in the column satisfy a specific condition or boolean expression. This is a powerful way to enforce business rules at the database level."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How are they defined?\nBoth constraints are defined in the `CREATE TABLE` statement, right after the column's data type. The syntax for `DEFAULT` is `DEFAULT default_value`, and for `CHECK` it is `CHECK (condition)`."
+        },
+        {
+            "type": "code",
+            "text": "-- Example: Creating an employees table with constraints\nCREATE TABLE employees (\n    emp_id INTEGER PRIMARY KEY,\n    salary REAL CHECK (salary >= 30000),\n    is_active INTEGER DEFAULT 1 CHECK (is_active IN (0, 1))\n);"
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [
+        {
+            "id": "cd_practice1",
+            "challenge": "Create a table named `orders`. It should have `order_id` (INTEGER PRIMARY KEY), `order_date` (DATE) which defaults to the current date, and `amount` (REAL) which must be greater than zero.",
+            "solution": "CREATE TABLE orders (order_id INTEGER PRIMARY KEY, order_date DATE DEFAULT (date('now')), amount REAL CHECK (amount > 0));",
+            "hint": "Use `DEFAULT (date('now'))` for the date and `CHECK (amount > 0)` for the amount."
+        },
+        {
+            "id": "cd_practice2",
+            "challenge": "Create a table named `reviews`. It should have `review_id` (INTEGER PRIMARY KEY) and a `rating` (INTEGER) which must be between 1 and 5 (inclusive).",
+            "solution": "CREATE TABLE reviews (review_id INTEGER PRIMARY KEY, rating INTEGER CHECK (rating >= 1 AND rating <= 5));",
+            "hint": "The `CHECK` constraint can include logical operators like `AND`."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "cd_q1",
+            "type": "mcq",
+            "question": "Which constraint is used to provide an initial value for a column if one isn't specified?",
+            "options": [
+                "UNIQUE",
+                "CHECK",
+                "DEFAULT",
+                "NOT NULL"
+            ],
+            "answer": "DEFAULT"
+        },
+        {
+            "id": "cd_q2",
+            "type": "truefalse",
+            "question": "A `CHECK` constraint can only compare a column to a single, static value.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "cd_ch1",
+            "title": "Define User Roles",
+            "steps": [
+                {
+                    "stepId": "cd_ch1_step1",
+                    "description": "Create a table named `site_users`. It should have a `user_id` (PRIMARY KEY), a `username` (TEXT), and a `role` (TEXT) column. The `role` should default to 'viewer' and can only be one of three values: 'viewer', 'editor', or 'admin'.",
+                    "solution": "CREATE TABLE site_users (user_id INTEGER PRIMARY KEY, username TEXT, role TEXT DEFAULT 'viewer' CHECK (role IN ('viewer', 'editor', 'admin')));"
+                }
+            ]
+        },
+        {
+            "id": "cd_ch2",
+            "title": "Define Product Inventory Rules",
+            "steps": [
+                {
+                    "stepId": "cd_ch2_step1",
+                    "description": "Create a table named `inventory`. It needs a `product_id` (INTEGER), a `location` (TEXT), and a `quantity` (INTEGER). The quantity must not be negative and should default to 0.",
+                    "solution": "CREATE TABLE inventory (product_id INTEGER, location TEXT, quantity INTEGER DEFAULT 0 CHECK (quantity >= 0));"
+                }
+            ]
+        }
+    ]
+}

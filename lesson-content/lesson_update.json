@@ -1,0 +1,144 @@
+{
+    "id": "update",
+    "title": "UPDATE Statement",
+    "category": "Data Modification",
+    "difficulty": "Beginner",
+    "estimatedTime": "15 min",
+    "starterQuery": "/* Let's give our 'Basic T-Shirt' a price increase. */\n\nUPDATE products\nSET price = 15.99\nWHERE product_name = 'Basic T-Shirt';",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is UPDATE?\nThe `UPDATE` statement is a Data Manipulation Language (DML) command used to modify existing records in a table. You can change the values in one or more columns for rows that match a specific condition."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What is the syntax?\nThe basic syntax is `UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;`. The `SET` clause specifies which columns to change and their new values. The `WHERE` clause determines which rows to update."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. Why is the WHERE clause so important?\nThe `WHERE` clause is critical. If you omit it, the `UPDATE` statement will modify **every single row** in the table. This is a common and dangerous mistake. Always double-check your `WHERE` clause before running an `UPDATE`."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. Can you update multiple columns at once?\nYes. You can update multiple columns in the same statement by providing a comma-separated list of `column = value` pairs in the `SET` clause."
+        },
+        {
+            "type": "code",
+            "text": "-- Update both the price and stock for a specific product\nUPDATE products\nSET price = 29.99, stock = 100\nWHERE product_id = 101;"
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "products",
+                "columns": [
+                    {
+                        "name": "product_id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "product_name",
+                        "type": "TEXT",
+                        "constraints": "NOT NULL"
+                    },
+                    {
+                        "name": "category",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "price",
+                        "type": "REAL"
+                    },
+                    {
+                        "name": "stock",
+                        "type": "INTEGER"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "products": [
+            {
+                "product_id": 101,
+                "product_name": "Basic T-Shirt",
+                "category": "Apparel",
+                "price": 12.99,
+                "stock": 150
+            },
+            {
+                "product_id": 102,
+                "product_name": "Jeans",
+                "category": "Apparel",
+                "price": 49.99,
+                "stock": 80
+            },
+            {
+                "product_id": 103,
+                "product_name": "Coffee Mug",
+                "category": "Homeware",
+                "price": 8.5,
+                "stock": 200
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "update_practice1",
+            "challenge": "The price of 'Jeans' has increased. Update the `price` of the product with the name 'Jeans' to 54.99.",
+            "solution": "UPDATE products SET price = 54.99 WHERE product_name = 'Jeans';",
+            "hint": "Use `UPDATE products SET ...` and be sure to include a `WHERE` clause to target only the 'Jeans' row."
+        },
+        {
+            "id": "update_practice2",
+            "challenge": "A shipment arrived. Update the `stock` for the 'Coffee Mug' to 250 and change its `category` to 'Kitchenware' in a single statement.",
+            "solution": "UPDATE products SET stock = 250, category = 'Kitchenware' WHERE product_name = 'Coffee Mug';",
+            "hint": "You can update multiple columns by separating them with a comma in the `SET` clause."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "update_q1",
+            "type": "mcq",
+            "question": "What happens if you omit the `WHERE` clause in an `UPDATE` statement?",
+            "options": [
+                "The query fails with an error",
+                "It updates only the first row",
+                "It updates all rows in the table",
+                "It updates nothing"
+            ],
+            "answer": "It updates all rows in the table"
+        },
+        {
+            "id": "update_q2",
+            "type": "truefalse",
+            "question": "You can only update one column at a time with the `UPDATE` statement.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "update_ch1",
+            "title": "Run a Store-Wide Sale",
+            "steps": [
+                {
+                    "stepId": "update_ch1_step1",
+                    "description": "Put all items in the 'Apparel' category on sale by decreasing their price by 10%.",
+                    "solution": "UPDATE products SET price = price * 0.9 WHERE category = 'Apparel';"
+                }
+            ]
+        },
+        {
+            "id": "update_ch2",
+            "title": "Correct a Product Listing",
+            "steps": [
+                {
+                    "stepId": "update_ch2_step1",
+                    "description": "You've noticed the product with `product_id` 103 is miscategorized. Update its `category` to 'Gifts' and increase its `price` to 9.00.",
+                    "solution": "UPDATE products SET category = 'Gifts', price = 9.00 WHERE product_id = 103;"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,176 @@
+{
+    "id": "common-table-expressions",
+    "title": "Common Table Expressions (CTEs)",
+    "category": "Advanced Querying",
+    "difficulty": "Advanced",
+    "estimatedTime": "25 min",
+    "starterQuery": "/* Let's use a CTE to find all employees in the 'Sales' department. */\n\nWITH SalesDept AS (\n    SELECT id FROM departments WHERE name = 'Sales'\n)\nSELECT e.name\nFROM employees e\nJOIN SalesDept sd ON e.department_id = sd.id;",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a Common Table Expression (CTE)?\nA CTE is a temporary, named result set that you can reference within a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement. It helps break down complex queries into simpler, more readable logical blocks."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why use a CTE?\nCTEs make long and complex queries much easier to read and maintain. They also enable recursive queries, which are essential for querying hierarchical data (like an organizational chart or a bill of materials)."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What is the syntax?\nA CTE is defined using the `WITH` keyword. The syntax is `WITH cte_name AS (SELECT ...)` followed by the main query that references the CTE. You can define multiple CTEs in a single `WITH` clause, separated by commas."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is a Recursive CTE?\nA recursive CTE is one that references itself. It must have two parts: an 'anchor member' (the initial `SELECT` statement) and a 'recursive member' (which references the CTE itself), combined with a `UNION ALL`."
+        },
+        {
+            "type": "code",
+            "text": "-- A simple CTE to get all managers\nWITH Managers AS (\n    SELECT * FROM employees WHERE role = 'Manager'\n)\nSELECT name FROM Managers;"
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "employees",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "role",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "manager_id",
+                        "type": "INTEGER"
+                    }
+                ]
+            },
+            {
+                "name": "departments",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "employees": [
+            {
+                "id": 1,
+                "name": "Alice",
+                "role": "CEO",
+                "manager_id": null
+            },
+            {
+                "id": 2,
+                "name": "Bob",
+                "role": "Manager",
+                "manager_id": 1
+            },
+            {
+                "id": 3,
+                "name": "Charlie",
+                "role": "Manager",
+                "manager_id": 1
+            },
+            {
+                "id": 4,
+                "name": "Diana",
+                "role": "Engineer",
+                "manager_id": 2
+            },
+            {
+                "id": 5,
+                "name": "Eve",
+                "role": "Engineer",
+                "manager_id": 2
+            },
+            {
+                "id": 6,
+                "name": "Frank",
+                "role": "Sales",
+                "manager_id": 3
+            }
+        ],
+        "departments": [
+            {
+                "id": 1,
+                "name": "Executive"
+            },
+            {
+                "id": 2,
+                "name": "Engineering"
+            },
+            {
+                "id": 3,
+                "name": "Sales"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "cte_practice1",
+            "challenge": "Using a CTE, find the names of all employees who are 'Managers'. Name the CTE `ManagersCTE`.",
+            "solution": "WITH ManagersCTE AS (SELECT name FROM employees WHERE role = 'Manager') SELECT * FROM ManagersCTE;",
+            "hint": "Define a CTE with the `WITH` keyword that selects employees where the role is 'Manager', then select everything from your new CTE."
+        },
+        {
+            "id": "cte_practice2",
+            "challenge": "Create a CTE named `Managers` that selects the `id` and `name` of all managers. Then, join this CTE back to the `employees` table to list each employee and their manager's name.",
+            "solution": "WITH Managers AS (SELECT id, name FROM employees WHERE role = 'Manager' OR role = 'CEO') SELECT e.name AS employee, m.name AS manager FROM employees e JOIN Managers m ON e.manager_id = m.id;",
+            "hint": "Your main query will need to join `employees` and your `Managers` CTE on the `manager_id`."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "cte_q1",
+            "type": "mcq",
+            "question": "Which keyword is used to begin the definition of a Common Table Expression?",
+            "options": [
+                "CTE",
+                "AS",
+                "WITH",
+                "RECURSIVE"
+            ],
+            "answer": "WITH"
+        },
+        {
+            "id": "cte_q2",
+            "type": "truefalse",
+            "question": "A CTE is a permanent table that is stored in the database for future use.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "cte_ch1",
+            "title": "Find All Subordinates of a Manager",
+            "steps": [
+                {
+                    "stepId": "cte_ch1_step1",
+                    "description": "This is a classic use for a recursive CTE. Start by creating the anchor member: a CTE named `Subordinates` that selects the employee with `id` = 1 (Alice).",
+                    "solution": "WITH RECURSIVE Subordinates AS (SELECT id, name, manager_id FROM employees WHERE id = 1)"
+                },
+                {
+                    "stepId": "cte_ch1_step2",
+                    "description": "Now, add the recursive part. `UNION ALL` with a `SELECT` that joins `employees` to your `Subordinates` CTE to find employees whose `manager_id` is in the CTE.",
+                    "solution": "WITH RECURSIVE Subordinates AS (SELECT id, name, manager_id FROM employees WHERE id = 1 UNION ALL SELECT e.id, e.name, e.manager_id FROM employees e JOIN Subordinates s ON e.manager_id = s.id) SELECT name FROM Subordinates;"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,114 @@
+{
+    "id": "stored-procedures",
+    "title": "Stored Procedures",
+    "category": "Advanced Querying",
+    "difficulty": "Advanced",
+    "estimatedTime": "25 min",
+    "starterQuery": "/* This is a conceptual lesson on Stored Procedures.\n   Since they are not supported in SQLite, there are no queries to run.\n   The examples below use T-SQL (SQL Server) syntax. */",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a Stored Procedure?\nA stored procedure is a prepared set of one or more SQL statements that are saved in the database. Think of it as a function or a script that lives on the database server. You can execute it by calling its name, which makes complex operations simple to reuse."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What are the main advantages of using them?\nThere are four key benefits: 1. Performance: The database analyzes and optimizes the procedure's query plan once and caches it, making subsequent executions much faster. 2. Reduced Network Traffic: Instead of sending hundreds of lines of SQL from your application, you send a single line to execute the procedure. 3.Enhanced Security: You can grant an application permission to run a procedure without giving it direct permission to the underlying tables. 4. Reusability & Consistency: It ensures that complex business logic is applied consistently every time, as the code is centralized in one place."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What are Input and Output Parameters?\nStored procedures can be made dynamic by using parameters. An **input parameter** allows you to pass a value into the procedure (e.g., a user ID to look up). An **output parameter** allows the procedure to pass a value back out to the calling application (e.g., the total number of records found)."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. How is a procedure different from a User-Defined Function (UDF)?\nWhile similar, they have key differences. UDFs are typically used within a SQL statement (like `SELECT dbo.MyFunction(column)`), whereas stored procedures are executed on their own (`EXEC MyProcedure`). Procedures can perform data modification and return multiple result sets, while scalar UDFs are generally expected to return a single value and not modify data."
+        },
+        {
+            "type": "code",
+            "text": "-- SQL Server Example: A procedure with input and output parameters\nCREATE PROCEDURE sp_GetEmployeeCountForDept\n    @DepartmentName NVARCHAR(50),\n    @EmployeeCount INT OUTPUT\nAS\nBEGIN\n    -- This statement calculates the count and assigns it to the output parameter\n    SELECT @EmployeeCount = COUNT(e.id)\n    FROM employees e\n    JOIN departments d ON e.department_id = d.id\n    WHERE d.name = @DepartmentName;\nEND;\n\n-- How to execute it and get the output value\nDECLARE @CountResult INT;\nEXEC sp_GetEmployeeCountForDept @DepartmentName = 'Sales', @EmployeeCount = @CountResult OUTPUT;\nSELECT @CountResult AS NumberOfSalesEmployees;"
+        },
+        {
+            "type": "note",
+            "text": "Stored procedures are a server-side feature. Their syntax and capabilities vary significantly between database systems like SQL Server, Oracle, and PostgreSQL. They are not supported in file-based databases like SQLite."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "sp_q1",
+            "type": "mcq",
+            "question": "What is the primary benefit of a stored procedure's query plan being cached by the database?",
+            "options": [
+                "Improved Security",
+                "Reduced Network Traffic",
+                "Improved Performance",
+                "Easier Syntax"
+            ],
+            "answer": "Improved Performance"
+        },
+        {
+            "id": "sp_q2",
+            "type": "mcq",
+            "question": "If you want a procedure to return a single value back to the calling application, you would use what kind of parameter?",
+            "options": [
+                "INPUT",
+                "RETURN",
+                "INOUT",
+                "OUTPUT"
+            ],
+            "answer": "OUTPUT"
+        },
+        {
+            "id": "sp_q3",
+            "type": "mcq",
+            "question": "Which command is typically used to run a stored procedure in T-SQL (SQL Server)?",
+            "options": [
+                "RUN",
+                "CALL",
+                "EXECUTE",
+                "PERFORM"
+            ],
+            "answer": "EXECUTE"
+        },
+        {
+            "id": "sp_q4",
+            "type": "truefalse",
+            "question": "Stored procedures are ideal for simple, one-off queries that will not be run again.",
+            "answer": false
+        },
+        {
+            "id": "sp_q5",
+            "type": "mcq",
+            "question": "Granting a user permission to run a stored procedure but not on the underlying tables is a form of...",
+            "options": [
+                "Performance Tuning",
+                "Network Optimization",
+                "Enhanced Security",
+                "Data Compression"
+            ],
+            "answer": "Enhanced Security"
+        },
+        {
+            "id": "sp_q6",
+            "type": "truefalse",
+            "question": "Stored procedures are a standard feature supported with the exact same syntax across all major database systems.",
+            "answer": false
+        },
+        {
+            "id": "sp_q7",
+            "type": "mcq",
+            "question": "Which of the following is a key difference between a stored procedure and a scalar UDF?",
+            "options": [
+                "A UDF cannot accept parameters",
+                "A stored procedure is executed on its own, while a UDF is typically used within another SQL statement",
+                "A UDF is faster",
+                "A stored procedure cannot modify data"
+            ],
+            "answer": "A stored procedure is executed on its own, while a UDF is typically used within another SQL statement"
+        }
+    ]
+}

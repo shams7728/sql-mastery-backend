@@ -1,0 +1,173 @@
+{
+    "id": "user-defined-functions",
+    "title": "User-Defined Functions (UDFs)",
+    "category": "Functions",
+    "difficulty": "Advanced",
+    "estimatedTime": "25 min",
+    "starterQuery": "/* This lesson is theoretical as SQLite has limited UDF support. */\n-- The examples below use PostgreSQL or T-SQL syntax.",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What are User-Defined Functions (UDFs)?\nA UDF is a custom function you create to perform a specific action. It allows you to extend the database's built-in functionality by encapsulating reusable logic. Think of it as creating your own shortcut for complex operations."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why create a UDF?\nUDFs are created to simplify complex calculations, enforce consistent business logic, and make queries more readable. For example, you could create a function `calculate_final_price(price, tax_rate)` so you don't have to write the formula `price * (1 + tax_rate)` in every single query."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What are the common types of UDFs?\nThe most common type is a 'Scalar Function', which takes one or more parameters and returns a single value (e.g., a number, string, or date). Other advanced types, like 'Table-Valued Functions', can return an entire table of data."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is the syntax? (PostgreSQL Example)\nThe syntax varies between database systems. In PostgreSQL, you use the `CREATE FUNCTION` statement. You must define the function name, its parameters (with their data types), the return type, and the language (like `plpgsql`, the standard procedural language for PostgreSQL)."
+        },
+        {
+            "type": "code",
+            "text": "-- PostgreSQL Example: A function to calculate a discounted price\nCREATE FUNCTION calculate_discounted_price(price NUMERIC, discount_percent INT)\nRETURNS NUMERIC AS $$\nBEGIN\n    RETURN price - (price * discount_percent / 100);\nEND;\n$$ LANGUAGE plpgsql;\n\n-- How to use the function in a query:\nSELECT \n  product_name, \n  price, \n  calculate_discounted_price(price, 15) AS discounted_price\nFROM products;\n"
+        },
+        {
+            "type": "note",
+            "text": "While powerful, overusing UDFs (especially scalar ones) inside a `WHERE` clause can sometimes slow down query performance. It's important to use them wisely."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "products",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "product_name",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "price",
+                        "type": "NUMERIC"
+                    }
+                ]
+            },
+            {
+                "name": "employees",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "first_name",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "last_name",
+                        "type": "TEXT"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "products": [
+            {
+                "id": 1,
+                "product_name": "Laptop",
+                "price": 1200.0
+            },
+            {
+                "id": 2,
+                "product_name": "Monitor",
+                "price": 300.0
+            },
+            {
+                "id": 3,
+                "product_name": "Keyboard",
+                "price": 75.0
+            }
+        ],
+        "employees": [
+            {
+                "id": 1,
+                "first_name": "Alice",
+                "last_name": "Smith"
+            },
+            {
+                "id": 2,
+                "first_name": "Bob",
+                "last_name": "Johnson"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "udf_practice1",
+            "challenge": "Write a query to show the original price and a discounted price for all products. The discount is 20%. Name the new column `discounted_price`.",
+            "solution": "SELECT product_name, price, price * 0.8 AS discounted_price FROM products;",
+            "hint": "You can perform mathematical operations directly in your SELECT statement. To calculate a 20% discount, you can multiply the price by 0.8."
+        },
+        {
+            "id": "udf_practice2",
+            "challenge": "Write a query that returns the full name of all employees from the `employees` table. The name should be in the format 'LastName, FirstName' and the column should be named `full_name`.",
+            "solution": "SELECT last_name || ', ' || first_name AS full_name FROM employees;",
+            "hint": "Use the concatenation operator `||` to join the `last_name`, a comma and space, and the `first_name`."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "udf_q1",
+            "type": "mcq",
+            "question": "What is the primary benefit of using a UDF?",
+            "options": [
+                "To make queries run faster",
+                "To encapsulate and reuse custom logic",
+                "To replace all built-in functions",
+                "To create new tables"
+            ],
+            "answer": "To encapsulate and reuse custom logic"
+        },
+        {
+            "id": "udf_q2",
+            "type": "truefalse",
+            "question": "A User-Defined Function can only return a single scalar value (like a number or string).",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "udf_ch1",
+            "title": "Design a Full Name Formatter",
+            "steps": [
+                {
+                    "stepId": "udf_ch1_step1",
+                    "description": "Write the conceptual `CREATE FUNCTION` statement (using PostgreSQL syntax) for a UDF named `format_full_name`. It should accept two text parameters, `first_name` and `last_name`, and return a single text value.",
+                    "solution": "CREATE FUNCTION format_full_name(first_name TEXT, last_name TEXT) RETURNS TEXT AS $$"
+                },
+                {
+                    "stepId": "udf_ch1_step2",
+                    "description": "Inside the function body, write the logic to concatenate the names in the format 'LastName, FirstName'.",
+                    "solution": "BEGIN RETURN last_name || ', ' || first_name; END; $$ LANGUAGE plpgsql;"
+                }
+            ]
+        },
+        {
+            "id": "udf_ch2",
+            "title": "Design a Tax Calculator",
+            "steps": [
+                {
+                    "stepId": "udf_ch2_step1",
+                    "description": "Write the conceptual `CREATE FUNCTION` statement for a UDF named `calculate_final_price`. It should accept a numeric `base_price` and a numeric `tax_rate` (e.g., 0.08 for 8%). It should return a numeric value.",
+                    "solution": "CREATE FUNCTION calculate_final_price(base_price NUMERIC, tax_rate NUMERIC) RETURNS NUMERIC AS $$"
+                },
+                {
+                    "stepId": "udf_ch2_step2",
+                    "description": "Write the function body logic to calculate the price including tax.",
+                    "solution": "BEGIN RETURN base_price * (1 + tax_rate); END; $$ LANGUAGE plpgsql;"
+                }
+            ]
+        }
+    ]
+}

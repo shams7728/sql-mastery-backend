@@ -1,0 +1,127 @@
+{
+    "id": "pivot-unpivot",
+    "title": "PIVOT and UNPIVOT",
+    "category": "Advanced Querying",
+    "difficulty": "Advanced",
+    "estimatedTime": "20 min",
+    "starterQuery": "/* This lesson is conceptual as SQLite does not support PIVOT/UNPIVOT. */\n-- The examples below use T-SQL (SQL Server) syntax.",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is PIVOT?\nThe `PIVOT` operator rotates a table-valued expression by turning the unique values from one column into multiple columns in the output. It essentially transforms data from a 'row-level' view to a 'columnar' view, often used in reporting and data analysis."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What is UNPIVOT?\n`UNPIVOT` is the reverse operation. It rotates columns into rows. It's used when you have data stored in a 'wide' format (with many columns) and you need to transform it into a 'tall' format (with more rows) for easier analysis."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. Why are they useful?\nThese operators are invaluable for creating summary reports and crosstabulations. For example, you could pivot a sales table to show total sales for each product, with each year as a separate column, all in a single row per product."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is the syntax? (SQL Server Example)\nThe syntax can be complex. For `PIVOT`, you specify an aggregate function, the column whose values will become the new column headers (`FOR` clause), and the column whose values will populate those new columns (`IN` clause)."
+        },
+        {
+            "type": "code",
+            "text": "-- SQL Server PIVOT Example:\nSELECT ProductName, [2024], [2025]\nFROM (\n    SELECT ProductName, YEAR(SaleDate) as SaleYear, Amount\n    FROM Sales\n) AS SourceTable\nPIVOT (\n    SUM(Amount)\n    FOR SaleYear IN ([2024], [2025])\n) AS PivotTable;"
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "quarterly_sales",
+                "columns": [
+                    {
+                        "name": "product",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "quarter",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "sales",
+                        "type": "INTEGER"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "quarterly_sales": [
+            {
+                "product": "Laptop",
+                "quarter": "Q1",
+                "sales": 15000
+            },
+            {
+                "product": "Laptop",
+                "quarter": "Q2",
+                "sales": 18000
+            },
+            {
+                "product": "Monitor",
+                "quarter": "Q1",
+                "sales": 7000
+            },
+            {
+                "product": "Monitor",
+                "quarter": "Q2",
+                "sales": 9000
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "pivot_practice1",
+            "challenge": "Conceptually, if you wanted to transform the `quarterly_sales` table to show each product on one row with columns for Q1 and Q2 sales, which operator would you use?",
+            "solution": "PIVOT",
+            "hint": "You are turning row values ('Q1', 'Q2') into columns."
+        },
+        {
+            "id": "pivot_practice2",
+            "challenge": "Imagine you have a pivoted table with columns `Product`, `Sales_2024`, `Sales_2025`. If you wanted to transform this back into rows, with one row for each year per product, which operator would you use?",
+            "solution": "UNPIVOT",
+            "hint": "You are turning columns ('Sales_2024', 'Sales_2025') back into row values."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "pivot_q1",
+            "type": "mcq",
+            "question": "The PIVOT operator converts unique values from a...?",
+            "options": [
+                "...row into multiple rows.",
+                "...column into multiple columns.",
+                "...table into multiple tables.",
+                "...database into multiple databases."
+            ],
+            "answer": "...column into multiple columns."
+        },
+        {
+            "id": "pivot_q2",
+            "type": "truefalse",
+            "question": "`PIVOT` and `UNPIVOT` are standard SQL commands supported by all database systems, including SQLite.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "pivot_ch1",
+            "title": "Design a Sales Pivot",
+            "steps": [
+                {
+                    "stepId": "pivot_ch1_step1",
+                    "description": "You need to pivot the `quarterly_sales` table. Which column's values will you use for the new column headers?",
+                    "solution": "The `quarter` column (containing 'Q1', 'Q2', etc.)."
+                },
+                {
+                    "stepId": "pivot_ch1_step2",
+                    "description": "Which column contains the values that will be placed under these new headers, and which aggregate function would you use?",
+                    "solution": "The `sales` column, and you would use the `SUM()` or `AVG()` aggregate function."
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,117 @@
+{
+    "id": "normalization-denormalization",
+    "title": "Normalization vs. Denormalization",
+    "category": "Database Design & Perf",
+    "difficulty": "Advanced",
+    "estimatedTime": "25 min",
+    "starterQuery": "/* This is a conceptual lesson on database design principles. */",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is Normalization?\nNormalization is the process of organizing columns and tables in a relational database to minimize data redundancy. The goal is to divide larger tables into smaller, well-structured tables and define relationships between them. This reduces the risk of data anomalies (like update, insertion, and deletion anomalies)."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What is Denormalization?\nDenormalization is the opposite process. It involves intentionally adding redundant data to one or more tables. This is done to improve query performance by avoiding the need for complex joins between tables, which can be slow."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What is the Trade-Off?\nThe core trade-off is between data integrity and query performance. Normalization prioritizes data integrity and reduces redundancy, but it can lead to slower queries that require many joins. Denormalization prioritizes fast query performance (fewer joins) at the cost of data redundancy and a higher risk of data anomalies."
+        },
+        {
+            "type": "table",
+            "columns": [
+                "Aspect",
+                "Normalization",
+                "Denormalization"
+            ],
+            "rows": [
+                [
+                    "Primary Goal",
+                    "Minimize data redundancy",
+                    "Improve read performance"
+                ],
+                [
+                    "Data Integrity",
+                    "High (prevents anomalies)",
+                    "Lower (risk of inconsistent data)"
+                ],
+                [
+                    "Write Performance",
+                    "Faster (updates are smaller)",
+                    "Slower (redundant data must be updated)"
+                ],
+                [
+                    "Read Performance",
+                    "Slower (requires more joins)",
+                    "Faster (fewer joins needed)"
+                ],
+                [
+                    "Best Use Case",
+                    "Transactional Systems (OLTP)",
+                    "Reporting & Analytics (OLAP, Data Warehouses)"
+                ]
+            ]
+        },
+        {
+            "type": "note",
+            "text": "In modern database design, it's common to start with a highly normalized model for your main application (OLTP) and then create a separate, denormalized database or data warehouse for reporting and analytics (OLAP)."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "norm_q1",
+            "type": "mcq",
+            "question": "What is the primary goal of database normalization?",
+            "options": [
+                "To make queries faster",
+                "To minimize data redundancy",
+                "To use less disk space",
+                "To make tables wider"
+            ],
+            "answer": "To minimize data redundancy"
+        },
+        {
+            "id": "norm_q2",
+            "type": "mcq",
+            "question": "In which type of system is a denormalized database model most commonly preferred?",
+            "options": [
+                "Online Transaction Processing (OLTP)",
+                "High-security applications",
+                "Data entry systems",
+                "Online Analytical Processing (OLAP) / Data Warehousing"
+            ],
+            "answer": "Online Analytical Processing (OLAP) / Data Warehousing"
+        },
+        {
+            "id": "norm_q3",
+            "type": "truefalse",
+            "question": "Denormalization increases the risk of data anomalies.",
+            "answer": true
+        },
+        {
+            "id": "norm_q4",
+            "type": "mcq",
+            "question": "A highly normalized database typically results in...",
+            "options": [
+                "Fewer tables and faster reads",
+                "More tables and potentially slower reads",
+                "No tables at all",
+                "A single, large table"
+            ],
+            "answer": "More tables and potentially slower reads"
+        },
+        {
+            "id": "norm_q5",
+            "type": "truefalse",
+            "question": "The process of normalization involves adding redundant data to speed up queries.",
+            "answer": false
+        }
+    ]
+}

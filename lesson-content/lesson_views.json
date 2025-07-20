@@ -1,0 +1,186 @@
+{
+    "id": "views",
+    "title": "VIEWS",
+    "category": "Data Definition",
+    "difficulty": "Intermediate",
+    "estimatedTime": "20 min",
+    "starterQuery": "/* Let's create a View to simplify our data access. */\n\nCREATE VIEW v_engineering_staff AS\nSELECT\n    e.name,\n    e.role,\n    d.name AS department_name\nFROM\n    employees e\nJOIN\n    departments d ON e.department_id = d.id\nWHERE\n    d.name = 'Engineering';",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is a VIEW?\nA `VIEW` is a virtual table based on the result-set of an SQL statement. It contains rows and columns, just like a real table, but it doesn't store any data itself. The data is generated dynamically when you query the view."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. Why use a VIEW?\nViews are used for several reasons: to simplify complex queries involving multiple joins; to provide a consistent, abstract interface to users even if the underlying tables change; and to implement security by restricting access to specific columns or rows."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. How does it work?\nWhen you create a view, the database stores the `SELECT` statement. Each time you run a query against the view, the database executes the stored `SELECT` statement in the background to produce the results."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is the syntax?\nThe basic syntax is `CREATE VIEW view_name AS SELECT column1, column2, ... FROM table_name WHERE condition;`. After a view is created, you can query it just like a regular table: `SELECT * FROM view_name;`."
+        }
+    ],
+    "schema": {
+        "tables": [
+            {
+                "name": "employees",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "role",
+                        "type": "TEXT"
+                    },
+                    {
+                        "name": "salary",
+                        "type": "INTEGER"
+                    },
+                    {
+                        "name": "department_id",
+                        "type": "INTEGER"
+                    }
+                ]
+            },
+            {
+                "name": "departments",
+                "columns": [
+                    {
+                        "name": "id",
+                        "type": "INTEGER",
+                        "constraints": "PRIMARY KEY"
+                    },
+                    {
+                        "name": "name",
+                        "type": "TEXT"
+                    }
+                ]
+            }
+        ]
+    },
+    "sample_data": {
+        "employees": [
+            {
+                "id": 1,
+                "name": "Alice",
+                "role": "Lead Engineer",
+                "salary": 120000,
+                "department_id": 1
+            },
+            {
+                "id": 2,
+                "name": "Bob",
+                "role": "Software Engineer",
+                "salary": 95000,
+                "department_id": 1
+            },
+            {
+                "id": 3,
+                "name": "Charlie",
+                "role": "Sales Director",
+                "salary": 110000,
+                "department_id": 2
+            },
+            {
+                "id": 4,
+                "name": "Diana",
+                "role": "Sales Associate",
+                "salary": 70000,
+                "department_id": 2
+            },
+            {
+                "id": 5,
+                "name": "Eve",
+                "role": "HR Manager",
+                "salary": 85000,
+                "department_id": 3
+            }
+        ],
+        "departments": [
+            {
+                "id": 1,
+                "name": "Engineering"
+            },
+            {
+                "id": 2,
+                "name": "Sales"
+            },
+            {
+                "id": 3,
+                "name": "Human Resources"
+            }
+        ]
+    },
+    "practice": [
+        {
+            "id": "views_practice1",
+            "challenge": "Create a view named `v_sales_team` that shows the name and role of all employees in the 'Sales' department.",
+            "solution": "CREATE VIEW v_sales_team AS SELECT name, role FROM employees WHERE department_id = (SELECT id FROM departments WHERE name = 'Sales');",
+            "hint": "Use `CREATE VIEW view_name AS` followed by a `SELECT` statement that filters for the 'Sales' department."
+        },
+        {
+            "id": "views_practice2",
+            "challenge": "After creating the `v_sales_team` view, write a query to select all records from it.",
+            "solution": "SELECT * FROM v_sales_team;",
+            "hint": "Once a view is created, you can query it like any other table."
+        }
+    ],
+    "quiz": [
+        {
+            "id": "views_q1",
+            "type": "mcq",
+            "question": "What is the primary purpose of a SQL View?",
+            "options": [
+                "To store backup data",
+                "To permanently delete data",
+                "To simplify complex queries and provide a virtual table",
+                "To speed up all queries"
+            ],
+            "answer": "To simplify complex queries and provide a virtual table"
+        },
+        {
+            "id": "views_q2",
+            "type": "truefalse",
+            "question": "A view contains its own physical copy of the data.",
+            "answer": false
+        }
+    ],
+    "challenges": [
+        {
+            "id": "views_ch1",
+            "title": "Create a High-Earners View",
+            "steps": [
+                {
+                    "stepId": "views_ch1_step1",
+                    "description": "Create a view named `v_high_earners` that contains the name, role, and salary of all employees earning more than $100,000.",
+                    "solution": "CREATE VIEW v_high_earners AS SELECT name, role, salary FROM employees WHERE salary > 100000;"
+                },
+                {
+                    "stepId": "views_ch1_step2",
+                    "description": "Query your new view to find the average salary of the high earners.",
+                    "solution": "SELECT AVG(salary) FROM v_high_earners;"
+                }
+            ]
+        },
+        {
+            "id": "views_ch2",
+            "title": "Create a Department Roster View",
+            "steps": [
+                {
+                    "stepId": "views_ch2_step1",
+                    "description": "Create a view named `v_department_roster` that joins `employees` and `departments` to show the employee's name and their department's name.",
+                    "solution": "CREATE VIEW v_department_roster AS SELECT e.name AS employee_name, d.name AS department_name FROM employees e JOIN departments d ON e.department_id = d.id;"
+                }
+            ]
+        }
+    ]
+}

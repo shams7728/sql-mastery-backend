@@ -1,0 +1,130 @@
+{
+  "id": "select",
+  "title": "SELECT Statement",
+  "category": "Data Retrieval",
+  "difficulty": "Beginner",
+  "estimatedTime": "10 min",
+  "starterQuery": "SELECT * FROM students;",
+  "theory": [
+    {
+      "type": "paragraph",
+      "text": "1. What is SELECT?\nThe SELECT statement is used to retrieve data from a database. It is the most frequently used SQL command to extract rows and columns from a table."
+    },
+    {
+      "type": "paragraph",
+      "text": "2. Why use SELECT?\nYou use SELECT to view specific or full data. Whether you want just one column or the entire table, SELECT helps retrieve exactly what you need."
+    },
+    {
+      "type": "paragraph",
+      "text": "3. Where is SELECT used?\nSELECT is used in almost every SQL query involving data display, reporting, dashboards, analytics, exports, etc."
+    },
+    {
+      "type": "paragraph",
+      "text": "4. How to use SELECT?\nYou can list specific column names or use * to retrieve all columns."
+    },
+    {
+      "type": "table",
+      "columns": ["Clause", "Description"],
+      "rows": [
+        ["SELECT", "Specifies the columns to return"],
+        ["FROM", "Specifies the table to retrieve data from"],
+        ["WHERE", "Optional: Filters records based on conditions"],
+        ["ORDER BY", "Optional: Sorts the result set"]
+      ]
+    },
+    {
+      "type": "code",
+      "text": "SELECT column1, column2 FROM table_name;"
+    },
+    {
+      "type": "note",
+      "text": "SQL keywords are case-insensitive but are typically written in uppercase for better readability."
+    }
+  ],
+  "examples": [
+    {
+      "query": "SELECT name, age FROM students;",
+      "description": "Select specific columns",
+      "explanation": "This query retrieves only the name and age of each student."
+    },
+    {
+      "query": "SELECT * FROM students;",
+      "description": "Select all columns",
+      "explanation": "This query retrieves every column for all students."
+    }
+  ],
+  "schema": {
+    "tables": [
+      {
+        "name": "students",
+        "columns": [
+          { "name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY" },
+          { "name": "name", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "age", "type": "INTEGER" },
+          { "name": "grade", "type": "TEXT" }
+        ]
+      }
+    ]
+  },
+  "sample_data": {
+    "students": [
+      { "id": 1, "name": "Alice", "age": 20, "grade": "A" },
+      { "id": 2, "name": "Bob", "age": 21, "grade": "B" },
+      { "id": 3, "name": "Charlie", "age": 19, "grade": "A" },
+      { "id": 4, "name": "Diana", "age": 22, "grade": "C" }
+    ]
+  },
+  "practice": [
+    {
+      "id": "select_practice1",
+      "challenge": "Get all data from the students table.",
+      "solution": "SELECT * FROM students;",
+      "hint": "Use SELECT *"
+    },
+    {
+      "id": "select_practice2",
+      "challenge": "Select only the name and age of all students.",
+      "solution": "SELECT name, age FROM students;",
+      "hint": "Use SELECT column1, column2"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "select_q1",
+      "type": "mcq",
+      "question": "Which SQL keyword is used to fetch data?",
+      "options": ["GET", "FETCH", "SELECT", "RETRIEVE"],
+      "answer": "SELECT"
+    },
+    {
+      "id": "select_q2",
+      "type": "truefalse",
+      "question": "The SELECT statement is used to insert data into a table.",
+      "answer": false
+    },
+    {
+      "id": "select_q3",
+      "type": "fill",
+      "question": "To select all columns, we use ______.",
+      "answer": "*"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "select_ch1",
+      "title": "Student Record Explorer",
+      "steps": [
+        {
+          "stepId": "select_ch1_step1",
+          "description": "Step 1: Select name and grade from students.",
+          "solution": "SELECT name, grade FROM students;"
+        },
+        {
+          "stepId": "select_ch1_step2",
+          "description": "Step 2: Select all records from students.",
+          "solution": "SELECT * FROM students;"
+        }
+      ]
+    }
+  ]
+}

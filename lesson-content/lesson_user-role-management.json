@@ -1,0 +1,122 @@
+{
+    "id": "user-role-management",
+    "title": "User & Role Management",
+    "category": "Security & Admin",
+    "difficulty": "Advanced",
+    "estimatedTime": "25 min",
+    "starterQuery": "/* This is a conceptual lesson on database security and permissions. */\n-- The examples below use standard SQL syntax.",
+    "theory": [
+        {
+            "type": "paragraph",
+            "text": "1. What is User and Role Management?\nUser and role management is the process of controlling access to a database. It involves creating users (accounts that can log in) and roles (groups of permissions), and then assigning specific permissions to those users and roles to define what data they can see and what actions they can perform."
+        },
+        {
+            "type": "paragraph",
+            "text": "2. What are Privileges?\nA privilege is a permission to perform a specific action. Common privileges include `SELECT`, `INSERT`, `UPDATE`, and `DELETE` on tables. There are also administrative privileges, like `CREATE USER` or `CREATE TABLE`."
+        },
+        {
+            "type": "paragraph",
+            "text": "3. What is a Role?\nInstead of assigning permissions to each user one by one, it's much more efficient to use roles. A role is a named group of privileges. You can create a role like 'analyst' and give it `SELECT` permissions on all tables. Then, you can simply grant the 'analyst' role to any user who needs that level of access."
+        },
+        {
+            "type": "paragraph",
+            "text": "4. What is the `GRANT` command?\nThe `GRANT` command is used to give privileges to a user or a role. You can grant permission to perform specific actions on specific database objects."
+        },
+        {
+            "type": "code",
+            "text": "-- Example: Granting permissions\n-- Give the 'analyst' role permission to select data from the products table\nGRANT SELECT ON products TO analyst;\n\n-- Give a specific user permission to insert and update data\nGRANT INSERT, UPDATE ON customers TO bob;"
+        },
+        {
+            "type": "paragraph",
+            "text": "5. What is the `REVOKE` command?\nThe `REVOKE` command is the opposite of `GRANT`. It is used to take away privileges from a user or a role."
+        },
+        {
+            "type": "code",
+            "text": "-- Example: Revoking permissions\n-- Remove the 'analyst' role's ability to select from the products table\nREVOKE SELECT ON products FROM analyst;"
+        },
+        {
+            "type": "note",
+            "text": "This is a core part of the 'Principle of Least Privilege', where users are only given the exact permissions they need to do their job, and no more."
+        }
+    ],
+    "schema": {
+        "tables": []
+    },
+    "sample_data": {},
+    "practice": [],
+    "challenges": [],
+    "quiz": [
+        {
+            "id": "urm_q1",
+            "type": "mcq",
+            "question": "Which command is used to give a user permission to perform an action?",
+            "options": [
+                "GIVE",
+                "ALLOW",
+                "GRANT",
+                "PERMIT"
+            ],
+            "answer": "GRANT"
+        },
+        {
+            "id": "urm_q2",
+            "type": "mcq",
+            "question": "What is the main advantage of using roles instead of assigning permissions directly to users?",
+            "options": [
+                "It's more secure",
+                "It's faster for the database",
+                "It simplifies managing permissions for many users",
+                "It's the only way to grant SELECT access"
+            ],
+            "answer": "It simplifies managing permissions for many users"
+        },
+        {
+            "id": "urm_q3",
+            "type": "mcq",
+            "question": "The command to take away a permission is...",
+            "options": [
+                "REMOVE",
+                "DELETE",
+                "DENY",
+                "REVOKE"
+            ],
+            "answer": "REVOKE"
+        },
+        {
+            "id": "urm_q4",
+            "type": "truefalse",
+            "question": "The 'Principle of Least Privilege' suggests giving all users admin rights to make things easier.",
+            "answer": false
+        },
+        {
+            "id": "urm_q5",
+            "type": "mcq",
+            "question": "Which of the following is considered a database privilege?",
+            "options": [
+                "SELECT",
+                "INSERT",
+                "UPDATE",
+                "All of the above"
+            ],
+            "answer": "All of the above"
+        },
+        {
+            "id": "urm_q6",
+            "type": "truefalse",
+            "question": "Once you GRANT a privilege to a user, it can never be taken away.",
+            "answer": false
+        },
+        {
+            "id": "urm_q7",
+            "type": "mcq",
+            "question": "If you grant the 'analyst' role to a user named 'susan', what can she do?",
+            "options": [
+                "Everything the admin can do",
+                "Only what she is directly granted",
+                "Everything the 'analyst' role is permitted to do",
+                "Nothing until she is also granted SELECT"
+            ],
+            "answer": "Everything the 'analyst' role is permitted to do"
+        }
+    ]
+}

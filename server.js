@@ -80,7 +80,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/progress', require('./routes/progress'));
 
 // Lesson routes
-app.get('/', (req, res) => {
+app.get('/api/lessons', (req, res) => {
   const lessons = lessonService.getAllLessons();
   res.json(lessons);
 });

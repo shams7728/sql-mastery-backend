@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 require('dotenv').config();
 
-const BACKEND_URL = process.env.RENDER_EXTERNAL_URL || 'http://localhost:5000';
+const BACKEND_URL = process.env.RENDER_EXTERNAL_URL || 'https://sqlflowbacked.onrender.com';
 const PING_INTERVAL = 14 * 60 * 1000; // 14 minutes (under the 15-minute threshold)
 
 console.log(`Starting keep-alive service for ${BACKEND_URL}`);

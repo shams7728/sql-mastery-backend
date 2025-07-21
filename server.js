@@ -4,7 +4,6 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const rateLimit = require('express-rate-limit');
-const fetch = require('node-fetch');
 require('dotenv').config();
 
 // Local services and utils
@@ -21,7 +20,7 @@ const PORT = process.env.PORT || 5000;
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: 'https://sqlflow.vercel.app',
+  origin: 'https://sqlflow.vercel.app', // ✅ only allow your deployed frontend
   credentials: true
 }));
 
@@ -73,15 +72,6 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch(err => console.error('MongoDB connection error:', err));
 
 // =================== ROUTES ===================
-
-// Health check endpoint for keep-alive
-app.get('/health-check', (req, res) => {
-  res.status(200).json({ 
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-    version: process.env.npm_package_version || '1.0.0'
-  });
-});
 
 // Authentication routes
 app.use('/api/auth', require('./routes/auth'));
@@ -196,48 +186,9 @@ app.use((err, req, res, next) => {
   });
 });
 
-// =================== KEEP-ALIVE FUNCTIONALITY ===================
-
-const startKeepAlive = () => {
-  const BACKEND_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
-  const PING_INTERVAL = 14 * 60 * 1000; // 14 minutes (under Render's 15-minute threshold)
-
-  const pingServer = async () => {
-    try {
-      const response = await fetch(`${BACKEND_URL}/health-check`, {
-        timeout: 5000
-      });
-      
-      if (!response.ok) throw new Error(`Status: ${response.status}`);
-      
-      console.log(`[${new Date().toISOString()}] Keep-alive ping successful`);
-    } catch (error) {
-      console.error(`[${new Date().toISOString()}] Ping failed:`, error.message);
-    }
-  };
-
-  // Initial ping when starting
-  pingServer();
-
-  // Set up regular pings
-  const intervalId = setInterval(pingServer, PING_INTERVAL);
-
-  // Handle shutdown gracefully
-  process.on('SIGINT', () => {
-    clearInterval(intervalId);
-    console.log('Stopping keep-alive service');
-    process.exit();
-  });
-};
-
 // =================== SERVER START ===================
 
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  
-  // Start keep-alive only in production
-  if (process.env.NODE_ENV === 'production') {
-    startKeepAlive();
-  }
 });

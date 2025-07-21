@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
-// Local services and utils
+// Local imports
 const lessonService = require('./services/lessonService');
 const validationService = require('./services/validationService');
 const { getLessonDB } = require('./utils/db');
@@ -15,88 +15,89 @@ const { sanitizeQuery } = require('./utils/security');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// =================== MIDDLEWARE SETUP ===================
-
-// Security middleware
+// =================== ENHANCED MIDDLEWARE ===================
 app.use(helmet());
 app.use(cors({
-  origin: 'https://sqlflow.vercel.app', // ✅ only allow your deployed frontend
+  origin: [
+    'https://sqlflow.vercel.app',
+    process.env.NODE_ENV === 'development' && 'http://localhost:3000'
+  ].filter(Boolean),
   credentials: true
 }));
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10kb' }));
 
-// Rate limiting configuration
-const feedbackLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 requests per window
-  message: {
-    success: false,
-    error: 'Too many submissions from this IP. Please try again later.'
-  },
-  standardHeaders: true,
-  legacyHeaders: false
+// Rate limiting
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: { error: 'Too many requests' }
 });
 
-// Input sanitization middleware
+const feedbackLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: { error: 'Too many feedback submissions' }
+});
+
+// Security middleware
 app.use((req, res, next) => {
-  if (req.body) {
-    Object.keys(req.body).forEach(key => {
-      if (typeof req.body[key] === 'string') {
-        req.body[key] = req.body[key]
-          .trim()
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;');
-      }
-    });
-  }
+  // Sanitize all string inputs
+  const sanitize = (obj) => {
+    if (obj && typeof obj === 'object') {
+      Object.keys(obj).forEach(key => {
+        if (typeof obj[key] === 'string') {
+          obj[key] = obj[key].trim()
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+        }
+      });
+    }
+  };
   
-  if (req.query) {
-    Object.keys(req.query).forEach(key => {
-      if (typeof req.query[key] === 'string') {
-        req.query[key] = req.query[key].trim();
-      }
-    });
-  }
-  
+  sanitize(req.body);
+  sanitize(req.query);
   next();
 });
 
 // =================== DATABASE CONNECTION ===================
-
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000
 })
 .then(() => console.log('✅ MongoDB Connected'))
-.catch(err => console.error('MongoDB connection error:', err));
-
-// =================== ROUTES ===================
-
-// Authentication routes
-app.use('/api/auth', require('./routes/auth'));
-
-// Progress tracking routes
-app.use('/api/progress', require('./routes/progress'));
-
-// Lesson routes
-app.get('/api/lessons', (req, res) => {
-  const lessons = lessonService.getAllLessons();
-  res.json(lessons);
+.catch(err => {
+  console.error('MongoDB connection error:', err);
+  process.exit(1); // Exit if DB connection fails
 });
 
-// Validation route
+// =================== ROUTES ===================
+// Health check endpoint (required for Railway)
+app.get('/health', (req, res) => res.json({ status: 'healthy', timestamp: new Date() }));
+
+// API routes
+app.use('/api/auth', apiLimiter, require('./routes/auth'));
+app.use('/api/progress', apiLimiter, require('./routes/progress'));
+
+app.get('/api/lessons', (req, res) => {
+  res.json(lessonService.getAllLessons());
+});
+
 app.post('/api/validate', async (req, res) => {
   try {
     const { lessonId, exerciseId, query } = req.body;
+    if (!lessonId || !exerciseId || !query) {
+      return res.status(400).json({ error: 'Missing parameters' });
+    }
     const result = await validationService.validateSolution(query, lessonId, exerciseId);
     res.json(result);
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
-// SQL execution route
 app.post('/api/execute', async (req, res) => {
   try {
     const { lessonId, query } = req.body;
@@ -109,86 +110,78 @@ app.post('/api/execute', async (req, res) => {
     
     db.all(sanitized, (err, rows) => {
       db.close();
-      if (err) return res.json({ success: false, error: err.message });
-      const columns = rows.length > 0 ? Object.keys(rows[0]) : [];
-      res.json({ success: true, data: rows, columns });
+      if (err) return res.status(400).json({ error: err.message });
+      res.json({
+        data: rows,
+        columns: rows.length > 0 ? Object.keys(rows[0]) : []
+      });
     });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
-// Feedback submission route (with rate limiting)
 app.post('/api/submit-feedback', feedbackLimiter, async (req, res) => {
   try {
     const { name = '', email = '', message, issueType = 'general' } = req.body;
     
     // Validation
-    if (!message || typeof message !== 'string' || message.trim().length < 10) {
-      return res.status(400).json({
-        success: false,
-        error: 'Message must be at least 10 characters long'
-      });
+    if (!message || message.trim().length < 10) {
+      return res.status(400).json({ error: 'Message too short' });
     }
-
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid email format'
-      });
+      return res.status(400).json({ error: 'Invalid email' });
     }
 
-    // Web3Forms submission
     const response = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         access_key: process.env.WEB3FORMS_KEY,
         subject: `SQL-Flow ${issueType} Report`,
-        name: name || 'Anonymous User',
+        name: name || 'Anonymous',
         email: email || 'no-reply@sqlflow.com',
-        message: message,
-        page_url: req.headers.referer || 'Direct access',
-        replyto: email || 'no-reply@sqlflow.com',
+        message,
+        page_url: req.headers.referer || 'Direct',
+        replyto: email,
         botcheck: false
       })
     });
 
     const data = await response.json();
     res.json(data);
-    
   } catch (error) {
-    console.error('Feedback submission error:', error);
-    res.status(500).json({ 
-      success: false,
-      error: 'Internal server error'
-    });
+    console.error('Feedback error:', error);
+    res.status(502).json({ error: 'Failed to submit feedback' });
   }
 });
 
 // =================== ERROR HANDLING ===================
-
-// 404 handler
 app.use((req, res) => {
-  res.status(404).json({ success: false, error: 'Endpoint not found' });
+  res.status(404).json({ error: 'Not found' });
 });
 
-// Global error handler
 app.use((err, req, res, next) => {
   console.error('Server error:', err.stack);
   res.status(500).json({ 
-    success: false,
-    error: process.env.NODE_ENV === 'production' 
-      ? 'Internal server error' 
-      : err.message 
+    error: process.env.NODE_ENV === 'production'
+      ? 'Internal server error'
+      : err.message
   });
 });
 
 // =================== SERVER START ===================
+const server = app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
 
-app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+// Handle shutdown gracefully
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received. Shutting down gracefully...');
+  server.close(() => {
+    mongoose.connection.close(false, () => {
+      console.log('Server closed');
+      process.exit(0);
+    });
+  });
 });
